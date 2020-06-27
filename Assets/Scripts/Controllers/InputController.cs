@@ -6,6 +6,7 @@ public class InputController : MonoBehaviour
 {
     [SerializeField] MovementController movementController;
     [SerializeField] PlayerInputManager playerInputManager;
+    [SerializeField] LayerMask clickable; // Should be everything that can be clicked
     [SerializeField] LayerMask character;
     [SerializeField] Camera cam;
 
@@ -64,8 +65,8 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Transform clickedObject = GetClickedObject();
-            if (clickedObject && character == (character | (1 << clickedObject.gameObject.layer)))
+            Transform clickedObject = GetClickedObject(character);
+            if (clickedObject)
             {
                 playerInputManager.HandleClickCharacter(clickedObject.GetComponentInParent<Character>());
             }
@@ -119,6 +120,20 @@ public class InputController : MonoBehaviour
         RaycastHit hit = new RaycastHit();
 
         if (Physics.Raycast(ray, out hit))
+        {
+            return hit.transform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    Transform GetClickedObject(LayerMask layermask)
+    {
+        var ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit, 999f, layermask))
         {
             return hit.transform;
         }
