@@ -1,0 +1,130 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class InputController : MonoBehaviour
+{
+    [SerializeField] MovementController movementController;
+    [SerializeField] PlayerInputManager playerInputManager;
+    [SerializeField] LayerMask character;
+    [SerializeField] Camera cam;
+
+    [Header("Hovering")]
+    Ray hoverRay;
+    RaycastHit hoverHit;
+    HoverController currentHoveredObject;
+    [SerializeField] LayerMask hoverable;
+
+    private void Update() 
+    {
+        CheckHover();
+        CheckLeftMouseButton();
+        CheckRightMouseButton();
+        CheckCameraMovements();
+        CheckActions();
+        CheckPauseTime();
+    }
+
+    void CheckPauseTime()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            TimeController.Instance.TogglePause();
+        }
+    }
+
+    void CheckHover()
+    {
+        hoverRay = cam.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(hoverRay, out hoverHit, 200f, hoverable))
+        {
+            if(currentHoveredObject == null || hoverHit.transform != currentHoveredObject)
+            {
+                currentHoveredObject = hoverHit.transform.GetComponentInParent<HoverController>();
+                currentHoveredObject.Hover();
+            }   
+        }
+        else
+        {
+            if(currentHoveredObject)
+            {
+                // No longer hovering
+                currentHoveredObject.StopHover();
+                currentHoveredObject = null;
+            }
+        }
+    }
+    
+    void CheckActions()
+    {
+
+    }
+
+    void CheckLeftMouseButton()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Transform clickedObject = GetClickedObject();
+            if (clickedObject && character == (character | (1 << clickedObject.gameObject.layer)))
+            {
+                playerInputManager.HandleClickCharacter(clickedObject.GetComponentInParent<Character>());
+            }
+            else
+            {
+                Vector3 clickPosition = GetClickPosition();
+                print("Left clicked at position: " + clickPosition);
+                if(clickPosition != Vector3.zero)
+                {
+                    playerInputManager.HandleCancelAction();
+                }
+            }
+        }    
+    }
+
+    void CheckRightMouseButton()
+    {
+        if(Input.GetMouseButtonDown(1))
+        {
+            Vector3 clickPosition = GetClickPosition();
+            playerInputManager.HandleRightClickSpace(clickPosition);
+        }
+    }
+
+    void CheckCameraMovements()
+    {
+        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float rotate = Input.GetAxisRaw("RotateCamera");
+        playerInputManager.HandleCameraMovement(horizontal, vertical, rotate);
+    }
+
+    Vector3 GetClickPosition()
+    {
+        var ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit.point;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    Transform GetClickedObject()
+    {
+        var ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            return hit.transform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
