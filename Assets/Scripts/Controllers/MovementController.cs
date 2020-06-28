@@ -9,6 +9,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(CharacterEventManager))]
 public class MovementController : MonoBehaviour
 {
+    [SerializeField] LayerMask walkableLayersForMousePosition;
     private Vector3 moveTargetPosition;
     NavMeshAgent agent;
     NavMeshPath path;
@@ -88,7 +89,7 @@ public class MovementController : MonoBehaviour
     private Vector3 GetMousePosition()
     {
         hoverRay = cam.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(hoverRay, out hoverHit))
+        if(Physics.Raycast(hoverRay, out hoverHit, 9999f, walkableLayersForMousePosition))
         {
             return hoverHit.point;
         }

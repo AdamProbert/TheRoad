@@ -86,7 +86,7 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(1))
         {
-            Vector3 clickPosition = GetClickPosition();
+            Vector3 clickPosition = GetClickPosition(clickable);
             playerInputManager.HandleRightClickSpace(clickPosition);
         }
     }
@@ -105,6 +105,21 @@ public class InputController : MonoBehaviour
         RaycastHit hit = new RaycastHit();
 
         if (Physics.Raycast(ray, out hit))
+        {
+            return hit.point;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    Vector3 GetClickPosition(LayerMask layerMask)
+    {
+        var ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+
+        if (Physics.Raycast(ray, out hit, 999f, layerMask))
         {
             return hit.point;
         }

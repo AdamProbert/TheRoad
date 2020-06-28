@@ -108,7 +108,10 @@ public class Character : MonoBehaviour
     }
     private void OnDisable() 
     {
-        PlayerEventManager.Instance.OnPlayerSelectCharacter -= HandleCharacterSelection;
+        if(PlayerEventManager.Instance)
+        {
+            PlayerEventManager.Instance.OnPlayerSelectCharacter -= HandleCharacterSelection;
+        }
         characterEventManager.OnCharacterReachedDetination -= HandleCharacterReachedDestination;
     }
     
