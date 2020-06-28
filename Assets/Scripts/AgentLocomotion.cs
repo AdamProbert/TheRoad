@@ -48,7 +48,7 @@ public class AgentLocomotion : MonoBehaviour {
         if (Time.deltaTime > 1e-5f)
             velocity = smoothDeltaPosition / Time.deltaTime;
 
-        bool shouldMove = velocity.magnitude > 0.5f && agent.remainingDistance > agent.radius;
+        bool shouldMove = velocity.magnitude > 0.5f && agent.remainingDistance > 0.05f;
 
         // Update animation parameters
         anim.SetBool("ShouldMove", shouldMove);

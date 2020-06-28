@@ -8,7 +8,7 @@ public class BuildingVisibilityController : MonoBehaviour
     [SerializeField] Transform crossSectionBox;
     [SerializeField] float floorCrossSectionYPosition;
     [SerializeField] LayerMask characters;
-    [SerializeField] float timeToDissolve;
+    float timeToDissolve;
 
     int noOfOccupants = 0;
     float originalCrossSectionYPosition;
@@ -17,6 +17,7 @@ public class BuildingVisibilityController : MonoBehaviour
     private void Start() 
     {
         originalCrossSectionYPosition = crossSectionBox.localPosition.y;    
+        timeToDissolve = GlobalVarsAccess.Instance.getBuildingSliceTime();
     }
     
 

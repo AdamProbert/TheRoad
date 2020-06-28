@@ -10,6 +10,7 @@ using UnityEngine.AI;
 public class MovementController : MonoBehaviour
 {
     [SerializeField] LayerMask walkableLayersForMousePosition;
+    [SerializeField] LayerMask coverLayer;
     private Vector3 moveTargetPosition;
     NavMeshAgent agent;
     NavMeshPath path;
@@ -22,7 +23,6 @@ public class MovementController : MonoBehaviour
     bool moving = false;
 
     private bool enablePathDraw = false;
-
     private void Awake() 
     {
         characterEventManager = GetComponent<CharacterEventManager>();
@@ -69,9 +69,19 @@ public class MovementController : MonoBehaviour
         agent.destination = moveTargetPosition;
     }
 
+    public void ActivateMove()
+    {
+        Vector3 mousePosition = GetMousePositionWithCover();
+        if(mousePosition != Vector3.zero)
+        {
+            moveTargetPosition = mousePosition;
+            agent.destination = moveTargetPosition;
+        }
+    }
+
     private void DrawPath()
     {
-        Vector3 mousePosition = GetMousePosition();
+        Vector3 mousePosition = GetMousePositionWithCover();
         if(mousePosition != Vector3.zero)
         {   
             agent.CalculatePath(mousePosition, path);
@@ -86,10 +96,16 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private Vector3 GetMousePosition()
+    private Vector3 GetMousePositionWithCover()
     {
         hoverRay = cam.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(hoverRay, out hoverHit, 9999f, walkableLayersForMousePosition))
+        // First check for cover
+        if(Physics.Raycast(hoverRay, out hoverHit, 9999f, coverLayer, QueryTriggerInteraction.Collide))
+        {
+            return hoverHit.transform.position;
+        }
+        // Then non-covered areas
+        else if(Physics.Raycast(hoverRay, out hoverHit, 9999f, walkableLayersForMousePosition))
         {
             return hoverHit.point;
         }
@@ -126,12 +142,11 @@ public class MovementController : MonoBehaviour
 
     private void HandleStateChange(Character.CharacterState newState)
     {
-        if(newState != Character.CharacterState.MOVING)
+        if(newState == Character.CharacterState.ATTACKING)
         {
             SetMoveTarget(transform.position);
         }
     }
-
     private void OnEnable() 
     {
         characterEventManager.OnCharacterChangeState += HandleStateChange;

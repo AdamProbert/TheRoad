@@ -4,26 +4,58 @@ using UnityEngine;
 
 public class HoverController : MonoBehaviour
 {
+    [Header("Outline effect")]
+    [SerializeField] bool enableOutlineEffect;
     Outline outline;
     [SerializeField] Color outlineColor;
     [SerializeField] float outlineWidth;
 
+    [Header("DisableRendererEffect")]
+    [SerializeField] bool enableRendererEffect;
+    private Renderer rend;
+
+
     private void Awake() 
     {
-        outline = gameObject.AddComponent<Outline>();    
-        outline.OutlineMode = Outline.Mode.OutlineAll;
-        outline.OutlineColor = outlineColor;
-        outline.OutlineWidth = outlineWidth;
-        outline.enabled = false;
+        if(enableRendererEffect)
+        {
+            rend = GetComponentInChildren<Renderer>();
+            rend.enabled = false;
+        }
+        
+        if(enableOutlineEffect)
+        {
+            outline = gameObject.AddComponent<Outline>();    
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineColor = outlineColor;
+            outline.OutlineWidth = outlineWidth;
+            outline.enabled = false;
+        }
     }
 
     public void Hover()
     {
-        outline.enabled = true;
+        if(enableOutlineEffect)
+        {
+            outline.enabled = true;
+        }
+
+        if(enableRendererEffect)
+        {
+            rend.enabled = true;
+        }
     }
 
     public void StopHover()
     {
-        outline.enabled = false;
+        if(enableOutlineEffect)
+        {
+            outline.enabled = false;
+        }
+
+        if(enableRendererEffect)
+        {
+            rend.enabled = false;
+        }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 [RequireComponent(typeof(AttackController))]
 [RequireComponent(typeof(CharacterEventManager))]
+[RequireComponent(typeof(Animator))]
 public class Character : MonoBehaviour
 {
     MovementController movementController;
@@ -32,11 +33,16 @@ public class Character : MonoBehaviour
 
     [SerializeField] private CharacterState currentState = CharacterState.WAITING;
 
+    // Cover
+    Cover currentCover;
+    Animator anim;
+
     private void Awake() 
     {
         attackController = GetComponent<AttackController>();
         movementController = GetComponent<MovementController>();
         characterEventManager = GetComponent<CharacterEventManager>();
+        anim = GetComponent<Animator>();
     }
 
     public void ChangeState(CharacterState state)
@@ -71,7 +77,7 @@ public class Character : MonoBehaviour
     {
         if(characterSelected)
         {
-            movementController.SetMoveTarget(position);
+            movementController.ActivateMove();
             ChangeState(CharacterState.MOVING);
         }
     }
@@ -99,6 +105,19 @@ public class Character : MonoBehaviour
         {
             ChangeState(CharacterState.WAITING);
         }
+    }
+
+    public void HandleEnterCover(Cover cover)
+    {
+        currentCover = cover;
+        characterEventManager.OnCharacterEnteredCover(cover);
+        anim.SetBool("CoverRight", true);
+    }
+
+    public void HandleExitCover()
+    {
+        currentCover = null;
+        anim.SetBool("CoverRight", false);
     }
 
     private void OnEnable() 

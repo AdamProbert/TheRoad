@@ -65,9 +65,13 @@ public class AttackController : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(direction);
             toRotation.x = transform.rotation.x;
             toRotation.z = transform.rotation.z;
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, attackRotationSpeed * Time.deltaTime);
-            weapon.Shoot(currentTarget);    
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, attackRotationSpeed * Time.deltaTime);    
         }
+    }
+
+    public void OnAnimatorAttackEvent()
+    {
+        weapon.Shoot(currentTarget);
     }
 
     private void HandleStateChange(Character.CharacterState newState)
