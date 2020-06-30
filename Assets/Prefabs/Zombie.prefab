@@ -10,12 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 5513884038971229249}
   - component: {fileID: 5513884038971229262}
-  - component: {fileID: 5513884038971229263}
   - component: {fileID: 5513884038971229248}
   - component: {fileID: 1936402838}
   - component: {fileID: 1936402839}
   - component: {fileID: 5832946412164523632}
-  m_Layer: 0
+  - component: {fileID: 2962010931491188760}
+  - component: {fileID: 5784120636273725062}
+  - component: {fileID: 3195834610805366428}
+  m_Layer: 10
   m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,10 +50,10 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 4
-  m_Acceleration: 20
+  m_Acceleration: 30
   avoidancePriority: 50
-  m_AngularSpeed: 240
-  m_StoppingDistance: 1
+  m_AngularSpeed: 800
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -59,20 +61,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5513884038971229263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5513884038971229250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0757533ddc776444b66e7f87b2c3abf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  pathUpdateSpeed: 0.1
 --- !u!114 &5513884038971229248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +120,97 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2962010931491188760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5513884038971229250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b98a6db0b653f764eac834f85857a9dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedBlackboard: '{"_variables":{"CurrentTarget":{"_name":"CurrentTarget","_id":"85abbc47-8277-448c-8c48-968a65df2d2c","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"AllPlayers":{"_value":[],"_name":"AllPlayers","_id":"d5d0504c-dccc-4634-adaa-66f66b3a91b0","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[Character,
+    Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
+    Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"LastKnownPosition":{"_name":"LastKnownPosition","_id":"40976c21-0a63-466e-9438-9be3109c0968","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"MaxViewDistance":{"_value":25.0,"_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MaxAwarnessDistance":{"_value":5.0,"_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewAngle":{"_value":90.0,"_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewOffset":{"_value":{"y":2.0},"_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
+  _objectReferences: []
+  _serializedVariables:
+  - _json: '{"_name":"CurrentTarget","_id":"85abbc47-8277-448c-8c48-968a65df2d2c","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_value":[],"_name":"AllPlayers","_id":"d5d0504c-dccc-4634-adaa-66f66b3a91b0","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[Character,
+      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
+      Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_name":"LastKnownPosition","_id":"40976c21-0a63-466e-9438-9be3109c0968","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_value":25.0,"_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_value":5.0,"_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_value":90.0,"_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_value":{"y":2.0},"_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+--- !u!114 &5784120636273725062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5513884038971229250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7dbb6bbdf4ffb46ab7dd87ba8191e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedExposedParameters: []
+  _boundGraphSerialization: 
+  _boundGraphObjectReferences: []
+  _boundGraphSource:
+    _version: 0
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 0
+  _graph: {fileID: 11400000, guid: b2b34b41a79748944b1ac15947e4199b, type: 2}
+  _blackboard: {fileID: 2962010931491188760}
+--- !u!114 &3195834610805366428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5513884038971229250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967989f146ac1734ba17f2e27c11b67e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wanderSpeed: 0.6
+  searchSpeed: 2
+  chaseSpeed: 4
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1001 &5513884038499945934
 PrefabInstance:
   m_ObjectHideFlags: 0
