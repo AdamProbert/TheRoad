@@ -84,10 +84,15 @@ public class InputController : MonoBehaviour
 
     void CheckRightMouseButton()
     {
+        if(Input.GetMouseButtonUp(1))
+        {
+            Vector3 clickPosition = GetClickPosition(clickable);
+            playerInputManager.HandleRightClickSpace(clickPosition, true);
+        }
         if(Input.GetMouseButtonDown(1))
         {
             Vector3 clickPosition = GetClickPosition(clickable);
-            playerInputManager.HandleRightClickSpace(clickPosition);
+            playerInputManager.HandleRightClickSpace(clickPosition, false);
         }
     }
 

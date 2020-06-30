@@ -56,12 +56,11 @@ public class Character : MonoBehaviour
 
     public void HandleCharacterSelection(Character character)
     {
-        Debug.Log("Handle character selection called with: " + character);
         if(character == this)
         {
             selectionRing.SetActive(true);
             characterSelected = true;
-            this.BroadcastMessage("HandleCharacterSelected", true);
+            this.BroadcastMessage("HandleCharacterSelected", true, SendMessageOptions.DontRequireReceiver);
             return;
         }
 
@@ -69,8 +68,13 @@ public class Character : MonoBehaviour
         {
             selectionRing.SetActive(false);
             characterSelected = false;
-            this.BroadcastMessage("HandleCharacterSelected", false);
+            this.BroadcastMessage("HandleCharacterSelected", false, SendMessageOptions.DontRequireReceiver);
         }
+    }
+
+    public void ShowMove()
+    {
+        movementController.ShowMove();
     }
     
     public void Move(Vector3 position)
@@ -82,7 +86,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform newTarget)
+    public void SetAttackTarget(Transform newTarget)
     {
         if(characterSelected)
         {
@@ -111,13 +115,13 @@ public class Character : MonoBehaviour
     {
         currentCover = cover;
         characterEventManager.OnCharacterEnteredCover(cover);
-        anim.SetBool("CoverRight", true);
+        anim.SetBool("Crouch", true);
     }
 
     public void HandleExitCover()
     {
         currentCover = null;
-        anim.SetBool("CoverRight", false);
+        anim.SetBool("Crouch", false);
     }
 
     private void OnEnable() 

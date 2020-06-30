@@ -28,17 +28,25 @@ public class PlayerInputManager : MonoBehaviour
         {
             if(currentlySelectedCharacter != null)
             {
-                currentlySelectedCharacter.SetTarget(character.transform);
+                currentlySelectedCharacter.SetAttackTarget(character.transform);
             }
         }
     }
 
-    public void HandleRightClickSpace(Vector3 position)
+    public void HandleRightClickSpace(Vector3 position, bool buttonUp)
     {
         if(currentlySelectedCharacter != null)
         {
-            currentlySelectedCharacter.SetTarget(null);
-            currentlySelectedCharacter.Move(position);
+            if(buttonUp)
+            {
+                currentlySelectedCharacter.SetAttackTarget(null);
+                currentlySelectedCharacter.Move(position);
+            }
+            else if(!buttonUp)
+            {
+                currentlySelectedCharacter.ShowMove();
+            }
+            
         }
     }
 

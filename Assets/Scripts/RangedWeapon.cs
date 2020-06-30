@@ -25,15 +25,9 @@ public class RangedWeapon : BaseWeapon
         // Check if our raycast hit the boy shoot
         if(Time.time > nextFireTime)
         {
-            if (Physics.Linecast(gunEnd.position, target.position, out hit))
-            {
-                audioSource.PlayOneShot(shotSound);
-                shotFX.Play();
-                nextFireTime = Time.time + fireRate;
-            }
+            audioSource.PlayOneShot(shotSound);
+            shotFX.Play();
+            nextFireTime = Time.time + fireRate;
         }
-        
-        Debug.DrawLine(gunEnd.position, target.position, Color.red);
-        Debug.DrawRay(gunEnd.position, gunEnd.forward * 100f, Color.white);
     }
 }

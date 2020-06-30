@@ -4,25 +4,17 @@ using RootMotion.FinalIK;
 
 [RequireComponent (typeof (NavMeshAgent))]
 [RequireComponent (typeof (Animator))]
-[RequireComponent (typeof (CharacterEventManager))]
-[RequireComponent(typeof(LookAtIK))]
 public class AgentLocomotion : MonoBehaviour {
     Animator anim;
     NavMeshAgent agent;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
-
-    CharacterEventManager characterEventManager;
-    LookAtIK lookAtIK;
-
     public bool moving = false;
 
     private void Awake() 
     {
         anim = GetComponent<Animator> ();
         agent = GetComponent<NavMeshAgent> ();    
-        characterEventManager = GetComponent<CharacterEventManager>();
-        lookAtIK = GetComponent<LookAtIK>();
     }
 
     void Start ()
@@ -54,8 +46,6 @@ public class AgentLocomotion : MonoBehaviour {
         anim.SetBool("ShouldMove", shouldMove);
         anim.SetFloat ("velx", velocity.x);
         anim.SetFloat ("vely", velocity.y);
-
-        lookAtIK.solver.IKPosition = agent.steeringTarget + transform.forward;
 
         moving = shouldMove; // Previous frame state
     }

@@ -6,7 +6,9 @@ public class HoverController : MonoBehaviour
 {
     [Header("Outline effect")]
     [SerializeField] bool enableOutlineEffect;
+    [SerializeField] bool alwaysOn;
     Outline outline;
+    [SerializeField] Outline.Mode outlineMode = Outline.Mode.OutlineAll;
     [SerializeField] Color outlineColor;
     [SerializeField] float outlineWidth;
 
@@ -26,16 +28,21 @@ public class HoverController : MonoBehaviour
         if(enableOutlineEffect)
         {
             outline = gameObject.AddComponent<Outline>();    
-            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineMode = outlineMode;
             outline.OutlineColor = outlineColor;
             outline.OutlineWidth = outlineWidth;
             outline.enabled = false;
+        }
+
+        if(alwaysOn)
+        {
+            outline.enabled = true;
         }
     }
 
     public void Hover()
     {
-        if(enableOutlineEffect)
+        if(enableOutlineEffect && !alwaysOn)
         {
             outline.enabled = true;
         }
@@ -48,7 +55,7 @@ public class HoverController : MonoBehaviour
 
     public void StopHover()
     {
-        if(enableOutlineEffect)
+        if(enableOutlineEffect && !alwaysOn)
         {
             outline.enabled = false;
         }

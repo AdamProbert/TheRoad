@@ -35,11 +35,6 @@ public class MovementController : MonoBehaviour
         path = new NavMeshPath();
     }
 
-    public void HandleCharacterSelected(bool isSelected)
-    {
-        enablePathDraw = isSelected;
-    }
-
     private void Update() 
     {
         if(enablePathDraw)
@@ -67,6 +62,12 @@ public class MovementController : MonoBehaviour
     {
         moveTargetPosition = newTarget;
         agent.destination = moveTargetPosition;
+        enablePathDraw = false;
+    }
+
+    public void ShowMove()
+    {
+        enablePathDraw = true;
     }
 
     public void ActivateMove()
@@ -77,6 +78,7 @@ public class MovementController : MonoBehaviour
             moveTargetPosition = mousePosition;
             agent.destination = moveTargetPosition;
         }
+        enablePathDraw = false;
     }
 
     private void DrawPath()
