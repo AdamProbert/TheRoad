@@ -7,7 +7,9 @@ public abstract class BaseWeapon : MonoBehaviour
     
     [SerializeField] public Transform leftHandPlacement;
     [SerializeField] public Transform gunEnd;
+    [SerializeField] public Transform aimDir;
+    [SerializeField] public float damage;
 
-    public abstract void Shoot(Transform target);
+    public abstract void Shoot(Vector3 position);
 
 }

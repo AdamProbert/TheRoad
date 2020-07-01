@@ -5,12 +5,15 @@ using UnityEngine;
 public class RandomiseZombie : MonoBehaviour
 {
     [SerializeField] Transform modelsParent;
+    [SerializeField] List<Material> altMaterial;
     GameObject[] zombieOptions;
     int zombieCount;
 
     // Start is called before the first frame update
     void Start()
     {
+        int randoChoiceMaterial = Random.Range(0, altMaterial.Count);
+
         zombieCount = modelsParent.childCount - 1;
 
         // Ensure all are disabled        
@@ -22,5 +25,6 @@ public class RandomiseZombie : MonoBehaviour
         int randoChoice = Random.Range(1, zombieCount);
         
         modelsParent.GetChild(randoChoice).gameObject.SetActive(true);
+        modelsParent.GetComponentInChildren<Renderer>().material = altMaterial[randoChoiceMaterial];
     }
 }

@@ -6,21 +6,18 @@ using UnityEngine;
 [RequireComponent(typeof(AttackController))]
 [RequireComponent(typeof(CharacterEventManager))]
 [RequireComponent(typeof(Animator))]
-public class Character : MonoBehaviour
+[RequireComponent(typeof(CharacterData))]
+public class Character : Entity
 {
     MovementController movementController;
     AttackController attackController;
-
-    [Header("Data")]
-    [SerializeField] CharacterScriptableObject characterData;
-    public float remainingHealth;
+    CharacterData characterData;
+    Animator anim;
 
     [Header("Icons")]
     [SerializeField] GameObject selectionRing;
 
     CharacterEventManager characterEventManager;
-
-    [SerializeField] public bool friendly;
 
     public enum CharacterState
     {
@@ -30,12 +27,11 @@ public class Character : MonoBehaviour
     }
 
     private bool characterSelected;
-
     [SerializeField] private CharacterState currentState = CharacterState.WAITING;
 
     // Cover
     Cover currentCover;
-    Animator anim;
+
 
     private void Awake() 
     {
@@ -43,6 +39,8 @@ public class Character : MonoBehaviour
         movementController = GetComponent<MovementController>();
         characterEventManager = GetComponent<CharacterEventManager>();
         anim = GetComponent<Animator>();
+        characterData = GetComponent<CharacterData>();
+        base.alegiance = Alegiance.FRIENDLY;
     }
 
     public void ChangeState(CharacterState state)
@@ -86,7 +84,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void SetAttackTarget(Transform newTarget)
+    public void SetAttackTarget(Entity newTarget)
     {
         if(characterSelected)
         {
@@ -96,11 +94,6 @@ public class Character : MonoBehaviour
                 ChangeState(CharacterState.ATTACKING);
             }
         }
-    }
-
-    public void Pickup()
-    {
-
     }
 
     void HandleCharacterReachedDestination()
@@ -122,6 +115,16 @@ public class Character : MonoBehaviour
     {
         currentCover = null;
         anim.SetBool("Crouch", false);
+    }
+
+    public override void TakeHit(Vector3 direction, float damage)
+    {
+        Instantiate(characterData.hitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
+        characterData.currentHealth -= damage;
+        if(characterData.currentHealth <= 0)
+        {
+            Debug.Log("Player died");
+        }
     }
 
     private void OnEnable() 

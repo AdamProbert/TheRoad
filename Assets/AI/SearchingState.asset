@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
   m_Name: SearchingState
   m_EditorClassIdentifier: 
-  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":405.0,"y":300.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"targetPosition":{"_name":"LastKnownPosition","_targetVariableID":"40976c21-0a63-466e-9438-9be3109c0968"},"speed":{"_name":"searchSpeed","_targetVariableID":"5704936a-1329-4c74-a293-2b8a14735935"},"keepDistance":{"_value":0.1},"$type":"NodeCanvas.Tasks.Actions.MoveToPosition"},"_position":{"x":255.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"repeatTimes":{"_value":3},"_position":{"x":540.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.Repeater","$id":"2"},{"_action":{"speed":{"_name":"searchSpeed","_targetVariableID":"5704936a-1329-4c74-a293-2b8a14735935"},"keepDistance":{"_value":0.1},"minWanderDistance":{"_value":3.0},"maxWanderDistance":{"_value":15.0},"repeat":false,"$type":"NodeCanvas.Tasks.Actions.Wander"},"_position":{"x":540.0,"y":570.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"searchSpeed":{"_propertyPath":"Zombie.searchSpeed","_name":"searchSpeed","_id":"5704936a-1329-4c74-a293-2b8a14735935","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":405.0,"y":300.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"audioClips":{"_name":"SearchSounds","_targetVariableID":"75b951b6-251d-49df-a8ea-22959d86804e"},"position":{},"$type":"NodeCanvas.Tasks.Actions.PlayRandomSoundAtPoint"},"_position":{"x":-60.0,"y":405.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_action":{"targetPosition":{"_name":"LastKnownPosition","_targetVariableID":"40976c21-0a63-466e-9438-9be3109c0968"},"speed":{"_name":"searchSpeed","_targetVariableID":"5704936a-1329-4c74-a293-2b8a14735935"},"keepDistance":{"_value":0.1},"$type":"NodeCanvas.Tasks.Actions.MoveToPosition"},"_position":{"x":255.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"repeatTimes":{"_value":3},"_position":{"x":540.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.Repeater","$id":"3"},{"_action":{"speed":{"_name":"searchSpeed","_targetVariableID":"5704936a-1329-4c74-a293-2b8a14735935"},"keepDistance":{"_value":0.1},"minWanderDistance":{"_value":3.0},"maxWanderDistance":{"_value":15.0},"repeat":false,"$type":"NodeCanvas.Tasks.Actions.Wander"},"_position":{"x":540.0,"y":570.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"searchSpeed":{"_propertyPath":"ZombieData.searchSpeed","_name":"searchSpeed","_id":"5704936a-1329-4c74-a293-2b8a14735935","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MinSearchRange":{"_value":3.0,"_name":"MinSearchRange","_id":"c7064cd1-ffbc-4689-927e-02b453c3717e","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MaxSearchRange":{"_value":5.0,"_name":"MaxSearchRange","_id":"73b5b244-b038-464e-a82c-c81d88ee3793","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"SearchSounds":{"_propertyPath":"ZombieData.zombieSounds","_name":"SearchSounds","_id":"75b951b6-251d-49df-a8ea-22959d86804e","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.AudioClip,
+    UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]],
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
   _objectReferences: []
   _graphSource:
     _version: 3.08
     _category: 
     _comments: 
-    _translation: {x: -13, y: 21}
+    _translation: {x: 108, y: 197}
     _zoomFactor: 1
   _haltSerialization: 0
 #---GRAPH_START---
@@ -36,6 +38,24 @@ MonoBehaviour:
 #            },
 #            "$type": "NodeCanvas.BehaviourTrees.Sequencer",
 #            "$id": "0"
+#        },
+#        {
+#            "_action": {
+#                "audioClips": {
+#                    "_name": "SearchSounds",
+#                    "_targetVariableID": "75b951b6-251d-49df-a8ea-22959d86804e"
+#                },
+#                "position": {
+#
+#                },
+#                "$type": "NodeCanvas.Tasks.Actions.PlayRandomSoundAtPoint"
+#            },
+#            "_position": {
+#                "x": -60.0,
+#                "y": 405.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
+#            "$id": "1"
 #        },
 #        {
 #            "_action": {
@@ -57,7 +77,7 @@ MonoBehaviour:
 #                "y": 420.0
 #            },
 #            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
-#            "$id": "1"
+#            "$id": "2"
 #        },
 #        {
 #            "repeatTimes": {
@@ -68,7 +88,7 @@ MonoBehaviour:
 #                "y": 420.0
 #            },
 #            "$type": "NodeCanvas.BehaviourTrees.Repeater",
-#            "$id": "2"
+#            "$id": "3"
 #        },
 #        {
 #            "_action": {
@@ -93,7 +113,7 @@ MonoBehaviour:
 #                "y": 570.0
 #            },
 #            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
-#            "$id": "3"
+#            "$id": "4"
 #        }
 #    ],
 #    "connections": [
@@ -117,10 +137,19 @@ MonoBehaviour:
 #        },
 #        {
 #            "_sourceNode": {
-#                "$ref": "2"
+#                "$ref": "0"
 #            },
 #            "_targetNode": {
 #                "$ref": "3"
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
+#        },
+#        {
+#            "_sourceNode": {
+#                "$ref": "3"
+#            },
+#            "_targetNode": {
+#                "$ref": "4"
 #            },
 #            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
 #        }
@@ -129,7 +158,7 @@ MonoBehaviour:
 #    "localBlackboard": {
 #        "_variables": {
 #            "searchSpeed": {
-#                "_propertyPath": "Zombie.searchSpeed",
+#                "_propertyPath": "ZombieData.searchSpeed",
 #                "_name": "searchSpeed",
 #                "_id": "5704936a-1329-4c74-a293-2b8a14735935",
 #                "$type": "NodeCanvas.Framework.Variable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
@@ -145,6 +174,12 @@ MonoBehaviour:
 #                "_name": "MaxSearchRange",
 #                "_id": "73b5b244-b038-464e-a82c-c81d88ee3793",
 #                "$type": "NodeCanvas.Framework.Variable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+#            },
+#            "SearchSounds": {
+#                "_propertyPath": "ZombieData.zombieSounds",
+#                "_name": "SearchSounds",
+#                "_id": "75b951b6-251d-49df-a8ea-22959d86804e",
+#                "$type": "NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
 #            }
 #        }
 #    },

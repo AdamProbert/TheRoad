@@ -12,23 +12,24 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] Camera cam;
     [SerializeField] Transform cameraTarget;
     [SerializeField] float cameraMoveSpeed;
+    [SerializeField] float cameraRotateSpeed;
     [SerializeField] CinemachineFreeLook freeLookCam;
     Ray hoverRay;
     RaycastHit hoverHit;
 
 
-    public void HandleClickCharacter(Character character)
+    public void HandleClickCharacter(Entity entity)
     {
-        if(character.friendly)
+        if(entity.alegiance == Alegiance.FRIENDLY)
         {
-            currentlySelectedCharacter = character;
+            currentlySelectedCharacter = entity as Character;
             PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
         }
         else
         {
             if(currentlySelectedCharacter != null)
             {
-                currentlySelectedCharacter.SetAttackTarget(character.transform);
+                currentlySelectedCharacter.SetAttackTarget(entity);
             }
         }
     }
@@ -58,12 +59,11 @@ public class PlayerInputManager : MonoBehaviour
 
     public void HandleCameraMovement(float horizontal, float vertical, float rotate)
     {
-        Vector3 targetDirection = new Vector3(horizontal, 0f, vertical).normalized;
-        targetDirection = cam.transform.TransformDirection(targetDirection);
-        targetDirection.y = 0.0f;
-        cameraTarget.Translate(targetDirection *cameraMoveSpeed * Time.fixedUnscaledDeltaTime);
+        Vector3 targetPosition = new Vector3(cameraTarget.position.x + (horizontal * cameraMoveSpeed), 0f, cameraTarget.position.z + (vertical * cameraMoveSpeed));
+        cameraTarget.position = Vector3.Lerp(cameraTarget.position, targetPosition, cameraMoveSpeed);
+        // cameraTarget.Translate(targetDirection *cameraMoveSpeed * Time.fixedUnscaledDeltaTime);
 
         // Update camera rotation manually due to timescale changes
-        freeLookCam.m_XAxis.m_InputAxisValue = rotate;
+        freeLookCam.m_XAxis.m_InputAxisValue = rotate * cameraRotateSpeed;
     }
 }

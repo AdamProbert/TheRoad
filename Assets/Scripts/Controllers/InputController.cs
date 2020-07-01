@@ -7,7 +7,7 @@ public class InputController : MonoBehaviour
     [SerializeField] MovementController movementController;
     [SerializeField] PlayerInputManager playerInputManager;
     [SerializeField] LayerMask clickable; // Should be everything that can be clicked
-    [SerializeField] LayerMask character;
+    [SerializeField] LayerMask entities;
     [SerializeField] Camera cam;
 
     [Header("Hovering")]
@@ -65,10 +65,10 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Transform clickedObject = GetClickedObject(character);
+            Transform clickedObject = GetClickedObject(entities);
             if (clickedObject)
             {
-                playerInputManager.HandleClickCharacter(clickedObject.GetComponentInParent<Character>());
+                playerInputManager.HandleClickCharacter(clickedObject.GetComponentInParent<Entity>());
             }
             else
             {
@@ -98,9 +98,9 @@ public class InputController : MonoBehaviour
 
     void CheckCameraMovements()
     {
-        float vertical = Input.GetAxisRaw("Vertical");
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float rotate = Input.GetAxisRaw("RotateCamera");
+        float vertical = Input.GetAxisRaw("Vertical") * Time.unscaledDeltaTime;
+        float horizontal = Input.GetAxisRaw("Horizontal") * Time.unscaledDeltaTime;
+        float rotate = Input.GetAxisRaw("RotateCamera") * Time.unscaledDeltaTime;
         playerInputManager.HandleCameraMovement(horizontal, vertical, rotate);
     }
 

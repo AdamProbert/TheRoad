@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &459331668
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 459331669}
+  - component: {fileID: 459331672}
+  - component: {fileID: 459331671}
+  m_Layer: 10
+  m_Name: AIMPOINT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &459331669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459331668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_Children: []
+  m_Father: {fileID: 5513884038971229249}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &459331672
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459331668}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &459331671
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459331668}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &5513884038971229250
 GameObject:
   m_ObjectHideFlags: 0
@@ -17,6 +96,7 @@ GameObject:
   - component: {fileID: 2962010931491188760}
   - component: {fileID: 5784120636273725062}
   - component: {fileID: 3195834610805366428}
+  - component: {fileID: 1770057480}
   m_Layer: 10
   m_Name: Zombie
   m_TagString: Untagged
@@ -36,6 +116,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5515238326370420780}
+  - {fileID: 459331669}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46,7 +127,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5513884038971229250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 4
@@ -74,6 +155,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelsParent: {fileID: 5515238326370420780}
+  altMaterial:
+  - {fileID: 2100000, guid: d893d84bc6be0b348af0d3199f134c02, type: 2}
+  - {fileID: 2100000, guid: 75dfe1e02a971524789ee9d6e57feec4, type: 2}
+  - {fileID: 2100000, guid: 9b0fdcd26a76fb64c8bc7c5c7bb46fcf, type: 2}
+  - {fileID: 2100000, guid: 24922e6f91856ee46aeadbd57a4a4003, type: 2}
+  - {fileID: 2100000, guid: e96dedf72ffffd847a520e4001ff3e3c, type: 2}
+  - {fileID: 2100000, guid: 4f399f37d1583f54d87a28c49c936762, type: 2}
+  - {fileID: 2100000, guid: 3d2ba34110eec5b49943c7892563c95b, type: 2}
+  - {fileID: 2100000, guid: f9313f049f005e846b8e678ce0a71584, type: 2}
+  - {fileID: 2100000, guid: 8a3544c4b9f21a2488b0937a6fefc181, type: 2}
 --- !u!95 &1936402838
 Animator:
   serializedVersion: 3
@@ -136,11 +227,12 @@ MonoBehaviour:
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"AllPlayers":{"_value":[],"_name":"AllPlayers","_id":"d5d0504c-dccc-4634-adaa-66f66b3a91b0","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[Character,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
     Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"LastKnownPosition":{"_name":"LastKnownPosition","_id":"40976c21-0a63-466e-9438-9be3109c0968","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
-    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"MaxViewDistance":{"_value":25.0,"_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MaxAwarnessDistance":{"_value":5.0,"_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewAngle":{"_value":90.0,"_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewOffset":{"_value":{"y":2.0},"_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
-    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"MaxViewDistance":{"_value":25.0,"_propertyPath":"ZombieData.maxViewDistance","_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"MaxAwarnessDistance":{"_value":5.0,"_propertyPath":"ZombieData.maxAwarenessDistance","_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewAngle":{"_value":90.0,"_propertyPath":"ZombieData.viewAngle","_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewOffset":{"_value":{"y":2.0},"_propertyPath":"ZombieData.viewOffset","_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"currentHealth":{"_propertyPath":"ZombieData.currentHealth","_name":"currentHealth","_id":"f1a8b9c3-56d0-4b7c-a10f-e71b21576e74","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
   _objectReferences: []
   _serializedVariables:
   - _json: '{"_name":"CurrentTarget","_id":"85abbc47-8277-448c-8c48-968a65df2d2c","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
@@ -153,17 +245,20 @@ MonoBehaviour:
   - _json: '{"_name":"LastKnownPosition","_id":"40976c21-0a63-466e-9438-9be3109c0968","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
     _references: []
-  - _json: '{"_value":25.0,"_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+  - _json: '{"_value":25.0,"_propertyPath":"ZombieData.maxViewDistance","_name":"MaxViewDistance","_id":"6d62dc6a-7eee-4287-8471-b72a79dc074f","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_value":5.0,"_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+  - _json: '{"_value":5.0,"_propertyPath":"ZombieData.maxAwarenessDistance","_name":"MaxAwarnessDistance","_id":"8905a96a-a309-4100-8985-453619e0ef44","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_value":90.0,"_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+  - _json: '{"_value":90.0,"_propertyPath":"ZombieData.viewAngle","_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
-  - _json: '{"_value":{"y":2.0},"_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
+  - _json: '{"_value":{"y":2.0},"_propertyPath":"ZombieData.viewOffset","_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
       UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
+    _references: []
+  - _json: '{"_propertyPath":"ZombieData.currentHealth","_name":"currentHealth","_id":"f1a8b9c3-56d0-4b7c-a10f-e71b21576e74","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
     _references: []
 --- !u!114 &5784120636273725062
 MonoBehaviour:
@@ -172,7 +267,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5513884038971229250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a7dbb6bbdf4ffb46ab7dd87ba8191e7, type: 3}
   m_Name: 
@@ -206,11 +301,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967989f146ac1734ba17f2e27c11b67e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderSpeed: 0.6
-  searchSpeed: 2
-  chaseSpeed: 4
-  maxHealth: 100
-  currentHealth: 100
+  data: {fileID: 11400000, guid: 69cc8c3a47b06724d836d2028a7cad51, type: 2}
+--- !u!114 &1770057480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5513884038971229250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673163b9940906a499226f52637710d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimPoint: {fileID: 459331669}
+  alegiance: 1
+  remainingHealth: 0
+  alive: 1
 --- !u!1001 &5513884038499945934
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,4 +10,5 @@ public class CharacterEventManager : MonoBehaviour
 
     public Action<Character.CharacterState> OnCharacterChangeState = delegate{};
     public Action<Cover> OnCharacterEnteredCover = delegate{};
+    public Action OnCharacterTookHit = delegate{};
 }

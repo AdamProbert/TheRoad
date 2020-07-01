@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df288c20c0baed344b57494cdc2e17da, type: 3}
+  m_Name: BaseZombie
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  wanderSpeed: 0.6
+  searchSpeed: 2
+  chaseSpeed: 4
+  maxViewDistance: 25
+  maxAwarenessDistance: 5
+  viewAngle: 90
+  viewOffset: {x: 0, y: 2, z: 0}
+  zombieSounds:
+  - {fileID: 8300000, guid: 42d232f2bcd9ff34e8713ac93cd30e9b, type: 3}
+  - {fileID: 8300000, guid: ec04defceb3059a4c9f02483de3e3273, type: 3}
+  - {fileID: 8300000, guid: fbbb936e21b6fd240aaebaa5ffdad306, type: 3}
+  - {fileID: 8300000, guid: 84e2fd6c18ef1d147828dbf207f79ad8, type: 3}
+  - {fileID: 8300000, guid: dc2ca3623a633d445b3d4cd9358fea47, type: 3}
+  - {fileID: 8300000, guid: 0ba8f6f275e003d46992a310f46f5db7, type: 3}
+  - {fileID: 8300000, guid: e73085b5f471fbb46822f7ad7f870fff, type: 3}
+  - {fileID: 8300000, guid: 5908f5bae48d98a43b984fe759f65c6d, type: 3}
+  - {fileID: 8300000, guid: b0ed42dd69f02db42afb2bea9b0c8c15, type: 3}
+  - {fileID: 8300000, guid: e3336092446cfd64b9d14448edf554c7, type: 3}
+  hitEffect: {fileID: 19818896, guid: 4df07147ab63a0e48aa08be7cee5f020, type: 3}

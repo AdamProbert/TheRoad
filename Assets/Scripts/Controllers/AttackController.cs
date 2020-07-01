@@ -12,7 +12,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] BaseWeapon weapon;
     [SerializeField] float attackRotationSpeed;
     [SerializeField] LayerMask blockableLayers;
-    Transform currentTarget;
+    Entity currentTarget;
     Animator anim;
     AimIK aimIK;
     FullBodyBipedIK fbbIK;
@@ -31,18 +31,18 @@ public class AttackController : MonoBehaviour
     private void Start() 
     {   
         // Setup IK for weapon
-        aimIK.solver.transform = weapon.gunEnd;
+        aimIK.solver.transform = weapon.aimDir;
         fbbIK.solver.leftHandEffector.target = weapon.leftHandPlacement;
         fbbIK.solver.leftHandEffector.positionWeight = 0.8f;
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Entity target)
     {
         if(target != null)
         {
             currentTarget = target;
-            aimIK.solver.target = currentTarget;
-            aimIK.solver.IKPositionWeight = 1;
+            aimIK.solver.target = currentTarget.GetAimPointTransform();
+            aimIK.solver.IKPositionWeight = 1f;
             anim.SetBool("Crouch", false);
         }
         else
@@ -70,8 +70,22 @@ public class AttackController : MonoBehaviour
     {
         if(currentTarget)
         {
+            if(!currentTarget.alive)
+            {
+                SetTarget(null);
+                return;
+            }
+            // Disable ik if too close
+            if(Vector3.Distance(transform.position, currentTarget.transform.position) < 2f)
+            {
+                aimIK.solver.IKPositionWeight = 0f;
+            }
+            else
+            {
+                aimIK.solver.IKPositionWeight = 1f;
+            }
             // Rotate to face target
-            Vector3 direction = currentTarget.position - transform.position;
+            Vector3 direction = currentTarget.GetAimPointPosition() - transform.position;
             Quaternion toRotation = Quaternion.LookRotation(direction);
             toRotation.x = transform.rotation.x;
             toRotation.z = transform.rotation.z;
@@ -88,64 +102,20 @@ public class AttackController : MonoBehaviour
 
     private bool CanSeeTarget()
     {
-        blockingHits = Physics.RaycastAll(weapon.gunEnd.position, weapon.gunEnd.forward, Vector3.Distance(weapon.gunEnd.position, currentTarget.position) + 1f);
-        bool hitTarget = false;
-        if(blockingHits.Length > 0)
+        Vector3 aimPoint = currentTarget.GetAimPointPosition();
+        if(Physics.Linecast(weapon.gunEnd.position, aimPoint, blockableLayers))
         {
-            foreach (RaycastHit hit in blockingHits)
-            {
-                if(hit.transform == currentTarget)
-                {
-                    hitTarget = true;
-                }
-
-                // First check if hit was right next to player - if so ignore it
-                if(hit.distance < 0.5)
-                {
-                    continue;
-                }
-
-                // Then check for blocking areas
-                if(blockableLayers == (blockableLayers | (1 << hit.transform.gameObject.layer)))
-                {
-                    // bool otherRaySeeTarget = false;
-                    // RaycastHit otherHit;
-                    // Vector3[] othercasts = new []
-                    // {
-                    //     weapon.gunEnd.position + new Vector3(0f,0.5f,0f),
-                    //     weapon.gunEnd.position + new Vector3(0f,-0.5f,0f),
-                    //     weapon.gunEnd.position + new Vector3(0.5f,0f,0f),
-                    //     weapon.gunEnd.position + new Vector3(-0.5f,0f,0f),
-                    // };
-                    // // Fire 4 more raycasts to determine if we can see a part of an object
-                    // foreach (Vector3 oRay in othercasts)
-                    // {
-                    //     if(!Physics.Linecast(oRay, currentTarget.position, blockableLayers, out otherHit))
-                    //     {
-                    //         otherRaySeeTarget = true
-                    //     }
-                    // }
-                    Debug.DrawLine(weapon.gunEnd.position, hit.point, Color.red, 1f);
-                    return false;
-                }
-            }
-        }
-        
-        if(hitTarget)
-        {
-            Debug.DrawRay(weapon.gunEnd.position, weapon.gunEnd.forward * (Vector3.Distance(weapon.gunEnd.position, currentTarget.position) + 1f), Color.red, 1f);
+            Debug.DrawLine(weapon.gunEnd.position, aimPoint, Color.green, 1f);
             return true;
         }
-        else
-        {
-            Debug.DrawRay(weapon.gunEnd.position, weapon.gunEnd.forward * (Vector3.Distance(weapon.gunEnd.position, currentTarget.position) + 1f), Color.yellow, 1f);
-            return false;
-        }
+
+        Debug.DrawLine(weapon.gunEnd.position, aimPoint, Color.red, 1f);
+        return false;
     }
 
     public void OnAnimatorAttackEvent()
     {
-        weapon.Shoot(currentTarget);
+        weapon.Shoot(currentTarget.GetAimPointPosition());
     }
 
     private void HandleStateChange(Character.CharacterState newState)
