@@ -10,6 +10,8 @@ using NodeCanvas.StateMachines;
 [RequireComponent(typeof(FSMOwner))]
 [RequireComponent(typeof(AgentLocomotion))]
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(RagdollController))]
+[RequireComponent(typeof(AudioSource))]
 public class Enemy : Entity
 {
     ZombieData data;
@@ -18,9 +20,13 @@ public class Enemy : Entity
     FSMOwner fSM;
     AgentLocomotion locomotion;
     Collider coll;
+    RagdollController ragdoll;
+    AudioSource audioSource;
 
     private void Awake() 
     {
+        audioSource = GetComponent<AudioSource>();
+        ragdoll = GetComponent<RagdollController>();
         coll = GetComponent<Collider>();
         locomotion = GetComponent<AgentLocomotion>();
         fSM = GetComponent<FSMOwner>();
@@ -44,23 +50,28 @@ public class Enemy : Entity
     public override void TakeHit(Vector3 direction, float damage)
     {
         Instantiate(data.hitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
+        
+        audioSource.PlayOneShot(
+            data.zombieHitSounds[Random.Range(0, data.zombieHitSounds.Count)],
+            1f
+        );
         if(alive)
         {
             data.currentHealth -= damage;
             if(data.currentHealth <= damage)
             {
-                Die();
+                Die(direction*damage);
             }
         }
     }
 
-    private void Die()
+    private void Die(Vector3 finalHitForce)
     {
         alive = false;
-        anim.SetTrigger("Die");
         agent.enabled = false;
         fSM.enabled = false;
         locomotion.enabled = false;
         coll.enabled = false;
+        ragdoll.TurnOnRagdollWithForce(finalHitForce);
     }
 }

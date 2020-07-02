@@ -48,6 +48,11 @@ public class ZombieData : MonoBehaviour
         set {}
     }
 
+    public List<AudioClip> zombieHitSounds{
+        get {return data.zombieHitSounds;}
+        set {}
+    }
+
     public float viewAngle{
         get {return data.viewAngle;}
         set {}

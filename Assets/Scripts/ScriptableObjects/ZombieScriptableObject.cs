@@ -13,6 +13,7 @@ public class ZombieScriptableObject : ScriptableObject
     public float viewAngle;
     public Vector3 viewOffset;
     public List<AudioClip> zombieSounds;
+    public List<AudioClip> zombieHitSounds;
 
     public ParticleSystem hitEffect;
 }

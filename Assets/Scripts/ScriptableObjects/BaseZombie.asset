@@ -31,4 +31,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5908f5bae48d98a43b984fe759f65c6d, type: 3}
   - {fileID: 8300000, guid: b0ed42dd69f02db42afb2bea9b0c8c15, type: 3}
   - {fileID: 8300000, guid: e3336092446cfd64b9d14448edf554c7, type: 3}
+  zombieHitSounds:
+  - {fileID: 8300000, guid: 91b519475308adb49a593cc36f73cef5, type: 3}
+  - {fileID: 8300000, guid: d2ed1598a10686f4a9baedefdbd0644d, type: 3}
+  - {fileID: 8300000, guid: ac2ae875e34836848a4dc055c938d6a9, type: 3}
+  - {fileID: 8300000, guid: d11dba171f726404d892a78e2f6a0619, type: 3}
+  - {fileID: 8300000, guid: 53986bf71fa09644fab54a55a2636e79, type: 3}
+  - {fileID: 8300000, guid: b16883d86011f5b4c9db0c1f9203b760, type: 3}
+  - {fileID: 8300000, guid: dd9f37e7e40cbbb40819c16c9a16f865, type: 3}
+  - {fileID: 8300000, guid: e66cb6fe26381ec4f9b70d4efedfe489, type: 3}
+  - {fileID: 8300000, guid: bb568c52e86de3f418c0c718e765161e, type: 3}
+  - {fileID: 8300000, guid: 9e7c23c3ae68cfc41abddd457006b809, type: 3}
   hitEffect: {fileID: 19818896, guid: 4df07147ab63a0e48aa08be7cee5f020, type: 3}
