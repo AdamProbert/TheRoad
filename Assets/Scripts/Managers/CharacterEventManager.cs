@@ -11,4 +11,6 @@ public class CharacterEventManager : MonoBehaviour
     public Action<Vector3> OnCharacterReceiveNewMovementTarget = delegate{};
     public Action OnCharacterMoveRequested = delegate{};
     public Action OnCharacterRequestShowMove = delegate{};
+
+    public Action<CharacterState> OnCharacterRequestChangeState = delegate{}; // For other scripts to request a change of state
 }

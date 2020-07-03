@@ -49,7 +49,7 @@ public class Enemy : Entity
 
     public override void TakeHit(Vector3 direction, float damage)
     {
-        Instantiate(data.hitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
+        Instantiate(data.getRandomHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
         
         audioSource.PlayOneShot(
             data.zombieHitSounds[Random.Range(0, data.zombieHitSounds.Count)],

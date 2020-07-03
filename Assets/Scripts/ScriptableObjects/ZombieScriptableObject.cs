@@ -15,5 +15,6 @@ public class ZombieScriptableObject : ScriptableObject
     public List<AudioClip> zombieSounds;
     public List<AudioClip> zombieHitSounds;
 
-    public ParticleSystem hitEffect;
+    public List<ParticleSystem> hitEffects;
+    public ParticleSystem deathEffect;
 }

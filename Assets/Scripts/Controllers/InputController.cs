@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    [SerializeField] MovementController movementController;
     [SerializeField] PlayerInputManager playerInputManager;
     [SerializeField] LayerMask clickable; // Should be everything that can be clicked
     [SerializeField] LayerMask entities;
@@ -23,15 +22,6 @@ public class InputController : MonoBehaviour
         CheckRightMouseButton();
         CheckCameraMovements();
         CheckActions();
-        CheckPauseTime();
-    }
-
-    void CheckPauseTime()
-    {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            TimeController.Instance.TogglePause();
-        }
     }
 
     void CheckHover()

@@ -51,12 +51,12 @@ MonoBehaviour:
   leftHandPlacement: {fileID: 5087418913974838645}
   gunEnd: {fileID: 5087418913801926950}
   aimDir: {fileID: 6765371103894466452}
-  damage: 20
+  damage: 15
   type: 0
   projectileForce: 50
-  shotSound: {fileID: 8300000, guid: 88ef60307ca74fe44a7499215ca1c126, type: 3}
+  shotSound: {fileID: 8300000, guid: 00d005571e08efa46841d0b50983420f, type: 3}
   shotFXPrefab: {fileID: 19819752, guid: 8deb1def3de25b04b8371070fbb372fe, type: 3}
-  projectilePrefab: {fileID: 2746814601963588296, guid: fd3bfaee10119c04c839f2aaf8637283,
+  projectilePrefab: {fileID: 2746814601963588296, guid: d6c210359c9085144a5351d3107272fb,
     type: 3}
   fireRate: 0.05
 --- !u!82 &5087418913026319842

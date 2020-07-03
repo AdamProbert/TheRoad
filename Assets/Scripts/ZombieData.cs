@@ -63,8 +63,18 @@ public class ZombieData : MonoBehaviour
         set {}
     }
 
-    public ParticleSystem hitEffect{
-        get {return data.hitEffect;}
+    public List<ParticleSystem> getAllHitEffects{
+        get {return data.hitEffects;}
+        set {}
+    }
+
+    public ParticleSystem getRandomHitEffect{
+        get {return data.hitEffects[Random.Range(0, data.hitEffects.Count)];}
+        set {}
+    }
+
+    public ParticleSystem deathEffect{
+        get {return data.deathEffect;}
         set {}
     }
     public float currentHealth{

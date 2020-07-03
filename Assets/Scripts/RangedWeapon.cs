@@ -29,15 +29,17 @@ public class RangedWeapon : BaseWeapon
 
             Vector3 heading = targetPosition - gunEnd.position;
             float distance = heading.magnitude;
-            Vector3 direction = heading / distance; // This is now the normalized direction.
+            Vector3 accurateDirection = heading / distance; // This is now the normalized direction.
+            Vector3 roughDirection = targetPosition - (transform.root.position + Vector3.up * 1.5f);
 
             // Check if our raycast hit the boy shoot
             if(Time.time > nextFireTime)
             {
                 Projectile p = Instantiate(projectilePrefab, gunEnd.position, base.gunEnd.rotation);
                 p.transform.position = gunEnd.position;
-                p.GetComponent<Rigidbody>().velocity = direction * projectileForce;
+                p.GetComponent<Rigidbody>().velocity = accurateDirection * projectileForce;
                 p.damage = base.damage;
+                p.direction = roughDirection;
                 audioSource.PlayOneShot(shotSound);
                 shotFX.Play();
                 nextFireTime = Time.time + fireRate;

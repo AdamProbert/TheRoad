@@ -13,6 +13,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] BaseWeapon weapon;
     [SerializeField] float attackRotationSpeed;
     [SerializeField] LayerMask blockableLayers;
+    [SerializeField] LayerMask enemyLayers;
 
     Animator anim;
     AimIK aimIK;
@@ -83,7 +84,7 @@ public class AttackController : MonoBehaviour
     {
         overwatchMode = false;
         viewCone.gameObject.SetActive(false);
-        currentTarget = null;
+        // currentTarget = null;
         anim.SetBool("overwatch", false);
     }
 
@@ -100,14 +101,30 @@ public class AttackController : MonoBehaviour
 
     private void Update() 
     {
+        // Prioritise defending self if current target is far away and we're being attack by something closer
+        if( 
+            (currentTarget != null &&
+            Vector3.Distance(transform.position, currentTarget.transform.position) > 5f &&
+            ShouldDefendSelf()) ||
+            // or if we don't have a target and we need to defend ourselves
+            (currentTarget == null &&
+            ShouldDefendSelf())
+        )
+        {
+            SetTarget(currentTarget); // Assigned in shouldDefendSelf
+            characterEventManager.OnCharacterRequestChangeState(CharacterState.ATTACKING);
+        }
+
+        // Then check overwatch
         if(overwatchMode)
         {
             if(!currentTarget || !viewCone.visibleTargets.Contains(currentTarget.transform))
             {
-                currentTarget = GetNewTarget();
+                SetTarget(GetNewTarget());
             }
         }
 
+        // We've chosen the target now get him
         if(currentTarget)
         {
             if(!currentTarget.alive)
@@ -115,8 +132,6 @@ public class AttackController : MonoBehaviour
                 SetTarget(null);
                 return;
             }
-
-            SetTarget(currentTarget);
 
             // Disable ik if too close
             if(Vector3.Distance(transform.position, currentTarget.transform.position) < 2f)
@@ -139,7 +154,7 @@ public class AttackController : MonoBehaviour
             }
             
         
-            bool targetInSight = CanSeeTarget();
+            bool targetInSight = CanSeeTarget(currentTarget);
 
             if(targetInSight)
                 EnableAttack();
@@ -148,8 +163,27 @@ public class AttackController : MonoBehaviour
         }
         else
         {
+            if(!overwatchMode)
+            {
+                characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);
+            }
             SetTarget(null);
         }
+    }
+
+    private bool ShouldDefendSelf()
+    {
+        Collider[] closeEnemies = Physics.OverlapSphere(transform.position, 3f, enemyLayers);
+        foreach (Collider c in closeEnemies)
+        {
+            Entity enemy = c.GetComponentInParent<Entity>();
+            if(enemy.alive && CanSeeTarget(enemy))
+            {
+                currentTarget = enemy;
+                return true;
+            }
+        }
+        return false;
     }
 
     private Entity GetNewTarget()
@@ -173,16 +207,16 @@ public class AttackController : MonoBehaviour
         return null;
     }
 
-    private bool CanSeeTarget()
+    private bool CanSeeTarget(Entity target)
     {
-        Vector3 aimPoint = currentTarget.GetAimPointPosition();
-        if(Physics.Linecast(weapon.gunEnd.position, aimPoint, blockableLayers))
+        Vector3 aimPoint = target.GetAimPointPosition();
+        if(Physics.Linecast(fbbIK.references.head.position, aimPoint, blockableLayers))
         {
-            Debug.DrawLine(weapon.gunEnd.position, aimPoint, Color.green, 1f);
+            Debug.DrawLine(fbbIK.references.head.position, aimPoint, Color.green, 1f);
             return true;
         }
 
-        Debug.DrawLine(weapon.gunEnd.position, aimPoint, Color.red, 1f);
+        Debug.DrawLine(fbbIK.references.head.position, aimPoint, Color.red, 1f);
         return false;
     }
 
@@ -273,7 +307,7 @@ public class AttackController : MonoBehaviour
             }
             else
             {
-                if(dist > 3)
+                if(dist > viewCone.viewRadius / 3)
                 {
                     shotPosition = shotPosition + new Vector3(
                         Random.Range(-characterData.getBaseAccuracy, characterData.getBaseAccuracy),

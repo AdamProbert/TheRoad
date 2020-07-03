@@ -57,7 +57,6 @@ public class Character : Entity
         {
             selectionRing.SetActive(true);
             characterSelected = true;
-            this.BroadcastMessage("HandleCharacterSelected", true, SendMessageOptions.DontRequireReceiver);
             return;
         }
 
@@ -65,7 +64,10 @@ public class Character : Entity
         {
             selectionRing.SetActive(false);
             characterSelected = false;
-            this.BroadcastMessage("HandleCharacterSelected", false, SendMessageOptions.DontRequireReceiver);
+            if(currentState == CharacterState.OVERWATCHSETUP)
+            {
+                ChangeState(CharacterState.WAITING);
+            }
         }
     }
 
@@ -119,7 +121,7 @@ public class Character : Entity
         {
             ChangeState(CharacterState.WAITING);
         }
-        else
+        else if(currentState != CharacterState.ATTACKING)
         {
             ChangeState(CharacterState.OVERWATCHSETUP);
         }
@@ -132,11 +134,30 @@ public class Character : Entity
             ChangeState(CharacterState.OVERWATCH);
         }
     }
+    
+    private void HandleOtherScriptChangingState(CharacterState newState)
+    {
+        if(newState == CharacterState.WAITING && currentState == CharacterState.ATTACKING)
+        {
+            ChangeState(newState);
+        }
+        else if(
+            newState == CharacterState.ATTACKING &&
+            (
+                currentState == CharacterState.OVERWATCH ||
+                currentState == CharacterState.OVERWATCHSETUP
+            )
+        )
+        {
+            ChangeState(newState);
+        }
+    }
 
     private void OnEnable() 
     {
         PlayerEventManager.Instance.OnPlayerSelectCharacter += HandleCharacterSelection;    
         characterEventManager.OnCharacterReachedDetination += HandleCharacterReachedDestination;
+        characterEventManager.OnCharacterRequestChangeState += HandleOtherScriptChangingState;
     }
     private void OnDisable() 
     {
@@ -145,6 +166,7 @@ public class Character : Entity
             PlayerEventManager.Instance.OnPlayerSelectCharacter -= HandleCharacterSelection;
         }
         characterEventManager.OnCharacterReachedDetination -= HandleCharacterReachedDestination;
+        characterEventManager.OnCharacterRequestChangeState -= HandleOtherScriptChangingState;
     }
     
 }
