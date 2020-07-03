@@ -11,7 +11,11 @@ public class CharacterData : MonoBehaviour
 
     private void Start() 
     {
-        m_currentHealth = maxHealth;    
+        m_currentHealth = maxHealth;
+        // Setup field of view
+        FieldOfView fov = GetComponentInChildren<FieldOfView>();
+        fov.viewRadius = cData.viewRadius;    
+        fov.viewAngle = cData.viewAngle;
     }
     public float maxHealth{
         get {return cData.maxHealth;}
@@ -20,6 +24,16 @@ public class CharacterData : MonoBehaviour
 
     public ParticleSystem hitEffect{
         get {return cData.hitEffect;}
+        set {}
+    }
+
+    public bool canLeadShots{
+        get {return cData.canLeadShots;}
+        set {}
+    }
+
+    public float baseAccuracy{
+        get {return cData.baseAccuracy;}
         set {}
     }
 

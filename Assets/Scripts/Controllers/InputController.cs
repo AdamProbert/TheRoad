@@ -58,7 +58,11 @@ public class InputController : MonoBehaviour
     
     void CheckActions()
     {
-
+        // Overwatch
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            playerInputManager.HandleOverwatchClicked();
+        }
     }
 
     void CheckLeftMouseButton()
@@ -76,7 +80,7 @@ public class InputController : MonoBehaviour
                 print("Left clicked at position: " + clickPosition);
                 if(clickPosition != Vector3.zero)
                 {
-                    playerInputManager.HandleCancelAction();
+                    playerInputManager.HandleLeftClickPositon(clickPosition);
                 }
             }
         }    

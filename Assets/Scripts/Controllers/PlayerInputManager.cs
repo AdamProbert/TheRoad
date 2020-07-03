@@ -11,12 +11,11 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Cameras")]
     [SerializeField] Camera cam;
     [SerializeField] Transform cameraTarget;
-    [SerializeField] float cameraMoveSpeed;
+    [SerializeField] float cameraBaseMoveSpeed;
     [SerializeField] float cameraRotateSpeed;
     [SerializeField] CinemachineFreeLook freeLookCam;
     Ray hoverRay;
     RaycastHit hoverHit;
-
 
     public void HandleClickCharacter(Entity entity)
     {
@@ -51,19 +50,42 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    public void HandleCancelAction()
+    public void HandleOverwatchClicked()
     {
-        currentlySelectedCharacter = null;
-        PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
+        if(currentlySelectedCharacter != null)
+        {
+            currentlySelectedCharacter.ToggleOverwatch();
+        }
+    }
+
+    public void HandleLeftClickPositon(Vector3 position)
+    {
+        if(currentlySelectedCharacter != null)
+        {
+            currentlySelectedCharacter.HandleLeftClickEmptyPositon(position);
+        }
+        else
+        {
+            PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
+        }
+            
     }
 
     public void HandleCameraMovement(float horizontal, float vertical, float rotate)
     {
-        Vector3 targetPosition = new Vector3(cameraTarget.position.x + (horizontal * cameraMoveSpeed), 0f, cameraTarget.position.z + (vertical * cameraMoveSpeed));
-        cameraTarget.position = Vector3.Lerp(cameraTarget.position, targetPosition, cameraMoveSpeed);
-        // cameraTarget.Translate(targetDirection *cameraMoveSpeed * Time.fixedUnscaledDeltaTime);
-
+        Vector3 targetDirection = new Vector3(horizontal, 0, vertical).normalized;
+        targetDirection = cameraTarget.TransformDirection(targetDirection);
+        targetDirection.y = 0.0f;
+        
+        cameraTarget.position = Vector3.Lerp(
+            cameraTarget.position,
+            cameraTarget.position + targetDirection,
+            cameraBaseMoveSpeed * Time.unscaledDeltaTime
+        );
+        // cameraTarget.position += targetDirection * cameraMoveSpeed * Time.unscaledDeltaTime;
+        cameraTarget.Rotate(0, rotate * cameraRotateSpeed * Time.unscaledDeltaTime, 0);
+        
         // Update camera rotation manually due to timescale changes
-        freeLookCam.m_XAxis.m_InputAxisValue = rotate * cameraRotateSpeed;
+        // freeLookCam.m_XAxis.m_InputAxisValue = rotate * cameraRotateSpeed;
     }
 }

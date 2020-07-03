@@ -9,7 +9,6 @@ public class RangedWeapon : BaseWeapon
     [SerializeField] ParticleSystem shotFXPrefab;
     [SerializeField] Projectile projectilePrefab;
     [SerializeField] float fireRate; // This is actually driven by animator
-    [SerializeField] float projectileForce;
     AudioSource audioSource;
     RaycastHit hit;
     ParticleSystem shotFX;
@@ -37,7 +36,7 @@ public class RangedWeapon : BaseWeapon
             {
                 Projectile p = Instantiate(projectilePrefab, gunEnd.position, base.gunEnd.rotation);
                 p.transform.position = gunEnd.position;
-                p.GetComponent<Rigidbody>().AddForce( direction * projectileForce);
+                p.GetComponent<Rigidbody>().velocity = direction * projectileForce;
                 p.damage = base.damage;
                 audioSource.PlayOneShot(shotSound);
                 shotFX.Play();

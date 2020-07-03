@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: GlobalVars
   m_EditorClassIdentifier: Assembly-CSharp::GlovalVars
-  buildingSliceTime: 0.5
+  buildingSliceTime: 0.3

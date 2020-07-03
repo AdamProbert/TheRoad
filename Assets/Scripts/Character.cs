@@ -2,11 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MovementController))]
-[RequireComponent(typeof(AttackController))]
+public enum CharacterState
+{
+    WAITING,
+    MOVING,
+    ATTACKING,
+    OVERWATCHSETUP,
+    OVERWATCH
+}
+
 [RequireComponent(typeof(CharacterEventManager))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterData))]
+
 public class Character : Entity
 {
     MovementController movementController;
@@ -19,18 +27,8 @@ public class Character : Entity
 
     CharacterEventManager characterEventManager;
 
-    public enum CharacterState
-    {
-        WAITING,
-        MOVING,
-        ATTACKING
-    }
-
     private bool characterSelected;
     [SerializeField] private CharacterState currentState = CharacterState.WAITING;
-
-    // Cover
-    Cover currentCover;
 
 
     private void Awake() 
@@ -47,6 +45,7 @@ public class Character : Entity
     {
         if(state != currentState)
         {
+            Debug.Log("New state: " + state);
             currentState = state;
             characterEventManager.OnCharacterChangeState(currentState);
         }
@@ -72,14 +71,14 @@ public class Character : Entity
 
     public void ShowMove()
     {
-        movementController.ShowMove();
+        characterEventManager.OnCharacterRequestShowMove();
     }
     
     public void Move(Vector3 position)
     {
         if(characterSelected)
         {
-            movementController.ActivateMove();
+            characterEventManager.OnCharacterMoveRequested();            
             ChangeState(CharacterState.MOVING);
         }
     }
@@ -88,7 +87,7 @@ public class Character : Entity
     {
         if(characterSelected)
         {
-            attackController.SetTarget(newTarget);
+            characterEventManager.OnCharacterReceiveNewAttackTarget(newTarget);
             if(newTarget != null)
             {
                 ChangeState(CharacterState.ATTACKING);
@@ -104,19 +103,6 @@ public class Character : Entity
         }
     }
 
-    public void HandleEnterCover(Cover cover)
-    {
-        currentCover = cover;
-        characterEventManager.OnCharacterEnteredCover(cover);
-        anim.SetBool("Crouch", true);
-    }
-
-    public void HandleExitCover()
-    {
-        currentCover = null;
-        anim.SetBool("Crouch", false);
-    }
-
     public override void TakeHit(Vector3 direction, float damage)
     {
         Instantiate(characterData.hitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
@@ -124,6 +110,26 @@ public class Character : Entity
         if(characterData.currentHealth <= 0)
         {
             Debug.Log("Player died");
+        }
+    }
+
+    public void ToggleOverwatch()
+    {
+        if(currentState == CharacterState.OVERWATCHSETUP)
+        {
+            ChangeState(CharacterState.WAITING);
+        }
+        else
+        {
+            ChangeState(CharacterState.OVERWATCHSETUP);
+        }
+    }
+
+    public void HandleLeftClickEmptyPositon(Vector3 position)
+    {
+        if(currentState == CharacterState.OVERWATCHSETUP)
+        {
+            ChangeState(CharacterState.OVERWATCH);
         }
     }
 

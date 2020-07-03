@@ -11,20 +11,22 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] LayerMask walkableLayersForMousePosition;
     [SerializeField] LayerMask coverLayer;
-    private Vector3 moveTargetPosition;
+    Camera cam;
+    CharacterEventManager characterEventManager;
     NavMeshAgent agent;
     NavMeshPath path;
+    LineRenderer lineRenderer;
+
+    Vector3 moveTargetPosition;
     Ray hoverRay;
     RaycastHit hoverHit;
-    [SerializeField] Camera cam;
-    LineRenderer lineRenderer;
-    CharacterEventManager characterEventManager;
-
     bool moving = false;
+    bool enablePathDraw = false;
+    bool overwatchPositioning;
 
-    private bool enablePathDraw = false;
     private void Awake() 
     {
+        cam = Camera.main;
         characterEventManager = GetComponent<CharacterEventManager>();
         lineRenderer = GetComponent<LineRenderer>();
         agent = GetComponent<NavMeshAgent>();
@@ -37,6 +39,10 @@ public class MovementController : MonoBehaviour
 
     private void Update() 
     {
+        if(overwatchPositioning)
+        {
+            PositionCharacterForOverwatch();
+        }
         if(enablePathDraw)
         {
             DrawPath();
@@ -58,19 +64,30 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    public void SetMoveTarget(Vector3 newTarget)
+    private void EnableOverwatchPositioning()
+    {
+        SetMoveTarget(transform.position);
+        overwatchPositioning = true;
+    }
+
+    private void DisableOverwatchPositioning()
+    {
+        overwatchPositioning = false;
+    }
+
+    private void SetMoveTarget(Vector3 newTarget)
     {
         moveTargetPosition = newTarget;
         agent.destination = moveTargetPosition;
         enablePathDraw = false;
     }
 
-    public void ShowMove()
+    private void ShowMove()
     {
         enablePathDraw = true;
     }
 
-    public void ActivateMove()
+    private void MoveToMousePosition()
     {
         Vector3 mousePosition = GetMousePositionWithCover();
         if(mousePosition != Vector3.zero)
@@ -96,6 +113,16 @@ public class MovementController : MonoBehaviour
         {
             lineRenderer.enabled = false;
         }
+    }
+
+    private void PositionCharacterForOverwatch()
+    {
+        Vector3 mousePosition = GetMousePositionWithCover();
+        Vector3 relativePos = mousePosition - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePos);
+        rotation.x = 0;
+        rotation.z = 0;
+        transform.rotation = rotation;
     }
 
     private Vector3 GetMousePositionWithCover()
@@ -142,20 +169,34 @@ public class MovementController : MonoBehaviour
          }
     }
 
-    private void HandleStateChange(Character.CharacterState newState)
+    private void HandleStateChange(CharacterState newState)
     {
-        if(newState == Character.CharacterState.ATTACKING)
+        if(newState == CharacterState.ATTACKING)
         {
             SetMoveTarget(transform.position);
+        }
+        else if(newState == CharacterState.OVERWATCHSETUP)
+        {
+            EnableOverwatchPositioning();
+        }
+        else if(newState == CharacterState.OVERWATCH)
+        {
+            DisableOverwatchPositioning();
         }
     }
     private void OnEnable() 
     {
         characterEventManager.OnCharacterChangeState += HandleStateChange;
+        characterEventManager.OnCharacterReceiveNewMovementTarget += SetMoveTarget;
+        characterEventManager.OnCharacterMoveRequested += MoveToMousePosition;
+        characterEventManager.OnCharacterRequestShowMove += ShowMove;
     }
 
     private void OnDisable() 
     {
-        characterEventManager.OnCharacterChangeState -= HandleStateChange;    
+        characterEventManager.OnCharacterChangeState -= HandleStateChange;
+        characterEventManager.OnCharacterReceiveNewMovementTarget -= SetMoveTarget;
+        characterEventManager.OnCharacterMoveRequested -= MoveToMousePosition;
+        characterEventManager.OnCharacterRequestShowMove -= ShowMove;
     }
 }

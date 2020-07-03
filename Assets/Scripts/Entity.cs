@@ -11,7 +11,6 @@ public abstract class Entity : MonoBehaviour
 {
     [SerializeField] Transform aimPoint;
     public Alegiance alegiance;
-    public float remainingHealth;
 
     public bool alive = true;
 

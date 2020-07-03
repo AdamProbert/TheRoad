@@ -7,21 +7,27 @@ using RootMotion.FinalIK;
 [RequireComponent(typeof(AimIK))]
 [RequireComponent(typeof(FullBodyBipedIK))]
 [RequireComponent(typeof(CharacterEventManager))]
+[RequireComponent(typeof(CharacterData))]
 public class AttackController : MonoBehaviour
 {
     [SerializeField] BaseWeapon weapon;
     [SerializeField] float attackRotationSpeed;
     [SerializeField] LayerMask blockableLayers;
-    Entity currentTarget;
+
     Animator anim;
     AimIK aimIK;
     FullBodyBipedIK fbbIK;
     CharacterEventManager characterEventManager;
+    FieldOfView viewCone;
+    CharacterData characterData;
 
-    RaycastHit[] blockingHits;
-
+    Entity currentTarget;
+    bool overwatchMode = false;
+    
     private void Awake() 
     {
+        characterData = GetComponent<CharacterData>();
+        viewCone = GetComponentInChildren<FieldOfView>();
         characterEventManager = GetComponent<CharacterEventManager>();
         fbbIK = GetComponent<FullBodyBipedIK>();
         aimIK = GetComponent<AimIK>();
@@ -34,25 +40,51 @@ public class AttackController : MonoBehaviour
         aimIK.solver.transform = weapon.aimDir;
         fbbIK.solver.leftHandEffector.target = weapon.leftHandPlacement;
         fbbIK.solver.leftHandEffector.positionWeight = 0.8f;
+        viewCone.gameObject.SetActive(false);
+
+        if(weapon.type == WeaponType.AUTOMATICRIFLE)
+        {
+            anim.SetLayerWeight(1, 0f);
+            anim.SetLayerWeight(2, 1f);
+        }
+        if(weapon.type == WeaponType.ONESHOTRIFLE)
+        {
+            anim.SetLayerWeight(1, 1f);
+            anim.SetLayerWeight(2, 0f);
+        }
     }
 
-    public void SetTarget(Entity target)
+    private void SetTarget(Entity target)
     {
         if(target != null)
         {
             currentTarget = target;
             aimIK.solver.target = currentTarget.GetAimPointTransform();
-            aimIK.solver.IKPositionWeight = 1f;
-            anim.SetBool("Crouch", false);
+            aimIK.solver.IKPositionWeight = Mathf.Lerp(aimIK.solver.IKPositionWeight, 1f, 3f * Time.deltaTime);
         }
         else
         {
             currentTarget = null;
             aimIK.solver.target = null;
-            aimIK.solver.IKPositionWeight = 0;
+            aimIK.solver.IKPositionWeight = Mathf.Lerp(aimIK.solver.IKPositionWeight, 0f, 2f * Time.deltaTime);
             DisableAttack();
-            anim.SetBool("Crouch", true);
         }   
+    }
+
+    private void EnableOverwatchMode()
+    {
+        overwatchMode = true;
+        viewCone.gameObject.SetActive(overwatchMode);
+        currentTarget = null;
+        anim.SetBool("overwatch", true);
+    }
+
+    private void DisableOverwatchMode()
+    {
+        overwatchMode = false;
+        viewCone.gameObject.SetActive(false);
+        currentTarget = null;
+        anim.SetBool("overwatch", false);
     }
 
     private void EnableAttack()
@@ -68,6 +100,14 @@ public class AttackController : MonoBehaviour
 
     private void Update() 
     {
+        if(overwatchMode)
+        {
+            if(!currentTarget || !viewCone.visibleTargets.Contains(currentTarget.transform))
+            {
+                currentTarget = GetNewTarget();
+            }
+        }
+
         if(currentTarget)
         {
             if(!currentTarget.alive)
@@ -75,6 +115,9 @@ public class AttackController : MonoBehaviour
                 SetTarget(null);
                 return;
             }
+
+            SetTarget(currentTarget);
+
             // Disable ik if too close
             if(Vector3.Distance(transform.position, currentTarget.transform.position) < 2f)
             {
@@ -84,12 +127,17 @@ public class AttackController : MonoBehaviour
             {
                 aimIK.solver.IKPositionWeight = 1f;
             }
-            // Rotate to face target
-            Vector3 direction = currentTarget.GetAimPointPosition() - transform.position;
-            Quaternion toRotation = Quaternion.LookRotation(direction);
-            toRotation.x = transform.rotation.x;
-            toRotation.z = transform.rotation.z;
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, attackRotationSpeed * Time.deltaTime);    
+
+            if(!overwatchMode)
+            {
+                // Rotate to face target
+                Vector3 direction = currentTarget.GetAimPointPosition() - transform.position;
+                Quaternion toRotation = Quaternion.LookRotation(direction);
+                toRotation.x = transform.rotation.x;
+                toRotation.z = transform.rotation.z;
+                transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, attackRotationSpeed * Time.deltaTime);    
+            }
+            
         
             bool targetInSight = CanSeeTarget();
 
@@ -98,6 +146,31 @@ public class AttackController : MonoBehaviour
             else
                 DisableAttack();
         }
+        else
+        {
+            SetTarget(null);
+        }
+    }
+
+    private Entity GetNewTarget()
+    {
+        Transform closest = null;
+        float closestDistance = 9999f;
+        foreach (Transform t in viewCone.visibleTargets)
+        {
+            float dist = Vector3.Distance(t.position, transform.position);
+            if(dist < closestDistance)
+            {
+                closest = t;
+                closestDistance = dist;
+            }
+        }
+
+        if(closest != null)
+        {
+            return closest.GetComponent<Entity>();
+        }
+        return null;
     }
 
     private bool CanSeeTarget()
@@ -113,26 +186,133 @@ public class AttackController : MonoBehaviour
         return false;
     }
 
-    public void OnAnimatorAttackEvent()
-    {
-        weapon.Shoot(currentTarget.GetAimPointPosition());
+    //first-order intercept using absolute target position
+    public static Vector3 FirstOrderIntercept
+    (
+        Vector3 shooterPosition,
+        Vector3 shooterVelocity,
+        float shotSpeed,
+        Vector3 targetPosition,
+        Vector3 targetVelocity
+    )  {
+        Vector3 targetRelativePosition = targetPosition - shooterPosition;
+        Vector3 targetRelativeVelocity = targetVelocity - shooterVelocity;
+        float t = FirstOrderInterceptTime
+        (
+            shotSpeed,
+            targetRelativePosition,
+            targetRelativeVelocity
+        );
+        return targetPosition + t*(targetRelativeVelocity);
     }
 
-    private void HandleStateChange(Character.CharacterState newState)
+    //first-order intercept using relative target position
+    public static float FirstOrderInterceptTime
+    (
+        float shotSpeed,
+        Vector3 targetRelativePosition,
+        Vector3 targetRelativeVelocity
+    ) {
+        float velocitySquared = targetRelativeVelocity.sqrMagnitude;
+        if(velocitySquared < 0.001f)
+            return 0f;
+    
+        float a = velocitySquared - shotSpeed*shotSpeed;
+    
+        //handle similar velocities
+        if (Mathf.Abs(a) < 0.001f)
+        {
+            float t = -targetRelativePosition.sqrMagnitude/
+            (
+                2f*Vector3.Dot
+                (
+                    targetRelativeVelocity,
+                    targetRelativePosition
+                )
+            );
+            return Mathf.Max(t, 0f); //don't shoot back in time
+        }
+    
+        float b = 2f*Vector3.Dot(targetRelativeVelocity, targetRelativePosition);
+        float c = targetRelativePosition.sqrMagnitude;
+        float determinant = b*b - 4f*a*c;
+    
+        if (determinant > 0f) { //determinant > 0; two intercept paths (most common)
+            float	t1 = (-b + Mathf.Sqrt(determinant))/(2f*a),
+                    t2 = (-b - Mathf.Sqrt(determinant))/(2f*a);
+            if (t1 > 0f) {
+                if (t2 > 0f)
+                    return Mathf.Min(t1, t2); //both are positive
+                else
+                    return t1; //only t1 is positive
+            } else
+                return Mathf.Max(t2, 0f); //don't shoot back in time
+        } else if (determinant < 0f) //determinant < 0; no intercept path
+            return 0f;
+        else //determinant = 0; one intercept path, pretty much never happens
+            return Mathf.Max(-b/(2f*a), 0f); //don't shoot back in time
+    }
+
+    public void OnAnimatorAttackEvent()
     {
-        if(newState != Character.CharacterState.ATTACKING)
+        if(currentTarget != null)
+        {
+            Vector3 shotPosition = currentTarget.GetAimPointPosition();
+            float dist = Vector3.Distance(weapon.gunEnd.position, shotPosition);
+
+            if(characterData.canLeadShots && weapon.type == WeaponType.ONESHOTRIFLE)
+            {
+                shotPosition = FirstOrderIntercept
+                (
+                    weapon.gunEnd.transform.position,
+                    Vector3.zero,
+                    weapon.projectileForce,
+                    shotPosition,
+                    currentTarget.GetComponent<Rigidbody>().velocity
+                );
+            }
+            else
+            {
+                if(dist > 3)
+                {
+                    shotPosition = shotPosition + new Vector3(
+                        Random.Range(-characterData.baseAccuracy, characterData.baseAccuracy),
+                        0,
+                        0
+                    );
+                }
+            }
+            
+            Debug.DrawLine(weapon.gunEnd.position, shotPosition, Color.white, 1f);
+            weapon.Shoot(shotPosition);
+        }
+    }
+
+    private void HandleStateChange(CharacterState newState)
+    {
+        if(newState != CharacterState.ATTACKING)
         {
             currentTarget = null;
+        }
+        if(newState == CharacterState.OVERWATCHSETUP || newState == CharacterState.OVERWATCH)
+        {
+            EnableOverwatchMode();
+        }
+        else
+        {
+            DisableOverwatchMode();
         }
     }
 
     private void OnEnable() 
     {
         characterEventManager.OnCharacterChangeState += HandleStateChange;
+        characterEventManager.OnCharacterReceiveNewAttackTarget += SetTarget;
     }
 
     private void OnDisable() 
     {
         characterEventManager.OnCharacterChangeState -= HandleStateChange;    
+        characterEventManager.OnCharacterReceiveNewAttackTarget -= SetTarget;
     }
 }

@@ -6,9 +6,9 @@ using System;
 public class CharacterEventManager : MonoBehaviour
 {
     public Action OnCharacterReachedDetination = delegate{};
-    public Action<int> OnCharacterUsedActions = delegate{};
-
-    public Action<Character.CharacterState> OnCharacterChangeState = delegate{};
-    public Action<Cover> OnCharacterEnteredCover = delegate{};
-    public Action OnCharacterTookHit = delegate{};
+    public Action<CharacterState> OnCharacterChangeState = delegate{};
+    public Action<Entity> OnCharacterReceiveNewAttackTarget = delegate{};
+    public Action<Vector3> OnCharacterReceiveNewMovementTarget = delegate{};
+    public Action OnCharacterMoveRequested = delegate{};
+    public Action OnCharacterRequestShowMove = delegate{};
 }

@@ -26,11 +26,11 @@ TagManager:
   - 
   - 
   - Projectile
-  - Cover
-  - Building
+  - 
+  - 
   - IgnoreNavmesh
-  - 
-  - 
+  - BlockingSight
+  - BlockingNavmesh
   - 
   - 
   - 
