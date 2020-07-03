@@ -260,7 +260,7 @@ public class AttackController : MonoBehaviour
             Vector3 shotPosition = currentTarget.GetAimPointPosition();
             float dist = Vector3.Distance(weapon.gunEnd.position, shotPosition);
 
-            if(characterData.canLeadShots && weapon.type == WeaponType.ONESHOTRIFLE)
+            if(characterData.getCanLeadShots && weapon.type == WeaponType.ONESHOTRIFLE)
             {
                 shotPosition = FirstOrderIntercept
                 (
@@ -276,7 +276,7 @@ public class AttackController : MonoBehaviour
                 if(dist > 3)
                 {
                     shotPosition = shotPosition + new Vector3(
-                        Random.Range(-characterData.baseAccuracy, characterData.baseAccuracy),
+                        Random.Range(-characterData.getBaseAccuracy, characterData.getBaseAccuracy),
                         0,
                         0
                     );

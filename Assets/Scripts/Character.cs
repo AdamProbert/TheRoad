@@ -105,7 +105,7 @@ public class Character : Entity
 
     public override void TakeHit(Vector3 direction, float damage)
     {
-        Instantiate(characterData.hitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
+        Instantiate(characterData.getHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
         characterData.currentHealth -= damage;
         if(characterData.currentHealth <= 0)
         {

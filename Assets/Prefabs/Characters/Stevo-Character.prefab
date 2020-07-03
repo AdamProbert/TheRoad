@@ -382,6 +382,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef6520c8540af7e468154bd8b1b843e7,
         type: 2}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: characterName
+      value: Stevo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: maxHealth
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: baseAccuracy
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: viewRadius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: viewAngle
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604364, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: weapon
@@ -395,17 +420,17 @@ PrefabInstance:
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.727829
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.9990845
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -6.189537
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}

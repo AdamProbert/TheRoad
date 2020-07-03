@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GlobalVarsAccess : Singleton<GlobalVarsAccess>
 {
-    [SerializeField] GlovalVars variables;
+    [SerializeField] GlobalVarsScriptableObject variables;
 
     public float getBuildingSliceTime()
     {

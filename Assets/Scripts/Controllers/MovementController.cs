@@ -179,7 +179,7 @@ public class MovementController : MonoBehaviour
         {
             EnableOverwatchPositioning();
         }
-        else if(newState == CharacterState.OVERWATCH)
+        else
         {
             DisableOverwatchPositioning();
         }

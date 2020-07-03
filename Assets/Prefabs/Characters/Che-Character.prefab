@@ -118,8 +118,38 @@ PrefabInstance:
         type: 3}
       propertyPath: cData
       value: 
-      objectReference: {fileID: 11400000, guid: 585a158becaf6b4478fea5bc261810fa,
+      objectReference: {fileID: 11400000, guid: ec2a8abfaa5a3bf41b96e2f635203add,
         type: 2}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: characterName
+      value: Che
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: maxHealth
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: baseAccuracy
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: canLeadShots
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: viewRadius
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
+        type: 3}
+      propertyPath: viewAngle
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604364, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: weapon
@@ -133,17 +163,17 @@ PrefabInstance:
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.666771
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.9292564
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -4.117302
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604375, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
