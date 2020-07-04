@@ -127,7 +127,7 @@ public class AttackController : MonoBehaviour
         // We've chosen the target now get him
         if(currentTarget)
         {
-            if(!currentTarget.alive)
+            if(!currentTarget.isAlive())
             {
                 SetTarget(null);
                 return;
@@ -177,7 +177,7 @@ public class AttackController : MonoBehaviour
         foreach (Collider c in closeEnemies)
         {
             Entity enemy = c.GetComponentInParent<Entity>();
-            if(enemy.alive && CanSeeTarget(enemy))
+            if(enemy.isAlive() && CanSeeTarget(enemy))
             {
                 currentTarget = enemy;
                 return true;

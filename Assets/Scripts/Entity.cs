@@ -12,7 +12,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] Transform aimPoint;
     public Alegiance alegiance;
 
-    public bool alive = true;
+    protected bool alive = true;
 
     public Vector3 GetAimPointPosition()
     {
@@ -22,6 +22,11 @@ public abstract class Entity : MonoBehaviour
     public Transform GetAimPointTransform()
     {
         return aimPoint;
+    }
+    
+    public bool isAlive()
+    {
+        return alive;
     }
 
     public abstract void TakeHit(Vector3 direction, float damage);

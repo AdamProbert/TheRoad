@@ -57,6 +57,7 @@ public class Character : Entity
         {
             selectionRing.SetActive(true);
             characterSelected = true;
+            characterEventManager.OnCharacterSelected(true);
             return;
         }
 
@@ -64,6 +65,7 @@ public class Character : Entity
         {
             selectionRing.SetActive(false);
             characterSelected = false;
+            characterEventManager.OnCharacterSelected(false);
             if(currentState == CharacterState.OVERWATCHSETUP)
             {
                 ChangeState(CharacterState.WAITING);
@@ -80,7 +82,7 @@ public class Character : Entity
     {
         if(characterSelected)
         {
-            characterEventManager.OnCharacterMoveRequested();            
+            characterEventManager.OnCharacterMoveRequested();
             ChangeState(CharacterState.MOVING);
         }
     }
@@ -107,7 +109,6 @@ public class Character : Entity
 
     public override void TakeHit(Vector3 direction, float damage)
     {
-        Instantiate(characterData.getHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
         characterData.currentHealth -= damage;
         if(characterData.currentHealth <= 0)
         {
@@ -115,16 +116,21 @@ public class Character : Entity
         }
     }
 
-    public void ToggleOverwatch()
+    public void HandleActionSelect(int actionNumber)
     {
-        if(currentState == CharacterState.OVERWATCHSETUP)
+        if(characterSelected)
         {
-            ChangeState(CharacterState.WAITING);
+            characterEventManager.OnCharacterSelectedAction(actionNumber);
         }
-        else if(currentState != CharacterState.ATTACKING)
-        {
-            ChangeState(CharacterState.OVERWATCHSETUP);
-        }
+
+        // if(currentState == CharacterState.OVERWATCHSETUP)
+        // {
+        //     ChangeState(CharacterState.WAITING);
+        // }
+        // else if(currentState != CharacterState.ATTACKING)s
+        // {
+        //     ChangeState(CharacterState.OVERWATCHSETUP);
+        // }
     }
 
     public void HandleLeftClickEmptyPositon(Vector3 position)
@@ -148,6 +154,10 @@ public class Character : Entity
                 currentState == CharacterState.OVERWATCHSETUP
             )
         )
+        {
+            ChangeState(newState);
+        }
+        else if(newState == CharacterState.OVERWATCHSETUP)
         {
             ChangeState(newState);
         }

@@ -8,6 +8,7 @@ public class PlayerEventManager : Singleton<PlayerEventManager>
 {
     public Action<Character> OnPlayerSelectCharacter = delegate{};
     public Action<Character> OnPlayerHoverCharacter = delegate{};
+    public Action<int> OnPlayerClickedAction = delegate{};
     public Action OnPauseTime = delegate{};
     public Action OnResumeTime = delegate{};
 }

@@ -37,13 +37,11 @@ namespace NodeCanvas.Tasks.Actions
             {
                 float distance = Vector3.Distance(agent.position, c.transform.position);
                 if ( distance > maxDistance.value ) {
-                    Debug.Log("Failed on distance");
                     continue;
                 }
 
                 if ( Physics.Linecast(agent.position + offset.value, c.transform.position + offset.value, out hit) ) {
                     if ( hit.collider != c.GetComponent<Collider>() ) {
-                        Debug.Log("Failed on collider");
                         continue;
                     }
                 }

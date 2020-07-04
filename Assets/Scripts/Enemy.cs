@@ -63,7 +63,7 @@ public class Enemy : Entity
                 Die(direction*damage);
             }
         }
-    }
+   }
 
     private void Die(Vector3 finalHitForce)
     {

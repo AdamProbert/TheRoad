@@ -50,11 +50,12 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    public void HandleOverwatchClicked()
+    private void HandleActionClicked(int actionNumber)
     {
+        Debug.Log("Player input manager told to handle action index: " + actionNumber);
         if(currentlySelectedCharacter != null)
         {
-            currentlySelectedCharacter.ToggleOverwatch();
+            currentlySelectedCharacter.HandleActionSelect(actionNumber);
         }
     }
 
@@ -64,11 +65,10 @@ public class PlayerInputManager : MonoBehaviour
         {
             currentlySelectedCharacter.HandleLeftClickEmptyPositon(position);
         }
-        else
-        {
-            PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
-        }
-            
+        // else
+        // {
+        //     PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
+        // }
     }
 
     public void HandleCameraMovement(float horizontal, float vertical, float rotate)
@@ -80,12 +80,25 @@ public class PlayerInputManager : MonoBehaviour
         cameraTarget.position = Vector3.Lerp(
             cameraTarget.position,
             cameraTarget.position + targetDirection,
-            cameraBaseMoveSpeed * Time.unscaledDeltaTime
+            cameraBaseMoveSpeed
         );
         // cameraTarget.position += targetDirection * cameraMoveSpeed * Time.unscaledDeltaTime;
-        cameraTarget.Rotate(0, rotate * cameraRotateSpeed * Time.unscaledDeltaTime, 0);
+        cameraTarget.Rotate(0, rotate * cameraRotateSpeed, 0);
         
         // Update camera rotation manually due to timescale changes
         // freeLookCam.m_XAxis.m_InputAxisValue = rotate * cameraRotateSpeed;
+    }
+
+    private void OnEnable() 
+    {
+        PlayerEventManager.Instance.OnPlayerClickedAction += HandleActionClicked;
+    }
+
+    private void OnDisable() 
+    {
+        if(PlayerEventManager.Instance != null)
+        {
+            PlayerEventManager.Instance.OnPlayerClickedAction -= HandleActionClicked;
+        }
     }
 }

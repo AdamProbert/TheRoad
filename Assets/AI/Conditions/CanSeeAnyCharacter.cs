@@ -30,12 +30,13 @@ namespace NodeCanvas.Tasks.Conditions
             {
                 float distance = Vector3.Distance(agent.position, c.transform.position);
                 if ( distance > maxDistance.value ) {
-                    return false;
+                    continue;
                 }
 
                 if ( Physics.Linecast(agent.position + offset.value, c.transform.position + offset.value, out hit) ) {
-                    if ( hit.collider != c.GetComponent<Collider>() ) {
-                        return false;
+                    if ( hit.collider != c.GetComponent<Collider>() ) 
+                    {
+                        continue;
                     }
                 }
 

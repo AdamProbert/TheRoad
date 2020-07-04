@@ -82,4 +82,18 @@ public class ZombieData : MonoBehaviour
         set {m_currentHealth = value;}
     }
 
+    public float timeBetweenAttacks{
+        get {return data.timeBetweenAttacks;}
+        set {}
+    }
+
+    public float attackDamage{
+        get {return data.attackDamage;}
+        set {}
+    }
+
+    public float zombieAttackAnimCount{
+        get {return data.zombieAttackAnimationCount;}
+        set {}
+    }
 }

@@ -1,0 +1,232 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a686a47eee2fa44cb0a34b5d86e4d5e, type: 3}
+  m_Name: MeleeAttack
+  m_EditorClassIdentifier: 
+  _serializedGraph: '{"type":"NodeCanvas.BehaviourTrees.BehaviourTree","nodes":[{"_position":{"x":495.0,"y":165.0},"$type":"NodeCanvas.BehaviourTrees.Sequencer","$id":"0"},{"_action":{"target":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"speed":{"_value":2.0},"angleDifference":{"_value":5.0},"upVector":{"_value":{"y":1.0}},"waitActionFinish":true,"$type":"NodeCanvas.Tasks.Actions.RotateTowards"},"_position":{"x":45.0,"y":300.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"1"},{"_action":{"actions":[{"minValue":{},"maxValue":{"_name":"zombieAttackAnimCount","_targetVariableID":"b78f939e-cc89-49b7-9780-cb8886baf5e1"},"intVariable":{"_name":"_animIndex"},"$type":"NodeCanvas.Tasks.Actions.SetIntRandom"},{"parameter":{"_value":"attackAnimIndex"},"parameterHashID":{},"setTo":{"_name":"_animIndex"},"$type":"NodeCanvas.Tasks.Actions.MecanimSetInt"},{"parameter":{"_value":"Attack"},"parameterHashID":{},"$type":"NodeCanvas.Tasks.Actions.MecanimSetTrigger"}],"$type":"NodeCanvas.Framework.ActionList"},"_position":{"x":195.0,"y":300.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"2"},{"_action":{"method":{"_baseInfo":"Entity|TakeHit|System.Void","_paramsInfo":"UnityEngine.Vector3|System.Single"},"parameters":[{"_type":"UnityEngine.Vector3","_value":{"$type":"UnityEngine.Vector3"}},{"_type":"System.Single","_name":"attackDamage","_targetVariableID":"a0af461b-fe60-4c24-9f0c-3ddf29cd17ca"}],"returnValue":{},"overrideAgent":{"_type":"Entity","_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"$type":"NodeCanvas.Tasks.Actions.ExecuteFunction_Multiplatform"},"_position":{"x":420.0,"y":420.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"3"},{"_action":{"waitTime":{"_name":"timeBetweenAttacks","_targetVariableID":"39d47c0c-5946-436e-8684-d3568260af2e"},"$type":"NodeCanvas.Tasks.Actions.Wait"},"_position":{"x":675.0,"y":315.0},"$type":"NodeCanvas.BehaviourTrees.ActionNode","$id":"4"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"},{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.BehaviourTrees.BTConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"timeBetweenAttacks":{"_propertyPath":"ZombieData.timeBetweenAttacks","_name":"timeBetweenAttacks","_id":"39d47c0c-5946-436e-8684-d3568260af2e","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"attackDamage":{"_propertyPath":"ZombieData.attackDamage","_name":"attackDamage","_id":"a0af461b-fe60-4c24-9f0c-3ddf29cd17ca","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"zombieAttackAnimCount":{"_propertyPath":"ZombieData.zombieAttackAnimCount","_name":"zombieAttackAnimCount","_id":"b78f939e-cc89-49b7-9780-cb8886baf5e1","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}},"derivedData":{"repeat":true,"$type":"NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"}}'
+  _objectReferences: []
+  _graphSource:
+    _version: 3.08
+    _category: 
+    _comments: 
+    _translation: {x: 110, y: 230}
+    _zoomFactor: 0.85360974
+  _haltSerialization: 0
+#---GRAPH_START---
+#The pretty formatted json serialization bellow is only a reference to help in version control diff. Other than that it is not used at all.
+#{
+#    "type": "NodeCanvas.BehaviourTrees.BehaviourTree",
+#    "nodes": [
+#        {
+#            "_position": {
+#                "x": 495.0,
+#                "y": 165.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.Sequencer",
+#            "$id": "0"
+#        },
+#        {
+#            "_action": {
+#                "target": {
+#                    "_name": "CurrentTarget",
+#                    "_targetVariableID": "85abbc47-8277-448c-8c48-968a65df2d2c"
+#                },
+#                "speed": {
+#                    "_value": 2.0
+#                },
+#                "angleDifference": {
+#                    "_value": 5.0
+#                },
+#                "upVector": {
+#                    "_value": {
+#                        "y": 1.0
+#                    }
+#                },
+#                "waitActionFinish": true,
+#                "$type": "NodeCanvas.Tasks.Actions.RotateTowards"
+#            },
+#            "_position": {
+#                "x": 45.0,
+#                "y": 300.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
+#            "$id": "1"
+#        },
+#        {
+#            "_action": {
+#                "actions": [
+#                    {
+#                        "minValue": {
+#
+#                        },
+#                        "maxValue": {
+#                            "_name": "zombieAttackAnimCount",
+#                            "_targetVariableID": "b78f939e-cc89-49b7-9780-cb8886baf5e1"
+#                        },
+#                        "intVariable": {
+#                            "_name": "_animIndex"
+#                        },
+#                        "$type": "NodeCanvas.Tasks.Actions.SetIntRandom"
+#                    },
+#                    {
+#                        "parameter": {
+#                            "_value": "attackAnimIndex"
+#                        },
+#                        "parameterHashID": {
+#
+#                        },
+#                        "setTo": {
+#                            "_name": "_animIndex"
+#                        },
+#                        "$type": "NodeCanvas.Tasks.Actions.MecanimSetInt"
+#                    },
+#                    {
+#                        "parameter": {
+#                            "_value": "Attack"
+#                        },
+#                        "parameterHashID": {
+#
+#                        },
+#                        "$type": "NodeCanvas.Tasks.Actions.MecanimSetTrigger"
+#                    }
+#                ],
+#                "$type": "NodeCanvas.Framework.ActionList"
+#            },
+#            "_position": {
+#                "x": 195.0,
+#                "y": 300.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
+#            "$id": "2"
+#        },
+#        {
+#            "_action": {
+#                "method": {
+#                    "_baseInfo": "Entity|TakeHit|System.Void",
+#                    "_paramsInfo": "UnityEngine.Vector3|System.Single"
+#                },
+#                "parameters": [
+#                    {
+#                        "_type": "UnityEngine.Vector3",
+#                        "_value": {
+#                            "$type": "UnityEngine.Vector3"
+#                        }
+#                    },
+#                    {
+#                        "_type": "System.Single",
+#                        "_name": "attackDamage",
+#                        "_targetVariableID": "a0af461b-fe60-4c24-9f0c-3ddf29cd17ca"
+#                    }
+#                ],
+#                "returnValue": {
+#
+#                },
+#                "overrideAgent": {
+#                    "_type": "Entity",
+#                    "_name": "CurrentTarget",
+#                    "_targetVariableID": "85abbc47-8277-448c-8c48-968a65df2d2c"
+#                },
+#                "$type": "NodeCanvas.Tasks.Actions.ExecuteFunction_Multiplatform"
+#            },
+#            "_position": {
+#                "x": 420.0,
+#                "y": 420.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
+#            "$id": "3"
+#        },
+#        {
+#            "_action": {
+#                "waitTime": {
+#                    "_name": "timeBetweenAttacks",
+#                    "_targetVariableID": "39d47c0c-5946-436e-8684-d3568260af2e"
+#                },
+#                "$type": "NodeCanvas.Tasks.Actions.Wait"
+#            },
+#            "_position": {
+#                "x": 675.0,
+#                "y": 315.0
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.ActionNode",
+#            "$id": "4"
+#        }
+#    ],
+#    "connections": [
+#        {
+#            "_sourceNode": {
+#                "$ref": "0"
+#            },
+#            "_targetNode": {
+#                "$ref": "1"
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
+#        },
+#        {
+#            "_sourceNode": {
+#                "$ref": "0"
+#            },
+#            "_targetNode": {
+#                "$ref": "2"
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
+#        },
+#        {
+#            "_sourceNode": {
+#                "$ref": "0"
+#            },
+#            "_targetNode": {
+#                "$ref": "3"
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
+#        },
+#        {
+#            "_sourceNode": {
+#                "$ref": "0"
+#            },
+#            "_targetNode": {
+#                "$ref": "4"
+#            },
+#            "$type": "NodeCanvas.BehaviourTrees.BTConnection"
+#        }
+#    ],
+#    "canvasGroups": [],
+#    "localBlackboard": {
+#        "_variables": {
+#            "timeBetweenAttacks": {
+#                "_propertyPath": "ZombieData.timeBetweenAttacks",
+#                "_name": "timeBetweenAttacks",
+#                "_id": "39d47c0c-5946-436e-8684-d3568260af2e",
+#                "$type": "NodeCanvas.Framework.Variable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+#            },
+#            "attackDamage": {
+#                "_propertyPath": "ZombieData.attackDamage",
+#                "_name": "attackDamage",
+#                "_id": "a0af461b-fe60-4c24-9f0c-3ddf29cd17ca",
+#                "$type": "NodeCanvas.Framework.Variable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+#            },
+#            "zombieAttackAnimCount": {
+#                "_propertyPath": "ZombieData.zombieAttackAnimCount",
+#                "_name": "zombieAttackAnimCount",
+#                "_id": "b78f939e-cc89-49b7-9780-cb8886baf5e1",
+#                "$type": "NodeCanvas.Framework.Variable`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"
+#            }
+#        }
+#    },
+#    "derivedData": {
+#        "repeat": true,
+#        "$type": "NodeCanvas.BehaviourTrees.BehaviourTree+DerivedSerializationData"
+#    }
+#}
+#---GRAPH_END---

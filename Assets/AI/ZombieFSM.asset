@@ -17,22 +17,23 @@ MonoBehaviour:
     all characters in game","$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_nestedBT":{"_value":1},"_name":"IdleWander","_position":{"x":300.0,"y":75.0},"$type":"NodeCanvas.StateMachines.NestedBTState","$id":"1"},{"_actionList":{"actions":[{"saveAs":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"targets":{"_name":"AllPlayers","_targetVariableID":"d5d0504c-dccc-4634-adaa-66f66b3a91b0"},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"$type":"NodeCanvas.Tasks.Actions.GetClosestVisibleCharacter"}]},"_name":"Get
     closest visible character","_position":{"x":900.0,"y":165.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"2"},{"_nestedBT":{"_value":2},"executionMode":0,"_position":{"x":1125.0,"y":315.0},"_comment":"Allerts
     all friendlies in vicinity of enempy position.","$type":"NodeCanvas.StateMachines.NestedBTState","$id":"3"},{"_nestedBT":{"_value":3},"_name":"Chasing","_position":{"x":975.0,"y":525.0},"$type":"NodeCanvas.StateMachines.NestedBTState","$id":"4"},{"_actionList":{"executionMode":1,"actions":[{"valueA":{"_name":"LastKnownPosition","_targetVariableID":"40976c21-0a63-466e-9438-9be3109c0968"},"valueB":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"$type":"NodeCanvas.Tasks.Actions.SetVector3"}]},"_name":"Set
-    last known position","_position":{"x":750.0,"y":435.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"5"},{"_nestedBT":{"_value":4},"executionMode":0,"_name":"Find
-    him!","_position":{"x":630.0,"y":255.0},"$type":"NodeCanvas.StateMachines.NestedBTState","$id":"6"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"targets":{"_name":"AllPlayers","_targetVariableID":"d5d0504c-dccc-4634-adaa-66f66b3a91b0"},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"$type":"NodeCanvas.Tasks.Conditions.CanSeeAnyCharacter"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"signalDefinition":{"_value":5},"argumentsMap":{"60389b18-8134-4694-9079-5ab36c17e096":{"_type":"UnityEngine.Vector3","_name":"LastKnownPosition","_targetVariableID":"40976c21-0a63-466e-9438-9be3109c0968"}},"$type":"NodeCanvas.Tasks.Conditions.CheckSignal"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"target":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"layermask":{"_value":{"value":513}},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CanSeeTarget"},"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"valueA":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckVariable`1[[UnityEngine.Transform,
-    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"targets":{"_name":"AllPlayers","_targetVariableID":"d5d0504c-dccc-4634-adaa-66f66b3a91b0"},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"$type":"NodeCanvas.Tasks.Conditions.CanSeeAnyCharacter"},"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}}}'
+    last known position","_position":{"x":750.0,"y":420.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"5"},{"_nestedBT":{"_value":4},"executionMode":0,"_name":"Find
+    him!","_position":{"x":630.0,"y":255.0},"$type":"NodeCanvas.StateMachines.NestedBTState","$id":"6"},{"_nestedBT":{"_value":5},"_position":{"x":1155.0,"y":675.0},"$type":"NodeCanvas.StateMachines.NestedBTState","$id":"7"}],"connections":[{"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"targets":{"_name":"AllPlayers","_targetVariableID":"d5d0504c-dccc-4634-adaa-66f66b3a91b0"},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"$type":"NodeCanvas.Tasks.Conditions.CanSeeAnyCharacter"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"signalDefinition":{"_value":6},"argumentsMap":{"60389b18-8134-4694-9079-5ab36c17e096":{"_type":"UnityEngine.Vector3","_name":"LastKnownPosition","_targetVariableID":"40976c21-0a63-466e-9438-9be3109c0968"}},"$type":"NodeCanvas.Tasks.Conditions.CheckSignal"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"3"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"3"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"target":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"layermask":{"_value":{"value":513}},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"_invert":true,"$type":"NodeCanvas.Tasks.Conditions.CanSeeTarget"},"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"5"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"valueA":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"valueB":{},"$type":"NodeCanvas.Tasks.Conditions.CheckVariable`1[[UnityEngine.Transform,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"checkTarget":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"checkType":4,"distance":{"_value":1.3},"$type":"NodeCanvas.Tasks.Conditions.CheckDistanceToGameObject"},"_sourceNode":{"$ref":"4"},"_targetNode":{"$ref":"7"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"5"},"_targetNode":{"$ref":"6"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"targets":{"_name":"AllPlayers","_targetVariableID":"d5d0504c-dccc-4634-adaa-66f66b3a91b0"},"maxDistance":{"_name":"MaxViewDistance","_targetVariableID":"6d62dc6a-7eee-4287-8471-b72a79dc074f"},"awarnessDistance":{"_name":"MaxAwarnessDistance","_targetVariableID":"8905a96a-a309-4100-8985-453619e0ef44"},"offset":{"_name":"ViewOffset","_targetVariableID":"53d76f3c-0589-4700-b78b-10aeb78e7c17"},"viewAngle":{"_name":"ViewAngle","_targetVariableID":"f646c989-7d58-4141-bfda-4ef89d5dd951"},"$type":"NodeCanvas.Tasks.Conditions.CanSeeAnyCharacter"},"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"6"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"checkTarget":{"_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"checkType":1,"distance":{"_value":1.5},"$type":"NodeCanvas.Tasks.Conditions.CheckDistanceToGameObject"},"_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"4"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"method":{"_baseInfo":"Entity|isAlive|System.Boolean","_paramsInfo":""},"parameters":[],"checkValue":{"_type":"System.Boolean","_value":{"$content":false,"$type":"System.Boolean"}},"overrideAgent":{"_type":"Entity","_name":"CurrentTarget","_targetVariableID":"85abbc47-8277-448c-8c48-968a65df2d2c"},"$type":"NodeCanvas.Tasks.Conditions.CheckFunction_Multiplatform"},"_sourceNode":{"$ref":"7"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{}}}'
   _objectReferences:
   - {fileID: 0}
   - {fileID: 11400000, guid: 2703a3864b7ac104882656bad2b05d5b, type: 2}
   - {fileID: 11400000, guid: dfa2cb4555560514a8cf4e0e8137fb15, type: 2}
   - {fileID: 11400000, guid: 0d2d4a07325e83e468769c15d89da6c7, type: 2}
   - {fileID: 11400000, guid: 5e471b10379a3d041bb09555c476a95f, type: 2}
+  - {fileID: 11400000, guid: ab7bcee406be02b4cb64828b3dacf93f, type: 2}
   - {fileID: 11400000, guid: 649729c765a2daa459ee63521a19e62d, type: 2}
   _graphSource:
     _version: 3.08
     _category: 
     _comments: 
-    _translation: {x: 38, y: 258}
-    _zoomFactor: 0.7848209
+    _translation: {x: -277, y: 74}
+    _zoomFactor: 0.74743855
   _haltSerialization: 0
 #---GRAPH_START---
 #The pretty formatted json serialization bellow is only a reference to help in version control diff. Other than that it is not used at all.
@@ -160,7 +161,7 @@ MonoBehaviour:
 #            "_name": "Set last known position",
 #            "_position": {
 #                "x": 750.0,
-#                "y": 435.0
+#                "y": 420.0
 #            },
 #            "$type": "NodeCanvas.StateMachines.ActionState",
 #            "$id": "5"
@@ -177,6 +178,17 @@ MonoBehaviour:
 #            },
 #            "$type": "NodeCanvas.StateMachines.NestedBTState",
 #            "$id": "6"
+#        },
+#        {
+#            "_nestedBT": {
+#                "_value": 5
+#            },
+#            "_position": {
+#                "x": 1155.0,
+#                "y": 675.0
+#            },
+#            "$type": "NodeCanvas.StateMachines.NestedBTState",
+#            "$id": "7"
 #        }
 #    ],
 #    "connections": [
@@ -224,7 +236,7 @@ MonoBehaviour:
 #        {
 #            "_condition": {
 #                "signalDefinition": {
-#                    "_value": 5
+#                    "_value": 6
 #                },
 #                "argumentsMap": {
 #                    "60389b18-8134-4694-9079-5ab36c17e096": {
@@ -319,6 +331,26 @@ MonoBehaviour:
 #            "$type": "NodeCanvas.StateMachines.FSMConnection"
 #        },
 #        {
+#            "_condition": {
+#                "checkTarget": {
+#                    "_name": "CurrentTarget",
+#                    "_targetVariableID": "85abbc47-8277-448c-8c48-968a65df2d2c"
+#                },
+#                "checkType": 4,
+#                "distance": {
+#                    "_value": 1.3
+#                },
+#                "$type": "NodeCanvas.Tasks.Conditions.CheckDistanceToGameObject"
+#            },
+#            "_sourceNode": {
+#                "$ref": "4"
+#            },
+#            "_targetNode": {
+#                "$ref": "7"
+#            },
+#            "$type": "NodeCanvas.StateMachines.FSMConnection"
+#        },
+#        {
 #            "_sourceNode": {
 #                "$ref": "5"
 #            },
@@ -362,6 +394,55 @@ MonoBehaviour:
 #        {
 #            "_sourceNode": {
 #                "$ref": "6"
+#            },
+#            "_targetNode": {
+#                "$ref": "1"
+#            },
+#            "$type": "NodeCanvas.StateMachines.FSMConnection"
+#        },
+#        {
+#            "_condition": {
+#                "checkTarget": {
+#                    "_name": "CurrentTarget",
+#                    "_targetVariableID": "85abbc47-8277-448c-8c48-968a65df2d2c"
+#                },
+#                "checkType": 1,
+#                "distance": {
+#                    "_value": 1.5
+#                },
+#                "$type": "NodeCanvas.Tasks.Conditions.CheckDistanceToGameObject"
+#            },
+#            "_sourceNode": {
+#                "$ref": "7"
+#            },
+#            "_targetNode": {
+#                "$ref": "4"
+#            },
+#            "$type": "NodeCanvas.StateMachines.FSMConnection"
+#        },
+#        {
+#            "_condition": {
+#                "method": {
+#                    "_baseInfo": "Entity|isAlive|System.Boolean",
+#                    "_paramsInfo": ""
+#                },
+#                "parameters": [],
+#                "checkValue": {
+#                    "_type": "System.Boolean",
+#                    "_value": {
+#                        "$content": false,
+#                        "$type": "System.Boolean"
+#                    }
+#                },
+#                "overrideAgent": {
+#                    "_type": "Entity",
+#                    "_name": "CurrentTarget",
+#                    "_targetVariableID": "85abbc47-8277-448c-8c48-968a65df2d2c"
+#                },
+#                "$type": "NodeCanvas.Tasks.Conditions.CheckFunction_Multiplatform"
+#            },
+#            "_sourceNode": {
+#                "$ref": "7"
 #            },
 #            "_targetNode": {
 #                "$ref": "1"

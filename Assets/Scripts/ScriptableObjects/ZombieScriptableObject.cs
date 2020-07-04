@@ -17,4 +17,7 @@ public class ZombieScriptableObject : ScriptableObject
 
     public List<ParticleSystem> hitEffects;
     public ParticleSystem deathEffect;
+    public float timeBetweenAttacks;
+    public float attackDamage;
+    public int zombieAttackAnimationCount;
 }

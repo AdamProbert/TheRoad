@@ -380,8 +380,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cData
       value: 
-      objectReference: {fileID: 11400000, guid: ef6520c8540af7e468154bd8b1b843e7,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: characterName
@@ -400,12 +399,12 @@ PrefabInstance:
     - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: viewRadius
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604360, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
       propertyPath: viewAngle
-      value: 90
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 2930593817026604364, guid: 438fb77bfdd2e384e91d8c30bf4bf6e6,
         type: 3}
