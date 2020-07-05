@@ -171,6 +171,11 @@ public class MovementController : MonoBehaviour
 
     private void HandleStateChange(CharacterState newState)
     {
+        if(newState == CharacterState.DEAD)
+        {
+            this.enabled = false;
+        }
+        
         if(newState == CharacterState.ATTACKING)
         {
             SetMoveTarget(transform.position);

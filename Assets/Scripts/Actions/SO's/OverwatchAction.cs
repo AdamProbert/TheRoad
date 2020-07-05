@@ -23,6 +23,6 @@ public class OverwatchAction : BaseAction
 
     public override void DisableAction()
     {
-        
+        characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);
     }
 }

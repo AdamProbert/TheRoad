@@ -17,9 +17,9 @@ public class PlayerInputManager : MonoBehaviour
     Ray hoverRay;
     RaycastHit hoverHit;
 
-    public void HandleClickCharacter(Entity entity)
+    public void HandleClickEntity(Entity entity)
     {
-        if(entity.alegiance == Alegiance.FRIENDLY)
+        if(entity.alegiance == Alegiance.FRIENDLY && entity.isAlive())
         {
             currentlySelectedCharacter = entity as Character;
             PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
@@ -31,6 +31,30 @@ public class PlayerInputManager : MonoBehaviour
                 currentlySelectedCharacter.SetAttackTarget(entity);
             }
         }
+    }
+
+    public void HandleClickInteractable(Lootbox box)
+    {
+        currentlySelectedCharacter.HandleSelectInteractable(box);
+    }
+
+    public void HandleCycleSelectedCharacter()
+    {
+        if(!currentlySelectedCharacter)
+        {
+            currentlySelectedCharacter = availableCharacters[0];
+        }
+        else
+        {
+            int currentIndex = availableCharacters.IndexOf(currentlySelectedCharacter);
+            if(currentIndex == availableCharacters.Count -1)
+            {
+                currentIndex = -1;
+            }
+            currentlySelectedCharacter = availableCharacters[currentIndex +1];
+        }
+
+        PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
     }
 
     public void HandleRightClickSpace(Vector3 position, bool buttonUp)
@@ -89,9 +113,18 @@ public class PlayerInputManager : MonoBehaviour
         // freeLookCam.m_XAxis.m_InputAxisValue = rotate * cameraRotateSpeed;
     }
 
+    private void RemoveCharacter(Character character)
+    {
+        if(availableCharacters.Contains(character))
+        {
+            availableCharacters.Remove(character);
+        }
+    }
+
     private void OnEnable() 
     {
         PlayerEventManager.Instance.OnPlayerClickedAction += HandleActionClicked;
+        PlayerEventManager.Instance.OnCharacterDied += RemoveCharacter;
     }
 
     private void OnDisable() 
@@ -99,6 +132,7 @@ public class PlayerInputManager : MonoBehaviour
         if(PlayerEventManager.Instance != null)
         {
             PlayerEventManager.Instance.OnPlayerClickedAction -= HandleActionClicked;
+            PlayerEventManager.Instance.OnCharacterDied -= RemoveCharacter;
         }
     }
 }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b029b609511f1704a8543d863b11304e, type: 3}
+  m_Name: PillsSO
+  m_EditorClassIdentifier: 
+  itemName: Pills
+  icon: {fileID: 21300000, guid: d56bd137b9e53ba4a8e01434d100718a, type: 3}
+  unlimitedUse: 0
+  uses: 1
+  effectValue: 50
+  effectRange: 0

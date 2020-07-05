@@ -8,18 +8,20 @@ public enum CharacterState
     MOVING,
     ATTACKING,
     OVERWATCHSETUP,
-    OVERWATCH
+    OVERWATCH,
+    DEAD
 }
 
 [RequireComponent(typeof(CharacterEventManager))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterData))]
-
+[RequireComponent(typeof(AudioSource))]
 public class Character : Entity
 {
     MovementController movementController;
     AttackController attackController;
     CharacterData characterData;
+    AudioSource audioSource;
     Animator anim;
 
     [Header("Icons")]
@@ -30,15 +32,24 @@ public class Character : Entity
     private bool characterSelected;
     [SerializeField] private CharacterState currentState = CharacterState.WAITING;
 
+    [Header("UI")]
+    CharacterPortrait portrait;
+
 
     private void Awake() 
     {
+        audioSource = GetComponent<AudioSource>();
         attackController = GetComponent<AttackController>();
         movementController = GetComponent<MovementController>();
         characterEventManager = GetComponent<CharacterEventManager>();
         anim = GetComponent<Animator>();
         characterData = GetComponent<CharacterData>();
         base.alegiance = Alegiance.FRIENDLY;
+    }
+
+    private void Start() 
+    {
+        UIManager.Instance.Register(this, characterData.getPortrait);    
     }
 
     public void ChangeState(CharacterState state)
@@ -107,13 +118,35 @@ public class Character : Entity
         }
     }
 
+    public void HandleSelectInteractable(Lootbox box)
+    {
+        characterEventManager.OnCharacterSelectedLootbox(box);
+        characterEventManager.OnCharacterReceiveNewMovementTarget(box.interactionMovePosition.position);
+        ChangeState(CharacterState.MOVING);
+    }
+
     public override void TakeHit(Vector3 direction, float damage)
     {
         characterData.currentHealth -= damage;
+        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+        Instantiate(characterData.getHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
         if(characterData.currentHealth <= 0)
         {
-            Debug.Log("Player died");
+            Die();
         }
+        else
+        {
+            audioSource.PlayOneShot(characterData.getRandomHitSound, 1);
+        }
+    }
+
+    private void Die()
+    {
+        audioSource.PlayOneShot(characterData.getDeathSound, 1f);
+        anim.SetTrigger("die");
+        alive = false;
+        ChangeState(CharacterState.DEAD);
+        PlayerEventManager.Instance.OnCharacterDied(this);
     }
 
     public void HandleActionSelect(int actionNumber)
@@ -122,15 +155,6 @@ public class Character : Entity
         {
             characterEventManager.OnCharacterSelectedAction(actionNumber);
         }
-
-        // if(currentState == CharacterState.OVERWATCHSETUP)
-        // {
-        //     ChangeState(CharacterState.WAITING);
-        // }
-        // else if(currentState != CharacterState.ATTACKING)s
-        // {
-        //     ChangeState(CharacterState.OVERWATCHSETUP);
-        // }
     }
 
     public void HandleLeftClickEmptyPositon(Vector3 position)
@@ -143,6 +167,7 @@ public class Character : Entity
     
     private void HandleOtherScriptChangingState(CharacterState newState)
     {
+        // Handling requests for state changes explicitly.. not the best. Works for now
         if(newState == CharacterState.WAITING && currentState == CharacterState.ATTACKING)
         {
             ChangeState(newState);
@@ -161,6 +186,10 @@ public class Character : Entity
         {
             ChangeState(newState);
         }
+        else if(newState == CharacterState.WAITING && (currentState == CharacterState.OVERWATCHSETUP || currentState == CharacterState.OVERWATCH))
+        {
+            ChangeState(newState);
+        }
     }
 
     private void OnEnable() 
@@ -169,6 +198,7 @@ public class Character : Entity
         characterEventManager.OnCharacterReachedDetination += HandleCharacterReachedDestination;
         characterEventManager.OnCharacterRequestChangeState += HandleOtherScriptChangingState;
     }
+
     private void OnDisable() 
     {
         if(PlayerEventManager.Instance)
@@ -178,5 +208,4 @@ public class Character : Entity
         characterEventManager.OnCharacterReachedDetination -= HandleCharacterReachedDestination;
         characterEventManager.OnCharacterRequestChangeState -= HandleOtherScriptChangingState;
     }
-    
 }

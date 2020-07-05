@@ -5,4 +5,9 @@ using System.Collections.Generic;
 public class GlobalVarsScriptableObject : ScriptableObject 
 {
     public float buildingSliceTime;
+
+    [Header("Loot")]
+    public int maxLootPerCrate;
+    public int minLootPerCrate;
+    public List<Item> availableItems;
 }

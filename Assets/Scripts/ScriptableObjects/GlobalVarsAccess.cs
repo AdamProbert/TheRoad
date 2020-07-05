@@ -10,4 +10,19 @@ public class GlobalVarsAccess : Singleton<GlobalVarsAccess>
     {
         return variables.buildingSliceTime;
     }
+
+    public int getMinLootPerCrate()
+    {
+        return variables.minLootPerCrate;
+    }
+
+    public int getMaxLootPerCrate()
+    {
+        return variables.maxLootPerCrate;
+    }
+
+    public Item getRandomLootItem()
+    {
+        return variables.availableItems[Random.Range(0, variables.availableItems.Count)];
+    }
 }

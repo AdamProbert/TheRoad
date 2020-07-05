@@ -14,6 +14,7 @@ namespace WorldSpaceTransitions
         private Vector3 tempPos;
         private Vector3 tempScale;
         private Quaternion tempRot;
+        private Color capcolor = new Color(0,0,0,1);
 
         public bool followPosition = true;
         //public bool followRotation = true;
@@ -31,7 +32,7 @@ namespace WorldSpaceTransitions
             r.material.SetVector("_SectionDirX", transform.right);
             r.material.SetVector("_SectionDirY", transform.up);
             r.material.SetVector("_SectionDirZ", transform.forward);
-            Shader.SetGlobalColor("_SectionColor", Color.black);
+            r.material.SetColor("_SectionColor", capcolor);
             SetSection();
         }
 

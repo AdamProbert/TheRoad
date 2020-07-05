@@ -4,17 +4,20 @@ using RootMotion.FinalIK;
 
 [RequireComponent (typeof (NavMeshAgent))]
 [RequireComponent (typeof (Animator))]
+
 public class AgentLocomotion : MonoBehaviour {
     Animator anim;
     NavMeshAgent agent;
+    CharacterEventManager characterEventManager;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
     public bool moving = false;
 
     private void Awake() 
     {
-        anim = GetComponent<Animator> ();
-        agent = GetComponent<NavMeshAgent> ();    
+        anim = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        characterEventManager = GetComponent<CharacterEventManager>();
     }
 
     void Start ()
@@ -75,5 +78,31 @@ public class AgentLocomotion : MonoBehaviour {
     {
         // Update position to agent position
         transform.position = agent.nextPosition;
+    }
+
+    void HandleStateChange(CharacterState newState)
+    {
+        if(newState == CharacterState.DEAD)
+        {
+            agent.enabled = false;
+            this.enabled = false;
+        }
+    }
+
+    private void OnEnable() 
+    {
+        if(characterEventManager != null)
+        {
+            characterEventManager.OnCharacterChangeState += HandleStateChange;
+        }
+        
+    }
+
+    private void OnDisable() 
+    {
+        if(characterEventManager != null)
+        {
+            characterEventManager.OnCharacterChangeState -= HandleStateChange;
+        }
     }
 }

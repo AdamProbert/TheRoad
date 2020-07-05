@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NodeCanvas.Framework;
+using UnityEngine.UI;
 
 public class CharacterData : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class CharacterData : MonoBehaviour
     [SerializeField] private float viewRadius;
     [SerializeField] private float viewAngle;
     private float m_currentHealth;
+
+    [Header("UI")]
+    [SerializeField] Sprite portraitImage;
+
+    [SerializeField] List<AudioClip> hitSounds;
+    [SerializeField] AudioClip deathSound;
 
     private void Awake() {
         FieldOfView fov = GetComponentInChildren<FieldOfView>(true);
@@ -46,9 +53,23 @@ public class CharacterData : MonoBehaviour
         get {return baseAccuracy;}
         set {}
     }
+    public Sprite getPortrait{
+        get{return portraitImage;}
+        set{}
+    }
 
     public float currentHealth{
         get {return m_currentHealth;}
         set {m_currentHealth = value;}
+    }
+
+    public AudioClip getRandomHitSound{
+        get {return hitSounds[Random.Range(0, hitSounds.Count)];}
+        set {}
+    }
+
+    public AudioClip getDeathSound{
+        get {return deathSound;}
+        set {}
     }
 }

@@ -13,6 +13,7 @@ public class CharacterEventManager : MonoBehaviour
     public Action OnCharacterRequestShowMove = delegate{};
     public Action<CharacterState> OnCharacterRequestChangeState = delegate{}; // For other scripts to request a change of state
     public Action<int> OnCharacterSelectedAction = delegate{};
-
     public Action<bool> OnCharacterSelected = delegate{}; // True if selected, false if not
+    public Action OnCharacterDied = delegate{};
+    public Action<Lootbox> OnCharacterSelectedLootbox = delegate{};
 }

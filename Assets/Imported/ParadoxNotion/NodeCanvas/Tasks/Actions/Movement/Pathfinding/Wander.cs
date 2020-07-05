@@ -53,9 +53,9 @@ namespace NodeCanvas.Tasks.Actions
 
         protected override void OnPause() { OnStop(); }
         protected override void OnStop() {
-            if ( agent != null && agent.gameObject.activeSelf ) {
-                agent.ResetPath();
-            }
+            // if ( agent != null && agent.gameObject.activeSelf ) {
+            //     agent.ResetPath();
+            // }
         }
     }
 }

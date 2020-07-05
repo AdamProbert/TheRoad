@@ -324,6 +324,13 @@ public class AttackController : MonoBehaviour
 
     private void HandleStateChange(CharacterState newState)
     {
+        if(newState == CharacterState.DEAD)
+        {
+            aimIK.enabled = false;
+            this.enabled = false;
+            fbbIK.enabled = false;
+        }
+
         if(newState != CharacterState.ATTACKING)
         {
             currentTarget = null;

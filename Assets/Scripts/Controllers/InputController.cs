@@ -8,6 +8,7 @@ public class InputController : MonoBehaviour
     [SerializeField] PlayerInputManager playerInputManager;
     [SerializeField] LayerMask clickable; // Should be everything that can be clicked
     [SerializeField] LayerMask entities;
+    [SerializeField] LayerMask interactables;
     [SerializeField] Camera cam;
     
     [Header("Hovering")]
@@ -35,6 +36,7 @@ public class InputController : MonoBehaviour
         CheckRightMouseButton();
         CheckCameraMovements();
         CheckActions();
+        CheckCharacterSwitch();
     }
 
     void CheckHover()
@@ -75,18 +77,26 @@ public class InputController : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             if (EventSystem.current.IsPointerOverGameObject()){return;} // Ignore ui
-            Transform clickedObject = GetClickedObject(entities);
+            Transform clickedObject = GetClickedObject(clickable);
             if (clickedObject)
             {
-                playerInputManager.HandleClickCharacter(clickedObject.GetComponentInParent<Entity>());
-            }
-            else
-            {
-                Vector3 clickPosition = GetClickPosition();
-                print("Left clicked at position: " + clickPosition);
-                if(clickPosition != Vector3.zero)
+                // Check for entity clicks
+                if(entities == (entities | (1 << clickedObject.gameObject.layer)))
                 {
-                    playerInputManager.HandleLeftClickPositon(clickPosition);
+                    playerInputManager.HandleClickEntity(clickedObject.GetComponentInParent<Entity>());
+                }
+                else if(interactables == (interactables | (1 << clickedObject.gameObject.layer)))
+                {
+                    playerInputManager.HandleClickInteractable(clickedObject.GetComponentInParent<Lootbox>());
+                }
+                else
+                {
+                    Vector3 clickPosition = GetClickPosition();
+                    print("Left clicked at position: " + clickPosition);
+                    if(clickPosition != Vector3.zero)
+                    {
+                        playerInputManager.HandleLeftClickPositon(clickPosition);
+                    }
                 }
             }
         }    
@@ -115,6 +125,14 @@ public class InputController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float rotate = Input.GetAxisRaw("RotateCamera") * Time.deltaTime;
         playerInputManager.HandleCameraMovement(horizontal, vertical, rotate);
+    }
+
+    void CheckCharacterSwitch()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            playerInputManager.HandleCycleSelectedCharacter();
+        }
     }
 
     Vector3 GetClickPosition()

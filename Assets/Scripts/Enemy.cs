@@ -51,10 +51,6 @@ public class Enemy : Entity
     {
         Instantiate(data.getRandomHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
         
-        audioSource.PlayOneShot(
-            data.zombieHitSounds[Random.Range(0, data.zombieHitSounds.Count)],
-            1f
-        );
         if(alive)
         {
             data.currentHealth -= damage;
@@ -72,6 +68,10 @@ public class Enemy : Entity
         fSM.enabled = false;
         locomotion.enabled = false;
         coll.enabled = false;
+        audioSource.PlayOneShot(
+            data.zombieHitSounds[Random.Range(0, data.zombieHitSounds.Count)],
+            1f
+        );
         ragdoll.TurnOnRagdollWithForce(finalHitForce);
     }
 }

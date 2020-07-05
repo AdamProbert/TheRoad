@@ -7,8 +7,8 @@ public class HoverController : MonoBehaviour
     [Header("Outline effect")]
     [SerializeField] bool enableOutlineEffect;
     [SerializeField] bool alwaysOn;
-    [SerializeField] GameObject whatToOutline;
-    Outline outline;
+    [SerializeField] List<GameObject> whatToOutline;
+    List<Outline> outlines = new List<Outline>();
     [SerializeField] Outline.Mode outlineMode = Outline.Mode.OutlineAll;
     [SerializeField] Color outlineColor;
     [SerializeField] float outlineWidth;
@@ -28,16 +28,19 @@ public class HoverController : MonoBehaviour
         
         if(enableOutlineEffect)
         {
-            outline = whatToOutline.AddComponent<Outline>();    
-            outline.OutlineMode = outlineMode;
-            outline.OutlineColor = outlineColor;
-            outline.OutlineWidth = outlineWidth;
-            outline.enabled = false;
-        }
-
-        if(alwaysOn)
-        {
-            outline.enabled = true;
+            foreach (GameObject item in whatToOutline)
+            {
+                Outline outline = item.AddComponent<Outline>();    
+                outline.OutlineMode = outlineMode;
+                outline.OutlineColor = outlineColor;
+                outline.OutlineWidth = outlineWidth;
+                outline.enabled = false;    
+                outlines.Add(outline);
+                if(alwaysOn)
+                {
+                    outline.enabled = true;
+                }
+            }
         }
     }
 
@@ -45,7 +48,10 @@ public class HoverController : MonoBehaviour
     {
         if(enableOutlineEffect && !alwaysOn)
         {
-            outline.enabled = true;
+            foreach (Outline o in outlines)
+            {
+                o.enabled = true;    
+            }
         }
 
         if(enableRendererEffect)
@@ -58,7 +64,10 @@ public class HoverController : MonoBehaviour
     {
         if(enableOutlineEffect && !alwaysOn)
         {
-            outline.enabled = false;
+            foreach (Outline o in outlines)
+            {
+                o.enabled = false;    
+            }
         }
 
         if(enableRendererEffect)

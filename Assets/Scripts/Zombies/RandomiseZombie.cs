@@ -6,7 +6,6 @@ public class RandomiseZombie : MonoBehaviour
 {
     [SerializeField] Transform modelsParent;
     [SerializeField] List<Material> altMaterial;
-    GameObject[] zombieOptions;
     int zombieCount;
 
     // Start is called before the first frame update
