@@ -8,6 +8,8 @@ public class CharacterPortrait  : MonoBehaviour, IPointerClickHandler
     [SerializeField] Image selectionCircle;
     [SerializeField] Image healthBar;
     [SerializeField] Image portrait;
+    [SerializeField] Color selectionColor;
+    [SerializeField] Color defaultColor;
 
     Character character;
     PlayerInputManager playerInputManager;
@@ -21,11 +23,11 @@ public class CharacterPortrait  : MonoBehaviour, IPointerClickHandler
 
     public void Activate()
     {
-        selectionCircle.enabled = true;
+        selectionCircle.color = selectionColor;
     }
     public void DeActivate()
     {
-        selectionCircle.enabled = false;
+        selectionCircle.color = defaultColor;
     }
 
     public void HandleClickCharacter(Character c)

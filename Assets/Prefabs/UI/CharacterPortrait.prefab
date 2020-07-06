@@ -58,13 +58,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.007843138, g: 0.43529415, b: 0.22352943, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5c49ef3a1a4460b4ca3a969124efb7fa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 19e0bce67751785438b5135a43190ad6, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -200,9 +200,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e8b60db3224a9f41ac72ba88520c4aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionCircle: {fileID: 427279246583043329}
+  selectionCircle: {fileID: 3435185951851202657}
   healthBar: {fileID: 8210338438532946929}
   portrait: {fileID: 6662502340765724831}
+  selectionColor: {r: 0.30980393, g: 0.8000001, b: 0.56078434, a: 1}
+  defaultColor: {r: 0.007843138, g: 0.43529415, b: 0.22352943, a: 1}
 --- !u!1 &7902330262806536747
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &160868909232518286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -261,7 +263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3324275, g: 0.6132076, b: 0.19379672, a: 1}
+  m_Color: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -311,8 +313,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.8, y: 0.48000002}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -39.3, y: 0.7}
-  m_SizeDelta: {x: 19.599998, y: 98.6}
+  m_AnchoredPosition: {x: -29.41, y: 0.7}
+  m_SizeDelta: {x: 9.70562, y: 98.6}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4890210608952562771
 CanvasRenderer:
@@ -335,7 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6226415, g: 0.05613054, b: 0.044054817, a: 1}
+  m_Color: {r: 0.9607844, g: 0.15686275, b: 0.019607844, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

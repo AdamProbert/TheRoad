@@ -13,3 +13,8 @@ MonoBehaviour:
   m_Name: GlobalVarsScriptableObject
   m_EditorClassIdentifier: 
   buildingSliceTime: 0.3
+  maxLootPerCrate: 5
+  minLootPerCrate: 1
+  availableItems:
+  - {fileID: 7492671223015745886, guid: 992d1c3cb8334d24aa688930904c4464, type: 3}
+  maxPickupDistance: 5

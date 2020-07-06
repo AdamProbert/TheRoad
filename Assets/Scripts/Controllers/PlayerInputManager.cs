@@ -35,7 +35,10 @@ public class PlayerInputManager : MonoBehaviour
 
     public void HandleClickInteractable(Lootbox box)
     {
-        currentlySelectedCharacter.HandleSelectInteractable(box);
+        if(currentlySelectedCharacter)
+        {
+            currentlySelectedCharacter.HandleSelectInteractable(box);
+        }
     }
 
     public void HandleCycleSelectedCharacter()
@@ -119,6 +122,11 @@ public class PlayerInputManager : MonoBehaviour
         {
             availableCharacters.Remove(character);
         }
+    }
+
+    public Vector3 GetCurrentCharacterPosition()
+    {
+        return currentlySelectedCharacter.transform.position;
     }
 
     private void OnEnable() 

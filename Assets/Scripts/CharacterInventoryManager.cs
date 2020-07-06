@@ -17,6 +17,7 @@ public class CharacterInventoryManager : MonoBehaviour
     void Awake()
     {
         characterEventManager = GetComponentInParent<CharacterEventManager>();
+        inventoryUI.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other) 
@@ -35,13 +36,20 @@ public class CharacterInventoryManager : MonoBehaviour
         targetBox = box;
     }
 
+    private void HandleCharacterSelect(bool isISelected)
+    {
+        inventoryUI.gameObject.SetActive(isISelected);
+    }
+
     private void OnEnable() 
     {
         characterEventManager.OnCharacterSelectedLootbox += HandleLootboxSelection;
+        characterEventManager.OnCharacterSelected += HandleCharacterSelect;
     }
 
     private void OnDisable() 
     {
         characterEventManager.OnCharacterSelectedLootbox -= HandleLootboxSelection;
+        characterEventManager.OnCharacterSelected -= HandleCharacterSelect;
     }
 }

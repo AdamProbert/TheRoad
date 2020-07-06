@@ -28,7 +28,7 @@ TagManager:
   - 
   - Projectile
   - Interactable
-  - 
+  - Item
   - IgnoreNavmesh
   - BlockingSight
   - BlockingNavmesh

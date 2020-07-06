@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
@@ -16,6 +17,18 @@ public class InputController : MonoBehaviour
     Ray hoverRay;
     RaycastHit hoverHit;
     HoverController currentHoveredObject;
+
+    [Header("Dragging")]
+    [SerializeField] LayerMask draggable;
+    [SerializeField] LayerMask droppable; // Used for anything the player can drop an item on to
+    Ray dragRay;
+    RaycastHit dragHit;
+    Item draggingItem;
+    ItemSlot possibleDragging;
+    private Vector3 screenPoint;
+    private Vector3 offset;
+    private Vector3 originalPosition = Vector3.zero;
+    float dragItemZOffset;
 
     KeyCode[] actionKeys = {
         KeyCode.Alpha1,
@@ -36,7 +49,132 @@ public class InputController : MonoBehaviour
         CheckRightMouseButton();
         CheckCameraMovements();
         CheckActions();
+        CheckDrag();
         CheckCharacterSwitch();
+    }
+
+    void CheckDrag()
+    {
+        dragRay = cam.ScreenPointToRay(Input.mousePosition);
+
+        if(Input.GetMouseButtonDown(0))
+        {    
+            // Check for in-game object
+            if(Physics.Raycast(dragRay, out dragHit, 200f, draggable))
+            {
+                Vector3 characterPos = playerInputManager.GetCurrentCharacterPosition();
+                Debug.DrawRay(dragRay.origin, dragRay.direction, Color.white, 5f);
+
+                if(Vector3.Distance(characterPos, dragHit.point) <= GlobalVarsAccess.Instance.getMaxPickUpDistance())
+                {
+                    draggingItem = dragHit.transform.GetComponentInParent<Item>();
+                    dragItemZOffset = dragHit.distance / 2;
+                    originalPosition = draggingItem.transform.position;
+                    screenPoint = cam.WorldToScreenPoint(draggingItem.transform.position);
+                    offset = draggingItem.transform.position - cam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+                }
+            }
+
+            // Check for UI object
+            if(EventSystem.current.IsPointerOverGameObject())
+            {
+                PointerEventData pointer = new PointerEventData(EventSystem.current);
+                pointer.position = Input.mousePosition;
+
+                List<RaycastResult> raycastResults = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointer, raycastResults);
+
+                if(raycastResults.Count > 0)
+                {
+                    foreach(RaycastResult go in raycastResults)
+                    {  
+                        if(go.gameObject.GetComponent<ItemSlot>())
+                        {   
+                            possibleDragging = go.gameObject.GetComponent<ItemSlot>();
+                            if(!possibleDragging.HasItem())
+                            {
+                                possibleDragging = null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check drag from ui to world - need to ensure player is dragging and not clicking
+        if(possibleDragging && Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            draggingItem = possibleDragging.RemoveItem();
+            originalPosition = Vector3.zero;
+            possibleDragging = null;
+        }
+
+        if(draggingItem)
+        {
+            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, dragItemZOffset);
+            draggingItem.transform.position = cam.ScreenToWorldPoint(curScreenPoint) + offset;
+        }
+
+        if(Input.GetMouseButtonUp(0) && draggingItem)
+        {
+            // Check dropping on to hotbar
+            if(EventSystem.current.IsPointerOverGameObject())
+            {
+                PointerEventData pointer = new PointerEventData(EventSystem.current);
+                pointer.position = Input.mousePosition;
+
+                List<RaycastResult> raycastResults = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointer, raycastResults);
+
+                if(raycastResults.Count > 0)
+                {
+                    foreach(RaycastResult go in raycastResults)
+                    {  
+                        if(go.gameObject.GetComponent<ItemSlot>())
+                        {   
+                            go.gameObject.GetComponent<ItemSlot>().AddItem(draggingItem);
+                            draggingItem = null;
+                        }
+                    }
+                }
+            }
+            // Check dropping into world
+            else
+            {
+                // if from world - go back to og position
+                if(originalPosition != Vector3.zero)
+                {
+                    draggingItem.transform.position = originalPosition;
+                }
+
+                // if from inventory go to world space
+                // NOTE! THIS SHOULD BE RELATIVE TO CURRENT ChARACTER.
+                // MOVE TO 3m away from character in direction of mouse position
+                // :| 
+                else
+                {
+                    dragRay = cam.ScreenPointToRay(Input.mousePosition);
+                    if(Physics.Raycast(dragRay, out dragHit, 999f, droppable))
+                    {
+                        Vector3 characterPos = playerInputManager.GetCurrentCharacterPosition();
+                        Debug.DrawRay(dragRay.origin, dragRay.direction, Color.white, 5f);
+
+                        if(Vector3.Distance(characterPos, dragHit.point) > GlobalVarsAccess.Instance.getMaxPickUpDistance())
+                        {
+                            Vector3 dirToMouse = (new Vector3(dragHit.point.x, characterPos.y, dragHit.point.z) - characterPos).normalized;
+                            Vector3 dropPoint = characterPos + (dirToMouse * GlobalVarsAccess.Instance.getMaxPickUpDistance());
+                            draggingItem.transform.position = dropPoint;
+                        }
+                        else
+                        {
+                            draggingItem.transform.position = dragHit.point;
+                        }
+                    }
+                }
+                
+                draggingItem = null;
+            }
+        }
     }
 
     void CheckHover()
@@ -46,6 +184,10 @@ public class InputController : MonoBehaviour
         {
             if(currentHoveredObject == null || hoverHit.transform != currentHoveredObject)
             {
+                if(currentHoveredObject)
+                {
+                    currentHoveredObject.StopHover();
+                }
                 currentHoveredObject = hoverHit.transform.GetComponentInParent<HoverController>();
                 currentHoveredObject.Hover();
             }   

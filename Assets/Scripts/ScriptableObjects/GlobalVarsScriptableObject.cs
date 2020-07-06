@@ -10,4 +10,7 @@ public class GlobalVarsScriptableObject : ScriptableObject
     public int maxLootPerCrate;
     public int minLootPerCrate;
     public List<Item> availableItems;
+
+    [Header("Characters")]
+    public float maxPickupDistance;
 }

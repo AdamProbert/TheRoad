@@ -30,18 +30,29 @@ public class HoverController : MonoBehaviour
         {
             foreach (GameObject item in whatToOutline)
             {
+                Debug.Log("Hover controller setting color to: " + outlineColor);
                 Outline outline = item.AddComponent<Outline>();    
                 outline.OutlineMode = outlineMode;
                 outline.OutlineColor = outlineColor;
                 outline.OutlineWidth = outlineWidth;
-                outline.enabled = false;    
                 outlines.Add(outline);
-                if(alwaysOn)
-                {
-                    outline.enabled = true;
-                }
             }
         }
+    }
+
+    private void Start() 
+    {
+        foreach(Outline outline in outlines)
+        {   
+            if(enableOutlineEffect && alwaysOn)
+            {
+                outline.enabled = true;
+            }
+            else
+            {
+                outline.enabled = false;        
+            }
+        }    
     }
 
     public void Hover()

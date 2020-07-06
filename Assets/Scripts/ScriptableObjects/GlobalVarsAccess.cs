@@ -25,4 +25,9 @@ public class GlobalVarsAccess : Singleton<GlobalVarsAccess>
     {
         return variables.availableItems[Random.Range(0, variables.availableItems.Count)];
     }
+
+    public float getMaxPickUpDistance()
+    {
+        return variables.maxPickupDistance;
+    }
 }

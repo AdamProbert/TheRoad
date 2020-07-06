@@ -35,6 +35,7 @@ public class Outline : MonoBehaviour {
   public Color OutlineColor {
     get { return outlineColor; }
     set {
+      Debug.Log("Setting outline color to: " + outlineColor);
       outlineColor = value;
       needsUpdate = true;
     }

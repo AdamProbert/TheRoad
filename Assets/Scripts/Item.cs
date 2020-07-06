@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Item
+public abstract class Item : MonoBehaviour
 {
     [SerializeField] ItemScriptableObject itemData;
     protected int remainingUses;

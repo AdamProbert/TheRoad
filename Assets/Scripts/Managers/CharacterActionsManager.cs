@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(CharacterEventManager))]
 public class CharacterActionsManager : MonoBehaviour
 {
     [SerializeField] private List<BaseAction> actionPrefabs; // List of every kind of action
-    [SerializeField] private List<ActionSlot> actionSlots; // List of action bar slots
+    [SerializeField] private List<BaseAction> availableActions; // List of available actions
+    [SerializeField] private List<ActionUIButton> availableActionImages; // List of available actions
     [SerializeField] private LayoutGroup actionsGroup;
     [SerializeField] private ActionUIButton actionUIPrefab;
     [SerializeField] private Color actionEnableColour = Color.green;
@@ -19,7 +19,7 @@ public class CharacterActionsManager : MonoBehaviour
     private void Awake() 
     {
         currentAction = NoAction;
-        characterEventManager = GetComponent<CharacterEventManager>();
+        characterEventManager = GetComponentInParent<CharacterEventManager>();
     }
 
     private void Start() 
@@ -29,21 +29,15 @@ public class CharacterActionsManager : MonoBehaviour
 
     private void InitActionBarUI()
     {
-        // Get all dem slots
-        foreach (ActionSlot slot in actionsGroup.GetComponentsInChildren<ActionSlot>())
-        {
-            actionSlots.Add(slot);
-        }
-
         // Populate with known actions
         for (int i = 0; i < actionPrefabs.Count; i++)
         {
             BaseAction newAction = Object.Instantiate(actionPrefabs[i]);
-            newAction.Initialize(this.gameObject);
-            ActionUIButton x = Instantiate(actionUIPrefab, actionSlots[i].transform.position, actionSlots[i].transform.rotation, actionSlots[i].transform);
+            newAction.Initialize(transform.parent.gameObject);
+            ActionUIButton x = Instantiate(actionUIPrefab, actionsGroup.transform.position, Quaternion.identity, actionsGroup.transform);
             x.Initialize(newAction.icon, i);
-            actionSlots[i].actionImage = x;
-            actionSlots[i].action = newAction;
+            availableActionImages.Add(x);
+            availableActions.Add(newAction);
         }
         actionsGroup.gameObject.SetActive(false);
     }
@@ -69,8 +63,8 @@ public class CharacterActionsManager : MonoBehaviour
         // Stop previous actions
         if(currentAction != NoAction)
         {
-            actionSlots[currentAction].action.DisableAction();
-            actionSlots[currentAction].actionImage.SetImageActive(false);
+            availableActions[currentAction].DisableAction();
+            availableActionImages[currentAction].SetImageActive(false);
             currentAction = NoAction;
         }
     }
@@ -84,13 +78,13 @@ public class CharacterActionsManager : MonoBehaviour
         }
 
         // Ensure we have that integers actions
-        if(actionNumber < actionSlots.Count)
+        if(actionNumber < availableActions.Count)
         {
             CancelCurrentAction();
             // Enable new action
             currentAction = actionNumber;
-            actionSlots[currentAction].actionImage.SetImageActive(true);
-            BaseAction selected = actionSlots[currentAction].action;
+            availableActionImages[currentAction].SetImageActive(true);
+            BaseAction selected = availableActions[currentAction];
             if(selected.actionType == ACTIONTYPE.TRIGGER)
             {
                 selected.TriggerAction();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(Animator))]
 public class Lootbox : MonoBehaviour
@@ -8,6 +9,7 @@ public class Lootbox : MonoBehaviour
     [SerializeField] ParticleSystem openEffect;
     [SerializeField] public Transform interactionMovePosition;
     Animator anim;
+    bool showingInventory;
 
     public enum Status
     {
@@ -24,6 +26,7 @@ public class Lootbox : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         anim.enabled = false;
+        // inventoryUI.transform.position = transform.position;
         PopulateLoot();    
     } 
 
@@ -32,7 +35,9 @@ public class Lootbox : MonoBehaviour
         int lootCount = Random.Range(GlobalVarsAccess.Instance.getMinLootPerCrate(), GlobalVarsAccess.Instance.getMaxLootPerCrate());
         for (int i = 0; i < lootCount; i++)
         {
-            loot.Add(GlobalVarsAccess.Instance.getRandomLootItem());
+            Item item = Instantiate(GlobalVarsAccess.Instance.getRandomLootItem(), transform.position, Quaternion.identity);
+            item.gameObject.SetActive(false);
+            loot.Add(item);
         }
     }
 
@@ -46,8 +51,20 @@ public class Lootbox : MonoBehaviour
 
     public void OnBoxOpen()
     {
+        foreach (Item item in loot)
+        {
+            item.gameObject.SetActive(true);
+            Vector2 xz = Random.insideUnitCircle * 3f;
+            Vector3 lootPosition = new Vector3(
+                xz.x, 0, xz.y
+            ) + transform.position;
+            
+            item.transform.DOJump(lootPosition, 5f, 1, 1,false);       
+        }
+
         Instantiate(openEffect, transform.position, Quaternion.identity);
         anim.enabled = false;
         currentStatus = Status.OPEN;
+        GetComponent<Collider>().enabled = false;
     }
 }
