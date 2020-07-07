@@ -17,8 +17,8 @@ public class Item_Consumable : Item
         
     }
 
-    public  override void UseItem()
+    public override void UseItem(Character character)
     {
-        // Heal up ma boy
+        character.UseConsubale(base.itemData.effectValue);
     }
 }

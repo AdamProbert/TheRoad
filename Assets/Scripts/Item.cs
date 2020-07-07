@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class Item : MonoBehaviour
 {
-    [SerializeField] ItemScriptableObject itemData;
+    [SerializeField] protected ItemScriptableObject itemData;
     protected int remainingUses;
 
     public void Initialize()
@@ -23,5 +23,5 @@ public abstract class Item : MonoBehaviour
         set {}
     }
 
-    public abstract void UseItem();
+    public abstract void UseItem(Character character);
 }

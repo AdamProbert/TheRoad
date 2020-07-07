@@ -17,6 +17,9 @@ MonoBehaviour:
   searchSpeed: 2
   chaseSpeed: 4
   maxViewDistance: 25
+  visibleLayers:
+    serializedVersion: 2
+    m_Bits: 4195841
   maxAwarenessDistance: 5
   viewAngle: 90
   viewOffset: {x: 0, y: 2, z: 0}

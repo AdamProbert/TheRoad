@@ -908,7 +908,8 @@ MonoBehaviour:
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewAngle":{"_value":90.0,"_propertyPath":"ZombieData.viewAngle","_name":"ViewAngle","_id":"f646c989-7d58-4141-bfda-4ef89d5dd951","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"ViewOffset":{"_value":{"y":2.0},"_propertyPath":"ZombieData.viewOffset","_name":"ViewOffset","_id":"53d76f3c-0589-4700-b78b-10aeb78e7c17","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Vector3,
     UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"currentHealth":{"_propertyPath":"ZombieData.currentHealth","_name":"currentHealth","_id":"f1a8b9c3-56d0-4b7c-a10f-e71b21576e74","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
-    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}}}'
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"visibleLayers":{"_propertyPath":"ZombieData.visibleLayers","_name":"visibleLayers","_id":"91ccb5c8-5bb7-4191-93ae-4a48159ecb64","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.LayerMask,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}}}'
   _objectReferences: []
   _serializedVariables:
   - _json: '{"_name":"CurrentTarget","_id":"85abbc47-8277-448c-8c48-968a65df2d2c","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.Transform,
@@ -935,6 +936,9 @@ MonoBehaviour:
     _references: []
   - _json: '{"_propertyPath":"ZombieData.currentHealth","_name":"currentHealth","_id":"f1a8b9c3-56d0-4b7c-a10f-e71b21576e74","$type":"NodeCanvas.Framework.Variable`1[[System.Single,
       mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"}'
+    _references: []
+  - _json: '{"_propertyPath":"ZombieData.visibleLayers","_name":"visibleLayers","_id":"91ccb5c8-5bb7-4191-93ae-4a48159ecb64","$type":"NodeCanvas.Framework.Variable`1[[UnityEngine.LayerMask,
+      UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"}'
     _references: []
 --- !u!114 &5784120636273725062
 MonoBehaviour:
@@ -992,7 +996,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimPoint: {fileID: 459331669}
   alegiance: 1
-  alive: 1
 --- !u!114 &166839632
 MonoBehaviour:
   m_ObjectHideFlags: 0

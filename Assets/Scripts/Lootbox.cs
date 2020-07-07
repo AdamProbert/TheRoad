@@ -54,7 +54,7 @@ public class Lootbox : MonoBehaviour
         foreach (Item item in loot)
         {
             item.gameObject.SetActive(true);
-            Vector2 xz = Random.insideUnitCircle * 3f;
+            Vector2 xz = Random.insideUnitCircle * .5f;
             Vector3 lootPosition = new Vector3(
                 xz.x, 0, xz.y
             ) + transform.position;

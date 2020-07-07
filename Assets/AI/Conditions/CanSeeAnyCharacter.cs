@@ -14,6 +14,8 @@ namespace NodeCanvas.Tasks.Conditions
         public BBParameter<List<Character>> targets;
         public BBParameter<float> maxDistance = 50;
         public BBParameter<float> awarnessDistance = 0f;
+        public BBParameter<LayerMask> visibleLayers;
+
         public BBParameter<Vector3> offset;
 
         [SliderField(1, 180)]
@@ -33,7 +35,7 @@ namespace NodeCanvas.Tasks.Conditions
                     continue;
                 }
 
-                if ( Physics.Linecast(agent.position + offset.value, c.transform.position + offset.value, out hit) ) {
+                if ( Physics.Linecast(agent.position + offset.value, c.transform.position + offset.value, out hit, visibleLayers.value) ) {
                     if ( hit.collider != c.GetComponent<Collider>() ) 
                     {
                         continue;

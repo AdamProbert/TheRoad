@@ -98,6 +98,12 @@ public class Character : Entity
         }
     }
 
+    public void UseConsubale(float amount)
+    {
+        characterData.currentHealth = Mathf.Clamp(characterData.currentHealth + amount, 0, characterData.getMaxHealth);        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+    }
+
     public void SetAttackTarget(Entity newTarget)
     {
         if(characterSelected)

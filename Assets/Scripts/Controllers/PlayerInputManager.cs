@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.EventSystems;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -29,6 +30,32 @@ public class PlayerInputManager : MonoBehaviour
             if(currentlySelectedCharacter != null)
             {
                 currentlySelectedCharacter.SetAttackTarget(entity);
+            }
+        }
+    }
+
+    public void HandleClickUI()
+    {
+        PointerEventData pointer = new PointerEventData(EventSystem.current);
+        pointer.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointer, raycastResults);
+
+        if(raycastResults.Count > 0)
+        {
+            foreach(RaycastResult go in raycastResults)
+            {  
+                if(go.gameObject.GetComponent<ItemSlot>())
+                {   
+                    ItemSlot slot = go.gameObject.GetComponent<ItemSlot>();
+                    if(slot.HasItem())
+                    {
+                        Item item = slot.RemoveItem();
+                        item.UseItem(currentlySelectedCharacter);
+                        Destroy(item.gameObject);
+                    }
+                }
             }
         }
     }

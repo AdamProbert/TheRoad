@@ -9,12 +9,12 @@ public class ZombieScriptableObject : ScriptableObject
     public float searchSpeed;
     public float chaseSpeed;
     public float maxViewDistance;
+    public LayerMask visibleLayers;
     public float maxAwarenessDistance;
     public float viewAngle;
     public Vector3 viewOffset;
     public List<AudioClip> zombieSounds;
     public List<AudioClip> zombieHitSounds;
-
     public List<ParticleSystem> hitEffects;
     public ParticleSystem deathEffect;
     public float timeBetweenAttacks;

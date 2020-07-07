@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4435666313752236244}
   - component: {fileID: 4444878861531113190}
   - component: {fileID: 4403999826020628446}
+  - component: {fileID: 4703731768883130699}
   m_Layer: 20
   m_Name: SM_Item_Pills_01
   m_TagString: Untagged
@@ -94,6 +95,21 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43811105985295392, guid: 3f0d33bf62a05264d84d2a9e2a0361b7, type: 2}
+--- !u!114 &4703731768883130699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4467569498335716138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatShouldBeOutlined: {fileID: 0}
+  color: 1
+  eraseRenderer: 0
 --- !u!1 &7492671223015745881
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,14 +155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ed2d25d74f58440b2b50b7ff888934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableOutlineEffect: 1
-  alwaysOn: 0
-  whatToOutline:
-  - {fileID: 4467569498335716138}
-  outlineMode: 0
-  outlineColor: {r: 0.74509805, g: 0.8588236, b: 0.41960788, a: 1}
-  outlineWidth: 5
-  enableRendererEffect: 0
 --- !u!114 &7492671223015745886
 MonoBehaviour:
   m_ObjectHideFlags: 0

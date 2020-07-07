@@ -58,6 +58,11 @@ public class ZombieData : MonoBehaviour
         set {}
     }
 
+    public LayerMask visibleLayers{
+        get {return data.visibleLayers;}
+        set {}
+    }
+
     public Vector3 viewOffset{
         get {return data.viewOffset;}
         set {}

@@ -104,9 +104,12 @@ public class InputController : MonoBehaviour
         // Check drag from ui to world - need to ensure player is dragging and not clicking
         if(possibleDragging && Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            draggingItem = possibleDragging.RemoveItem();
-            originalPosition = Vector3.zero;
-            possibleDragging = null;
+            if(possibleDragging.HasItem())
+            {
+                draggingItem = possibleDragging.RemoveItem();
+                originalPosition = Vector3.zero;
+                possibleDragging = null;
+            }
         }
 
         if(draggingItem)
@@ -115,7 +118,7 @@ public class InputController : MonoBehaviour
             draggingItem.transform.position = cam.ScreenToWorldPoint(curScreenPoint) + offset;
         }
 
-        if(Input.GetMouseButtonUp(0) && draggingItem)
+        if(Input.GetMouseButtonUp(0) && draggingItem != null)
         {
             // Check dropping on to hotbar
             if(EventSystem.current.IsPointerOverGameObject())
@@ -146,11 +149,6 @@ public class InputController : MonoBehaviour
                 {
                     draggingItem.transform.position = originalPosition;
                 }
-
-                // if from inventory go to world space
-                // NOTE! THIS SHOULD BE RELATIVE TO CURRENT ChARACTER.
-                // MOVE TO 3m away from character in direction of mouse position
-                // :| 
                 else
                 {
                     dragRay = cam.ScreenPointToRay(Input.mousePosition);
@@ -218,7 +216,6 @@ public class InputController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject()){return;} // Ignore ui
             Transform clickedObject = GetClickedObject(clickable);
             if (clickedObject)
             {
@@ -241,7 +238,18 @@ public class InputController : MonoBehaviour
                     }
                 }
             }
-        }    
+        }
+        if(Input.GetMouseButtonUp(0) && !draggingItem && EventSystem.current.IsPointerOverGameObject())
+        {
+            playerInputManager.HandleClickUI();
+            possibleDragging = null;
+            draggingItem = null;
+        }
+    }
+
+    private void OnMouseUpAsButton() 
+    {
+        
     }
 
     void CheckRightMouseButton()

@@ -8,11 +8,9 @@ public class RandomiseLoot : MonoBehaviour
     int boxCount;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
         boxCount = modelsParent.childCount;
-
         // Ensure all are disabled        
         for (int i = 0; i < boxCount; i++)
         {
@@ -22,5 +20,6 @@ public class RandomiseLoot : MonoBehaviour
         int randoChoice = Random.Range(1, boxCount);
         
         modelsParent.GetChild(randoChoice).gameObject.SetActive(true);
+        Debug.Log("Loot choice made");
     }
 }

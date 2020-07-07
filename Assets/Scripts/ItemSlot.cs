@@ -7,10 +7,12 @@ public class ItemSlot : MonoBehaviour
 {
     [SerializeField] Image itemImage;
     Item currentItem = null;
+
+    bool occupied = false;
     
     public bool HasItem()
     {
-        if(currentItem)
+        if(occupied)
         {
             return true;
         }
@@ -22,6 +24,7 @@ public class ItemSlot : MonoBehaviour
         currentItem.gameObject.SetActive(false);
         itemImage.enabled = true;
         itemImage.sprite = item.itemSprite;
+        occupied = true;
     }
 
     public Item RemoveItem()
@@ -29,8 +32,7 @@ public class ItemSlot : MonoBehaviour
         itemImage.sprite = null;
         itemImage.enabled = false;
         currentItem.gameObject.SetActive(true);
-        Item tmpItem = currentItem;
-        currentItem = null;
-        return tmpItem;
+        occupied = false;
+        return currentItem;
     }
 }
