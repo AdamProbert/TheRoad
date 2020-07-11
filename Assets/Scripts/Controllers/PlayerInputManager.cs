@@ -52,8 +52,7 @@ public class PlayerInputManager : MonoBehaviour
                     if(slot.HasItem())
                     {
                         Item item = slot.RemoveItem();
-                        item.UseItem(currentlySelectedCharacter);
-                        Destroy(item.gameObject);
+                        currentlySelectedCharacter.UseItem(item);
                     }
                 }
             }
@@ -94,6 +93,7 @@ public class PlayerInputManager : MonoBehaviour
             if(buttonUp)
             {
                 currentlySelectedCharacter.SetAttackTarget(null);
+                currentlySelectedCharacter.CancelAction();
                 currentlySelectedCharacter.Move(position);
             }
             else if(!buttonUp)

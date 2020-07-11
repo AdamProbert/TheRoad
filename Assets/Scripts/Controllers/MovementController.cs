@@ -11,6 +11,7 @@ public class MovementController : MonoBehaviour
 {
     [SerializeField] LayerMask walkableLayersForMousePosition;
     [SerializeField] LayerMask coverLayer;
+    [SerializeField] float movementLineYPosOffset;
     Camera cam;
     CharacterEventManager characterEventManager;
     NavMeshAgent agent;
@@ -22,7 +23,7 @@ public class MovementController : MonoBehaviour
     RaycastHit hoverHit;
     bool moving = false;
     bool enablePathDraw = false;
-    bool overwatchPositioning;
+    bool actionPositioning;
 
     private void Awake() 
     {
@@ -39,9 +40,9 @@ public class MovementController : MonoBehaviour
 
     private void Update() 
     {
-        if(overwatchPositioning)
+        if(actionPositioning)
         {
-            PositionCharacterForOverwatch();
+            PositionCharacterForAction();
         }
         if(enablePathDraw)
         {
@@ -64,15 +65,15 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void EnableOverwatchPositioning()
+    private void EnableActionPositioning()
     {
         SetMoveTarget(transform.position);
-        overwatchPositioning = true;
+        actionPositioning = true;
     }
 
-    private void DisableOverwatchPositioning()
+    private void DisableActionPositioning()
     {
-        overwatchPositioning = false;
+        actionPositioning = false;
     }
 
     private void SetMoveTarget(Vector3 newTarget)
@@ -105,6 +106,11 @@ public class MovementController : MonoBehaviour
         {   
             agent.CalculatePath(mousePosition, path);
             Vector3[] corners = path.corners;
+            // Offset line render position
+            for (int i = 0; i < corners.Length; i++)
+            {
+                corners[i].y += movementLineYPosOffset;
+            }
             lineRenderer.enabled = true;
             lineRenderer.positionCount = corners.Length;
             lineRenderer.SetPositions(corners);
@@ -115,7 +121,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void PositionCharacterForOverwatch()
+    private void PositionCharacterForAction()
     {
         Vector3 mousePosition = GetMousePositionWithCover();
         Vector3 relativePos = mousePosition - transform.position;
@@ -180,13 +186,16 @@ public class MovementController : MonoBehaviour
         {
             SetMoveTarget(transform.position);
         }
-        else if(newState == CharacterState.OVERWATCHSETUP)
+        else if(
+            newState == CharacterState.OVERWATCHSETUP ||
+            newState == CharacterState.USINGITEM
+        )
         {
-            EnableOverwatchPositioning();
+            EnableActionPositioning();
         }
         else
         {
-            DisableOverwatchPositioning();
+            DisableActionPositioning();
         }
     }
     private void OnEnable() 

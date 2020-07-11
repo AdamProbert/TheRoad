@@ -17,4 +17,6 @@ MonoBehaviour:
   minLootPerCrate: 1
   availableItems:
   - {fileID: 7492671223015745886, guid: 992d1c3cb8334d24aa688930904c4464, type: 3}
+  - {fileID: 1841014636264811376, guid: 3f971fa0f6365a840a61a5578305452e, type: 3}
   maxPickupDistance: 5
+  highLightColor: {r: 0.30980393, g: 0.8000001, b: 0.56078434, a: 1}

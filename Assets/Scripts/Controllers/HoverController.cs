@@ -2,18 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using cakeslice;
+
 public class HoverController : MonoBehaviour
 {
     // [Header("Outline effect")]
     Outline outline;
 
-    private void Awake() 
-    {
-        outline = GetComponentInChildren<Outline>();
-    }
-
     private void Start() 
     {
+        outline = GetComponentInChildren<Outline>();
         outline.enabled = false;
         Debug.Log("Setting outline to false");
     }

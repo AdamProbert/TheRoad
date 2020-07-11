@@ -9,7 +9,8 @@ public enum CharacterState
     ATTACKING,
     OVERWATCHSETUP,
     OVERWATCH,
-    DEAD
+    USINGITEM,
+    DEAD,
 }
 
 [RequireComponent(typeof(CharacterEventManager))]
@@ -83,25 +84,34 @@ public class Character : Entity
             }
         }
     }
+    public void CancelAction()
+    {
+        characterEventManager.OnCharacterCancelAction();
+    }
 
     public void ShowMove()
     {
-        characterEventManager.OnCharacterRequestShowMove();
+        if(currentState != CharacterState.USINGITEM)
+        {
+            characterEventManager.OnCharacterRequestShowMove();
+        }
     }
     
     public void Move(Vector3 position)
     {
         if(characterSelected)
         {
-            characterEventManager.OnCharacterMoveRequested();
-            ChangeState(CharacterState.MOVING);
+            if(currentState != CharacterState.USINGITEM)
+            {
+                characterEventManager.OnCharacterMoveRequested();
+                ChangeState(CharacterState.MOVING);
+            }
         }
     }
 
-    public void UseConsubale(float amount)
+    public void UseItem(Item item)
     {
-        characterData.currentHealth = Mathf.Clamp(characterData.currentHealth + amount, 0, characterData.getMaxHealth);        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
-        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+        characterEventManager.OnCharacterUseItem(item);
     }
 
     public void SetAttackTarget(Entity newTarget)
@@ -129,6 +139,12 @@ public class Character : Entity
         characterEventManager.OnCharacterSelectedLootbox(box);
         characterEventManager.OnCharacterReceiveNewMovementTarget(box.interactionMovePosition.position);
         ChangeState(CharacterState.MOVING);
+    }
+
+    private void HandleCharacterHeal(float amount)
+    {
+        characterData.currentHealth = Mathf.Clamp(characterData.currentHealth + amount, 0, characterData.getMaxHealth);        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
     }
 
     public override void TakeHit(Vector3 direction, float damage)
@@ -169,12 +185,23 @@ public class Character : Entity
         {
             ChangeState(CharacterState.OVERWATCH);
         }
+        if(currentState == CharacterState.USINGITEM)
+        {
+            characterEventManager.OnCharacterRequestPosition(position);
+        }
     }
     
     private void HandleOtherScriptChangingState(CharacterState newState)
     {
         // Handling requests for state changes explicitly.. not the best. Works for now
-        if(newState == CharacterState.WAITING && currentState == CharacterState.ATTACKING)
+        if(newState == CharacterState.WAITING &&
+            (
+                currentState == CharacterState.ATTACKING ||
+                currentState == CharacterState.USINGITEM ||
+                currentState == CharacterState.OVERWATCH ||
+                currentState == CharacterState.OVERWATCHSETUP
+            )
+        )
         {
             ChangeState(newState);
         }
@@ -192,7 +219,7 @@ public class Character : Entity
         {
             ChangeState(newState);
         }
-        else if(newState == CharacterState.WAITING && (currentState == CharacterState.OVERWATCHSETUP || currentState == CharacterState.OVERWATCH))
+        else if(newState == CharacterState.USINGITEM)
         {
             ChangeState(newState);
         }
@@ -203,6 +230,7 @@ public class Character : Entity
         PlayerEventManager.Instance.OnPlayerSelectCharacter += HandleCharacterSelection;    
         characterEventManager.OnCharacterReachedDetination += HandleCharacterReachedDestination;
         characterEventManager.OnCharacterRequestChangeState += HandleOtherScriptChangingState;
+        characterEventManager.OnCharacterHeal += HandleCharacterHeal;
     }
 
     private void OnDisable() 
@@ -213,5 +241,6 @@ public class Character : Entity
         }
         characterEventManager.OnCharacterReachedDetination -= HandleCharacterReachedDestination;
         characterEventManager.OnCharacterRequestChangeState -= HandleOtherScriptChangingState;
+        characterEventManager.OnCharacterHeal -= HandleCharacterHeal;
     }
 }

@@ -13,4 +13,7 @@ public class GlobalVarsScriptableObject : ScriptableObject
 
     [Header("Characters")]
     public float maxPickupDistance;
+
+    [Header("Colours")]
+    public Color highLightColor;
 }

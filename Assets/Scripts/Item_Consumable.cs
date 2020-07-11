@@ -19,6 +19,6 @@ public class Item_Consumable : Item
 
     public override void UseItem(Character character)
     {
-        character.UseConsubale(base.itemData.effectValue);
+        character.UseItem(this);
     }
 }

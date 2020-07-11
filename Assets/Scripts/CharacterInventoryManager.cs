@@ -12,6 +12,7 @@ public class CharacterInventoryManager : MonoBehaviour
     CharacterEventManager characterEventManager;
 
     Lootbox targetBox;
+    Lootbox currentBox;
 
     // Start is called before the first frame update
     void Awake()
@@ -28,12 +29,31 @@ public class CharacterInventoryManager : MonoBehaviour
             {
                targetBox.Open(); 
             }
+            else
+            {
+                currentBox = other.GetComponentInParent<Lootbox>();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other) 
+    {
+        if(lootBoxLayerMask == (lootBoxLayerMask | (1 << other.gameObject.layer)))
+        {
+            if(other.GetComponentInParent<Lootbox>() == currentBox)
+            {
+               currentBox = null;
+            }
         }
     }
 
     private void HandleLootboxSelection(Lootbox box)
     {
         targetBox = box;
+        if(currentBox && currentBox == targetBox)
+        {
+            currentBox.Open();
+        }
     }
 
     private void HandleCharacterSelect(bool isISelected)

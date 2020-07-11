@@ -163,10 +163,11 @@ public class AttackController : MonoBehaviour
         }
         else
         {
-            if(!overwatchMode)
-            {
-                characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);
-            }
+            // Might need to add this back in..
+            // if(!overwatchMode)
+            // {
+            //     characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);
+            // }
             SetTarget(null);
         }
     }

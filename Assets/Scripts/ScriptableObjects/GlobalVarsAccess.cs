@@ -30,4 +30,9 @@ public class GlobalVarsAccess : Singleton<GlobalVarsAccess>
     {
         return variables.maxPickupDistance;
     }
+
+    public Color getHighlightColour()
+    {
+        return variables.highLightColor;
+    }
 }
