@@ -30,7 +30,7 @@ public class RangedWeapon : BaseWeapon
             Vector3 heading = targetPosition - gunEnd.position;
             float distance = heading.magnitude;
             Vector3 accurateDirection = heading / distance; // This is now the normalized direction.
-            Vector3 roughDirection = targetPosition - (transform.root.position + Vector3.up * 1.5f);
+            Vector3 roughDirection = (targetPosition - (transform.root.position + Vector3.up * 1.5f)).normalized;
 
             // Check if our raycast hit the boy shoot
             if(Time.time > nextFireTime)

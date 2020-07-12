@@ -59,5 +59,26 @@ public abstract class Item : MonoBehaviour
         set {}
     }
 
+    public float effectRange{
+        get {return itemData.effectRange;}
+        set {}
+    }
+
+    public float effectRadius{
+        get {return itemData.effectRadius;}
+        set {}
+    }
+
+    public ParticleSystem effectFX{
+        get {return itemData.effectFX;}
+        set {}
+    }
+
+    public LayerMask effectedLayers{
+        get {return itemData.effectedLayers;}
+        set {}
+    }
+
     public abstract void UseItem(Character character);
+    public abstract void ActiveEffect();
 }

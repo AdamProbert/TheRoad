@@ -3539,6 +3539,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.00001
       objectReference: {fileID: 0}
+    - target: {fileID: 3768230963975262271, guid: 0885829d49621424fa1780f667551010,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 4054850529157008548, guid: 0885829d49621424fa1780f667551010,
         type: 3}
       propertyPath: m_LocalRotation.x

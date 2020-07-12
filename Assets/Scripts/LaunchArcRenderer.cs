@@ -8,7 +8,10 @@ public class LaunchArcRenderer : MonoBehaviour
 	[SerializeField] private float h = 25;
 	[SerializeField] public float gravity = -18;
     [SerializeField] int resolution = 12;
+    [SerializeField] Color defaultColor;
+    [SerializeField] Color outOfRangeColor;
     LineRenderer line;
+    float dist;
 
     private void Awake() 
     {
@@ -16,15 +19,22 @@ public class LaunchArcRenderer : MonoBehaviour
         line.positionCount = resolution;
     }
 
-    public void RenderArc(Vector3 start, Vector3 end)
+    public void RenderArc(Vector3 start, Vector3 end, float maxDistance)
     {
         line.enabled = true;
-        h = Vector3.Distance(start, end) / 4;
-        Debug.Log("h before clamp: " + h);
+        dist = Vector3.Distance(start, end);
+        h = dist / 4;
         h = Mathf.Clamp(h, end.y - transform.position.y, 99f);
-        Debug.Log("h after clamp: " + h);
         List<Vector3> positions = GetArcPositions(start, end);
-        DrawPath(positions);
+        if(dist <= maxDistance)
+        {
+            DrawPath(positions, defaultColor);
+        }
+        else
+        {
+            DrawPath(positions, outOfRangeColor);
+        }
+        
     }
 
     public void StopRenderArc()
@@ -55,9 +65,10 @@ public class LaunchArcRenderer : MonoBehaviour
 		return new ArcData(velocityXZ + velocityY * -Mathf.Sign(gravity), time);
 	}
 
-	void DrawPath(List<Vector3> positions) 
+	void DrawPath(List<Vector3> positions, Color lineColor) 
     {
         line.SetPositions(positions.ToArray());
+        line.material.color = lineColor;
 	}
 
 	struct ArcData {

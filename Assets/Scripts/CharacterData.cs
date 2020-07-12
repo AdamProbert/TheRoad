@@ -20,17 +20,19 @@ public class CharacterData : MonoBehaviour
     [Header("UI")]
     [SerializeField] Sprite portraitImage;
 
+    [Header("Audio")]
     [SerializeField] List<AudioClip> hitSounds;
     [SerializeField] AudioClip deathSound;
+    [SerializeField] List<AudioClip> selectionSounds;
+    [SerializeField] List<AudioClip> confirmActionSounds;
+    [SerializeField] List<AudioClip> confirmMovementSounds;
+
 
     private void Awake() {
         FieldOfView fov = GetComponentInChildren<FieldOfView>(true);
         m_currentHealth = maxHealth;
         // Setup field of view
-        Debug.Log("ViewRadius: " + viewRadius);
-        Debug.Log("Field of view: " + fov.viewRadius);
         fov.viewRadius = viewRadius;
-        Debug.Log("Field of view after set: " + fov.viewRadius);
         fov.viewAngle = viewAngle;
     }
     
@@ -68,6 +70,25 @@ public class CharacterData : MonoBehaviour
         set {}
     }
 
+    public List<AudioClip> getHitSounds{
+        get {return hitSounds;}
+        set {}
+    }
+
+    public List<AudioClip> getConfirmActionSounds{
+        get {return confirmActionSounds;}
+        set {}
+    }
+
+    public List<AudioClip> getConfirmMoveSounds{
+        get {return confirmMovementSounds;}
+        set {}
+    }
+
+    public List<AudioClip> getSelectionSounds{
+        get {return selectionSounds;}
+        set {}
+    }
     public AudioClip getDeathSound{
         get {return deathSound;}
         set {}

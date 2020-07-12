@@ -7,6 +7,7 @@ using DG.Tweening;
 public class ItemUseController : MonoBehaviour
 {
     [SerializeField] LayerMask throwableLayers;
+    [SerializeField] Transform effectRadiusIcon;
     CharacterEventManager characterEventManager;
     LaunchArcRenderer launchArcRenderer;
     Camera cam;
@@ -15,6 +16,7 @@ public class ItemUseController : MonoBehaviour
     Item currentItem;
 
     bool usingItem;
+    bool throwingItem;
     private void Awake() 
     {
         characterEventManager = GetComponentInParent<CharacterEventManager>();    
@@ -24,22 +26,35 @@ public class ItemUseController : MonoBehaviour
 
     private void Update() 
     {
-        if(usingItem)
+        if(usingItem && !throwingItem)
         {
             Vector3 mousePosition = GetMousePosition();
             if(mousePosition != Vector3.zero)
             {
-                launchArcRenderer.RenderArc(transform.position, mousePosition);
+                launchArcRenderer.RenderArc(transform.position, mousePosition, currentItem.effectRange);
+                if(currentItem.effectRadius != 0)
+                {
+                    EnableEffectRadiusIcon();
+                    effectRadiusIcon.position = new Vector3(mousePosition.x, mousePosition.y + 0.25f, mousePosition.z);
+                }
             }
             else
             {
                 launchArcRenderer.StopRenderArc();
+                DisableEffectRadiusIcon();
             }
         }    
     }
 
     public void HandleUseItem(Item item)
     {
+        // If we're mid use, return the new item
+        if(usingItem == true || throwingItem == true)
+        {
+            item.previousSlot.AddItem(currentItem);
+            return;
+        }
+
         if(item.itemType == ItemType.CONSUMABLE)
         {
             UseConsubaleItem(item);
@@ -53,6 +68,18 @@ public class ItemUseController : MonoBehaviour
             Debug.LogWarning("HandleUseItem: Unknown item type. " + item.itemType);
         }
     }
+
+    private void EnableEffectRadiusIcon()
+    {
+        effectRadiusIcon.gameObject.SetActive(true);
+        effectRadiusIcon.localScale = new Vector3(currentItem.effectRadius * 2.5f, 0, currentItem.effectRadius * 2.5f);
+    }
+
+    private void DisableEffectRadiusIcon()
+    {
+        effectRadiusIcon.gameObject.SetActive(false);
+    }
+
     private void UseConsubaleItem(Item item)
     {
         characterEventManager.OnCharacterHeal(item.effectValue);
@@ -72,18 +99,35 @@ public class ItemUseController : MonoBehaviour
     {
         if(currentItem && usingItem)
         {   
+            throwingItem = true;
             Vector3 mousePosition = GetMousePosition();
-            if(mousePosition != Vector3.zero)
+            float distance = Vector3.Distance(transform.position, mousePosition);
+            if(distance < currentItem.effectRange && mousePosition != Vector3.zero)
             {
                 currentItem.EnableVisuals();
                 currentItem.transform.position = transform.position;
                 List<Vector3> arcPositions = launchArcRenderer.GetArcPositions(transform.position, mousePosition);
-                currentItem.transform.DOPath(arcPositions.ToArray(),  1f).SetEase(Ease.InCirc);
                 launchArcRenderer.StopRenderArc();
+                DisableEffectRadiusIcon();
+                currentItem.transform.DOPath(arcPositions.ToArray(),  1f).SetEase(Ease.InCirc).OnComplete(OnCompleteThrow);
                 Debug.Log("We throwing a ting");
-                characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);
             }
         }
+    }
+
+    private void OnCompleteThrow()
+    {
+        Debug.Log("On complete throw called");
+        Debug.Log("CurrentItem: " + currentItem);
+        Debug.Log("UsingItem: " + usingItem);
+        currentItem.ActiveEffect();
+        currentItem.DisableVisuals();
+        Destroy(currentItem.gameObject, 5f);
+        usingItem = false;
+        currentItem = null;
+        throwingItem = false;
+        Debug.Log("On complete throw finished");
+        characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);   
     }
 
     private Vector3 GetMousePosition()
@@ -104,19 +148,25 @@ public class ItemUseController : MonoBehaviour
 
     private void HandleStateChange(CharacterState newState)
     {
-        if(newState != CharacterState.USINGITEM)
+        if(newState == CharacterState.DEAD)
         {
-            usingItem = false;
+            this.gameObject.SetActive(false);
+        }
+
+        if(newState != CharacterState.USINGITEM && usingItem)
+        {
+            CancelItemUse();
         }
     }
 
     private void CancelItemUse()
     {
-        if(usingItem)
+        if(usingItem && !throwingItem)
         {
             // Add the item back to the slot
             currentItem.previousSlot.AddItem(currentItem);
             launchArcRenderer.StopRenderArc();
+            DisableEffectRadiusIcon();
             currentItem = null;
             usingItem = false;
         }

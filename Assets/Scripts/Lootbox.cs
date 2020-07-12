@@ -8,6 +8,7 @@ public class Lootbox : MonoBehaviour
 {
     [SerializeField] ParticleSystem openEffect;
     [SerializeField] public Transform interactionMovePosition;
+    [SerializeField] List<Transform> lootPositions;
     Animator anim;
     bool showingInventory;
 
@@ -51,15 +52,16 @@ public class Lootbox : MonoBehaviour
 
     public void OnBoxOpen()
     {
+        int lootPosIndex = 0;
         foreach (Item item in loot)
         {
-            item.gameObject.SetActive(true);
-            Vector2 xz = Random.insideUnitCircle * .5f;
-            Vector3 lootPosition = new Vector3(
-                xz.x, 0, xz.y
-            ) + transform.position;
-            
-            item.transform.DOJump(lootPosition, 5f, 1, 1,false);       
+            item.gameObject.SetActive(true);            
+            item.transform.DOJump(lootPositions[lootPosIndex].position, 5f, 1, 1,false);       
+            lootPosIndex += 1;
+            if(lootPosIndex >= lootPositions.Count)
+            {
+                lootPosIndex = 0;
+            }
         }
 
         Instantiate(openEffect, transform.position, Quaternion.identity);

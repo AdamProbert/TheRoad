@@ -155,6 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ed2d25d74f58440b2b50b7ff888934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showTooltip: 1
+  tooltipText: PIlls
+  yOffset: 1
 --- !u!114 &7492671223015745886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,3 +171,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 626132a5df27d2d47948867f77eb4e58, type: 2}
+  itemType: 0
+  previousSlot: {fileID: 0}

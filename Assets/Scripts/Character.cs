@@ -16,7 +16,6 @@ public enum CharacterState
 [RequireComponent(typeof(CharacterEventManager))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterData))]
-[RequireComponent(typeof(AudioSource))]
 public class Character : Entity
 {
     MovementController movementController;
@@ -70,6 +69,7 @@ public class Character : Entity
             selectionRing.SetActive(true);
             characterSelected = true;
             characterEventManager.OnCharacterSelected(true);
+            CharacterAudioManager.Instance.PlayRandoSound(characterData.getSelectionSounds, this, CharacterAudioCategory.SELECTION);
             return;
         }
 
@@ -87,6 +87,7 @@ public class Character : Entity
     public void CancelAction()
     {
         characterEventManager.OnCharacterCancelAction();
+        ChangeState(CharacterState.WAITING);
     }
 
     public void ShowMove()
@@ -97,21 +98,32 @@ public class Character : Entity
         }
     }
     
-    public void Move(Vector3 position)
+    // Usually move - unless performing an action - then cancel.
+    public void HandleRightClick(Vector3 position)
     {
         if(characterSelected)
         {
-            if(currentState != CharacterState.USINGITEM)
+            if(currentState == CharacterState.USINGITEM)
             {
-                characterEventManager.OnCharacterMoveRequested();
-                ChangeState(CharacterState.MOVING);
+                CancelAction();
+                return;
             }
+            if(currentState == CharacterState.ATTACKING)
+            {
+                SetAttackTarget(null);
+            }
+            
+
+            CharacterAudioManager.Instance.PlayRandoSound(characterData.getConfirmMoveSounds, this, CharacterAudioCategory.MOVE);
+            characterEventManager.OnCharacterMoveRequested();
+            ChangeState(CharacterState.MOVING);
         }
     }
 
     public void UseItem(Item item)
     {
         characterEventManager.OnCharacterUseItem(item);
+        CharacterAudioManager.Instance.PlayRandoSound(characterData.getConfirmActionSounds, this, CharacterAudioCategory.ACTION);
     }
 
     public void SetAttackTarget(Entity newTarget)
@@ -119,9 +131,10 @@ public class Character : Entity
         if(characterSelected)
         {
             characterEventManager.OnCharacterReceiveNewAttackTarget(newTarget);
-            if(newTarget != null)
+            if(newTarget != null && newTarget.alegiance == Alegiance.ENEMY)
             {
                 ChangeState(CharacterState.ATTACKING);
+                CharacterAudioManager.Instance.PlayRandoSound(characterData.getConfirmActionSounds, this, CharacterAudioCategory.ACTION);
             }
         }
     }
@@ -138,6 +151,7 @@ public class Character : Entity
     {
         characterEventManager.OnCharacterSelectedLootbox(box);
         characterEventManager.OnCharacterReceiveNewMovementTarget(box.interactionMovePosition.position);
+        CharacterAudioManager.Instance.PlayRandoSound(characterData.getConfirmActionSounds, this, CharacterAudioCategory.ACTION);
         ChangeState(CharacterState.MOVING);
     }
 
@@ -149,23 +163,27 @@ public class Character : Entity
 
     public override void TakeHit(Vector3 direction, float damage)
     {
-        characterData.currentHealth -= damage;
-        UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
-        Instantiate(characterData.getHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
-        if(characterData.currentHealth <= 0)
+        if(alive)
         {
-            Die();
-        }
-        else
-        {
-            audioSource.PlayOneShot(characterData.getRandomHitSound, 1);
+            characterData.currentHealth -= damage;
+            UIManager.Instance.UpdateHealth(this, characterData.getMaxHealth, characterData.currentHealth);
+            Instantiate(characterData.getHitEffect, base.GetAimPointPosition(), Quaternion.LookRotation(direction));
+            if(characterData.currentHealth <= 0)
+            {
+                Die();
+            }
+            else
+            {
+                CharacterAudioManager.Instance.PlayRandoSound(characterData.getHitSounds, this, CharacterAudioCategory.HIT, true);
+            }
         }
     }
 
     private void Die()
     {
-        audioSource.PlayOneShot(characterData.getDeathSound, 1f);
+        CharacterAudioManager.Instance.PlaySound(characterData.getDeathSound, this, CharacterAudioCategory.DEATH);
         anim.SetTrigger("die");
+        selectionRing.SetActive(false);
         alive = false;
         ChangeState(CharacterState.DEAD);
         PlayerEventManager.Instance.OnCharacterDied(this);
@@ -175,6 +193,7 @@ public class Character : Entity
     {
         if(characterSelected)
         {
+            CharacterAudioManager.Instance.PlayRandoSound(characterData.getConfirmActionSounds, this, CharacterAudioCategory.ACTION);
             characterEventManager.OnCharacterSelectedAction(actionNumber);
         }
     }

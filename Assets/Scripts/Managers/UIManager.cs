@@ -9,7 +9,21 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] CharacterPortrait portraitPrefab;
     [SerializeField] VerticalLayoutGroup portraitGroup;
 
+    [Header("Tooltips")]
+    [SerializeField] Tooltip tooltip;
+
     Dictionary <Character, CharacterPortrait> portraitMapping = new Dictionary<Character, CharacterPortrait>();
+
+    public void ShowTooltip(string text)
+    {
+        // tooltip.gameObject.SetActive(true);
+        // tooltip.SetText(text);
+    }
+
+    public void HideTooltip()
+    {
+        tooltip.gameObject.SetActive(false);
+    }
 
     public void Register(Character character, Sprite icon)
     {
@@ -20,13 +34,19 @@ public class UIManager : Singleton<UIManager>
 
     public void UpdateHealth(Character character, float maxHealth, float health)
     {
-        portraitMapping[character].SetHealth(health, maxHealth);
+        if(portraitMapping.ContainsKey(character))
+        {
+            portraitMapping[character].SetHealth(health, maxHealth);
+        }
     }
 
     private void RemovePortrait(Character character)
     {
-        Destroy(portraitMapping[character].gameObject);
-        portraitMapping.Remove(character);
+        if(portraitMapping.ContainsKey(character))
+        {
+            Destroy(portraitMapping[character].gameObject);
+            portraitMapping.Remove(character);
+        }
     }
 
     private void OnEnable() 

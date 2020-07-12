@@ -63,7 +63,6 @@ public class InputController : MonoBehaviour
             if(Physics.Raycast(dragRay, out dragHit, 200f, draggable))
             {
                 Vector3 characterPos = playerInputManager.GetCurrentCharacterPosition();
-                Debug.DrawRay(dragRay.origin, dragRay.direction, Color.white, 5f);
 
                 if(Vector3.Distance(characterPos, dragHit.point) <= GlobalVarsAccess.Instance.getMaxPickUpDistance())
                 {
@@ -231,7 +230,6 @@ public class InputController : MonoBehaviour
                 else
                 {
                     Vector3 clickPosition = GetClickPosition();
-                    print("Left clicked at position: " + clickPosition);
                     if(clickPosition != Vector3.zero)
                     {
                         playerInputManager.HandleLeftClickPositon(clickPosition);

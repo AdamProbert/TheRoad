@@ -16,5 +16,11 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: d435f784a6e14fa4ab07d2826df1df0b, type: 3}
   unlimitedUse: 0
   uses: 1
-  effectValue: 300
-  effectRange: 15
+  effectValue: 1500
+  effectRange: 25
+  effectRadius: 5
+  effectFX: {fileID: 6612492416560501550, guid: 074af9c31e7aa254095ce836c1a6113a,
+    type: 3}
+  effectedLayers:
+    serializedVersion: 2
+    m_Bits: 1536

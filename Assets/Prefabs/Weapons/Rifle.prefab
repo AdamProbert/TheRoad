@@ -51,7 +51,7 @@ MonoBehaviour:
   leftHandPlacement: {fileID: 5087418913974838645}
   gunEnd: {fileID: 5087418913801926950}
   aimDir: {fileID: 6765371103894466452}
-  damage: 250
+  damage: 1500
   type: 1
   projectileForce: 80
   shotSound: {fileID: 8300000, guid: 88ef60307ca74fe44a7499215ca1c126, type: 3}

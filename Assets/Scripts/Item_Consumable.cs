@@ -21,4 +21,9 @@ public class Item_Consumable : Item
     {
         character.UseItem(this);
     }
+
+    public override void ActiveEffect()
+    {
+        // Nothing yet - maybe a heal sound/effect?       
+    }
 }

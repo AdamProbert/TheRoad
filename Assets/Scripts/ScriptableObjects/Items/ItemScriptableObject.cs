@@ -10,4 +10,7 @@ public class ItemScriptableObject : ScriptableObject
     public int uses;
     public float effectValue;
     public float effectRange;
+    public float effectRadius;
+    public ParticleSystem effectFX;
+    public LayerMask effectedLayers;
 }

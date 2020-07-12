@@ -15,8 +15,13 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] float cameraBaseMoveSpeed;
     [SerializeField] float cameraRotateSpeed;
     [SerializeField] CinemachineFreeLook freeLookCam;
+
+    [SerializeField] float camSmoothTime;
+    Vector3 camVelocity = Vector3.zero;
     Ray hoverRay;
     RaycastHit hoverHit;
+
+    
 
     public void HandleClickEntity(Entity entity)
     {
@@ -92,9 +97,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             if(buttonUp)
             {
-                currentlySelectedCharacter.SetAttackTarget(null);
-                currentlySelectedCharacter.CancelAction();
-                currentlySelectedCharacter.Move(position);
+                currentlySelectedCharacter.HandleRightClick(position);
             }
             else if(!buttonUp)
             {
@@ -130,13 +133,15 @@ public class PlayerInputManager : MonoBehaviour
         Vector3 targetDirection = new Vector3(horizontal, 0, vertical).normalized;
         targetDirection = cameraTarget.TransformDirection(targetDirection);
         targetDirection.y = 0.0f;
-        
-        cameraTarget.position = Vector3.Lerp(
+
+        float cameraMoveSpeed = cameraBaseMoveSpeed * Vector3.Distance(cameraTarget.position, cam.transform.position);
+        cameraTarget.position = Vector3.SmoothDamp(
             cameraTarget.position,
-            cameraTarget.position + targetDirection,
-            cameraBaseMoveSpeed
+            cameraTarget.position + (targetDirection * cameraMoveSpeed * Time.deltaTime),
+            ref camVelocity,
+            camSmoothTime
         );
-        // cameraTarget.position += targetDirection * cameraMoveSpeed * Time.unscaledDeltaTime;
+        
         cameraTarget.Rotate(0, rotate * cameraRotateSpeed, 0);
         
         // Update camera rotation manually due to timescale changes
@@ -148,6 +153,10 @@ public class PlayerInputManager : MonoBehaviour
         if(availableCharacters.Contains(character))
         {
             availableCharacters.Remove(character);
+            if(currentlySelectedCharacter == character)
+            {
+                currentlySelectedCharacter = null;
+            }
         }
     }
 

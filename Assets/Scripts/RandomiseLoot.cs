@@ -20,6 +20,5 @@ public class RandomiseLoot : MonoBehaviour
         int randoChoice = Random.Range(1, boxCount);
         
         modelsParent.GetChild(randoChoice).gameObject.SetActive(true);
-        Debug.Log("Loot choice made");
     }
 }
