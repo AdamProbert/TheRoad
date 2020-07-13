@@ -16,13 +16,13 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowTooltip(string text)
     {
-        // tooltip.gameObject.SetActive(true);
-        // tooltip.SetText(text);
+        tooltip.enabled = true;
+        tooltip.Activate(text);
     }
 
     public void HideTooltip()
     {
-        tooltip.gameObject.SetActive(false);
+        tooltip.Deactivate();
     }
 
     public void Register(Character character, Sprite icon)

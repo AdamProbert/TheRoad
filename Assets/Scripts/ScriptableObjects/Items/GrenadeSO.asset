@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b029b609511f1704a8543d863b11304e, type: 3}
   m_Name: GrenadeSO
   m_EditorClassIdentifier: 
-  itemName: GrenadeSO
+  itemName: Grenade
   icon: {fileID: 21300000, guid: d435f784a6e14fa4ab07d2826df1df0b, type: 3}
   unlimitedUse: 0
   uses: 1

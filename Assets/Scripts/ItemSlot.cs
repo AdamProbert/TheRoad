@@ -30,11 +30,19 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData) 
     {
         borderImage.color =  GlobalVarsAccess.Instance.getHighlightColour();
+        if(currentItem)
+        {
+            UIManager.Instance.ShowTooltip(currentItem.itemName);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData) 
     {
-        borderImage.color = ogColor;    
+        borderImage.color = ogColor;
+        if(currentItem)
+        {
+            UIManager.Instance.HideTooltip();
+        }    
     }
 
     public void AddItem(Item item)

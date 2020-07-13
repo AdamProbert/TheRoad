@@ -172,12 +172,21 @@ public class ItemUseController : MonoBehaviour
         }
     }
 
+    private void HandleCharacterSelection(bool isSelected)
+    {
+        if(!isSelected)
+        {
+            CancelItemUse();
+        }
+    }
+
     private void OnEnable() 
     {
         characterEventManager.OnCharacterUseItem += HandleUseItem;
         characterEventManager.OnCharacterChangeState += HandleStateChange;
         characterEventManager.OnCharacterRequestPosition += ThrowItemToPosition;
         characterEventManager.OnCharacterCancelAction += CancelItemUse;
+        characterEventManager.OnCharacterSelected += HandleCharacterSelection;
     }
     
     private void OnDisable() 
@@ -186,5 +195,6 @@ public class ItemUseController : MonoBehaviour
         characterEventManager.OnCharacterChangeState -= HandleStateChange;
         characterEventManager.OnCharacterRequestPosition -= ThrowItemToPosition;
         characterEventManager.OnCharacterCancelAction -= CancelItemUse;
+        characterEventManager.OnCharacterSelected -= HandleCharacterSelection;
     }
 }

@@ -18,7 +18,10 @@ public class HoverController : MonoBehaviour
 
     public void Hover()
     {
-        outline.enabled = true;
+        if(outline)
+        {
+            outline.enabled = true;
+        }
         if(showTooltip)
         {
             UIManager.Instance.ShowTooltip(tooltipText);
@@ -27,10 +30,18 @@ public class HoverController : MonoBehaviour
 
     public void StopHover()
     {
-        outline.enabled = false;
-        if(showTooltip)
+        if(outline)
+        {
+            outline.enabled = false;
+        }
+        if(showTooltip && UIManager.Instance)
         {
             UIManager.Instance.HideTooltip();
         }
+    }
+
+    private void OnDisable() 
+    {
+        StopHover();    
     }
 }

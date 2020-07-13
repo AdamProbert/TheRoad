@@ -198,12 +198,21 @@ public class MovementController : MonoBehaviour
             DisableActionPositioning();
         }
     }
+
+    private void HandleCharacterSelected(bool isSelected)
+    {
+        if(!isSelected)
+        {
+            DisableActionPositioning();
+        }
+    }
     private void OnEnable() 
     {
         characterEventManager.OnCharacterChangeState += HandleStateChange;
         characterEventManager.OnCharacterReceiveNewMovementTarget += SetMoveTarget;
         characterEventManager.OnCharacterMoveRequested += MoveToMousePosition;
         characterEventManager.OnCharacterRequestShowMove += ShowMove;
+        characterEventManager.OnCharacterSelected += HandleCharacterSelected;
     }
 
     private void OnDisable() 
@@ -212,5 +221,6 @@ public class MovementController : MonoBehaviour
         characterEventManager.OnCharacterReceiveNewMovementTarget -= SetMoveTarget;
         characterEventManager.OnCharacterMoveRequested -= MoveToMousePosition;
         characterEventManager.OnCharacterRequestShowMove -= ShowMove;
+        characterEventManager.OnCharacterSelected -= HandleCharacterSelected;
     }
 }

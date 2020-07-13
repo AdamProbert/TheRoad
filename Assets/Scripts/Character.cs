@@ -78,7 +78,7 @@ public class Character : Entity
             selectionRing.SetActive(false);
             characterSelected = false;
             characterEventManager.OnCharacterSelected(false);
-            if(currentState == CharacterState.OVERWATCHSETUP)
+            if(currentState == CharacterState.OVERWATCHSETUP || currentState == CharacterState.USINGITEM)
             {
                 ChangeState(CharacterState.WAITING);
             }
@@ -242,6 +242,11 @@ public class Character : Entity
         {
             ChangeState(newState);
         }
+    }
+    
+    public CharacterState GetCurrentState()
+    {
+        return currentState;
     }
 
     private void OnEnable() 

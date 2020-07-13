@@ -179,6 +179,7 @@ public class InputController : MonoBehaviour
         hoverRay = cam.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(hoverRay, out hoverHit, 200f, hoverable))
         {
+            Debug.Log("Hovering over: " + hoverHit.transform.name);
             if(currentHoveredObject == null || hoverHit.transform != currentHoveredObject)
             {
                 if(currentHoveredObject)
