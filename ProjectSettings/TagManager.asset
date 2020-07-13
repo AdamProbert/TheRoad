@@ -38,7 +38,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - FOW-Visible
   - RagdollLimb
   m_SortingLayers:
   - name: Default

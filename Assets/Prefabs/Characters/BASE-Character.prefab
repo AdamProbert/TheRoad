@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100386269565685923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3158343428288071784}
+  - component: {fileID: 3585769545425409138}
+  m_Layer: 9
+  m_Name: FogOfWarRevealer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3158343428288071784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100386269565685923}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2930593817026604375}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3585769545425409138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100386269565685923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b130f358dcb26548b2ff0923d496dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  brightness: 1
+  shapeType: 0
+  absoluteOffset: 0
+  offset: {x: 0, y: 0}
+  boxSize: {x: 5, y: 5}
+  circleRadius: 25
+  innerRadius: 1
+  angle: 180
+  texture: {fileID: 0}
+  rotateToForward: 0
+  lineOfSightMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightRaycastCount: 0
+  lineOfSightPenetration: 0
+  multithreading: 0
+  cellBased: 0
+  snapToPixelCenter: 0
 --- !u!1 &257465738919799989
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +876,7 @@ Transform:
   - {fileID: 2928782171918983390}
   - {fileID: 2930593818084413705}
   - {fileID: 2930593817585836731}
+  - {fileID: 3158343428288071784}
   - {fileID: 2930593817608754114}
   - {fileID: 1901318242827067500}
   - {fileID: 1682594783127265540}
@@ -967,6 +1030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ed2d25d74f58440b2b50b7ff888934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showTooltip: 0
+  tooltipText: 
 --- !u!120 &2930593817026604366
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1771,7 +1836,7 @@ Transform:
   m_Children:
   - {fileID: 2930593816970401340}
   m_Father: {fileID: 2930593817026604375}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2930593817608754113
 MonoBehaviour:
@@ -7176,7 +7241,7 @@ Transform:
   m_Children:
   - {fileID: 5170999319191269459}
   m_Father: {fileID: 2930593817026604375}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3437923993468107595
 MonoBehaviour:
@@ -7262,7 +7327,7 @@ Transform:
   m_Children:
   - {fileID: 2440952855376824045}
   m_Father: {fileID: 2930593817026604375}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1900339126122800877
 MonoBehaviour:
@@ -7991,15 +8056,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d37bcaeb69217f04bab544060999987a, type: 3}
---- !u!4 &1375400247731142237 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4304852662733006455, guid: d37bcaeb69217f04bab544060999987a,
-    type: 3}
-  m_PrefabInstance: {fileID: 2930593817103423530}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1370026554676508405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4298897398127636191, guid: d37bcaeb69217f04bab544060999987a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2930593817103423530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1375400247731142237 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4304852662733006455, guid: d37bcaeb69217f04bab544060999987a,
     type: 3}
   m_PrefabInstance: {fileID: 2930593817103423530}
   m_PrefabAsset: {fileID: 0}

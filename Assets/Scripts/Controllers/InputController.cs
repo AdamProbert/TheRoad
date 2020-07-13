@@ -30,6 +30,13 @@ public class InputController : MonoBehaviour
     private Vector3 originalPosition = Vector3.zero;
     float dragItemZOffset;
 
+    [Header("Camera bounds")]
+    [SerializeField][Tooltip("Used for mouse panning at edge of screen")] int screenBoundary;
+    [SerializeField] bool enableEdgeScroll;
+    int screenWidth;
+    int screenHeight;
+
+
     KeyCode[] actionKeys = {
         KeyCode.Alpha1,
         KeyCode.Alpha2,
@@ -40,7 +47,14 @@ public class InputController : MonoBehaviour
         KeyCode.Alpha7,
         KeyCode.Alpha8,
         KeyCode.Alpha9,       
-    };    
+    };
+
+    private void Start() 
+    {
+        screenHeight = Screen.height;
+        screenWidth = Screen.width;
+        Cursor.lockState = CursorLockMode.Confined;
+    } 
 
     private void Update() 
     {
@@ -270,9 +284,32 @@ public class InputController : MonoBehaviour
 
     void CheckCameraMovements()
     {
+        // Check physical inputs first
         float vertical = Input.GetAxisRaw("Vertical") * Time.deltaTime;
         float horizontal = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
         float rotate = Input.GetAxisRaw("RotateCamera") * Time.deltaTime;
+        
+        // Then mouse panning
+        if(enableEdgeScroll && vertical == 0 && horizontal == 0)
+        {
+            if(Input.mousePosition.x > screenWidth - screenBoundary)
+            {
+                horizontal = 1f;
+            }
+            else if(Input.mousePosition.x < 0 + screenBoundary)
+            {
+                horizontal = -1f;
+            }
+            if(Input.mousePosition.y > screenHeight - screenBoundary)
+            {
+                vertical = 1f;
+            }
+            else if(Input.mousePosition.y < 0 + screenBoundary)
+            {
+                vertical = -1f;
+            }
+        }
+
         playerInputManager.HandleCameraMovement(horizontal, vertical, rotate);
     }
 

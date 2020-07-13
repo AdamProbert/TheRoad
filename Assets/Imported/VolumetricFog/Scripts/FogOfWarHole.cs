@@ -63,6 +63,8 @@ namespace VolumetricFogAndMist {
         }
 
         public void Refresh() {
+            Debug.Log("Fog should be refreshing");
+
             RestoreHole(lastPosition, lastShape, lastScale.x, lastScale.z);
             StampHole(transform.position, shape, transform.localScale.x, transform.localScale.z);
         }
@@ -88,11 +90,12 @@ namespace VolumetricFogAndMist {
         }
 
         void LateUpdate() {
-            if (!Application.isPlaying) {
-                if (lastPosition != transform.position || lastScale != transform.localScale) {
-                    Refresh();
-                }
+            Debug.Log("Late update running");
+            // if (!Application.isPlaying) {
+            if (lastPosition != transform.position || lastScale != transform.localScale) {
+                Refresh();
             }
+            // }
         }
 
         void OnDrawGizmos() {

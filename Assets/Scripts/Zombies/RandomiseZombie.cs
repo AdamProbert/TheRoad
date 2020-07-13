@@ -9,7 +9,7 @@ public class RandomiseZombie : MonoBehaviour
     int zombieCount;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         int randoChoiceMaterial = Random.Range(0, altMaterial.Count);
 
