@@ -4758,10 +4758,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  direction: {x: 0, y: 0, z: 0}
   damageableLayers:
     serializedVersion: 2
     m_Bits: 1024
-  penetrationCount: 5
+  penetrationCount: 3
 --- !u!1 &5045024324942837002
 GameObject:
   m_ObjectHideFlags: 0

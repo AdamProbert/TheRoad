@@ -835,6 +835,11 @@ PrefabInstance:
       propertyPath: damage
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 5087418913026319853, guid: bec15537375291e4180dd0d3d4adfebe,
+        type: 3}
+      propertyPath: fireRate
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5087418913974838645, guid: bec15537375291e4180dd0d3d4adfebe,
         type: 3}
       propertyPath: m_LocalRotation.x
