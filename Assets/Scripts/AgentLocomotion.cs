@@ -89,11 +89,24 @@ public class AgentLocomotion : MonoBehaviour {
         }
     }
 
+    void HandleStealthStateChange(CharacterStealthState newState)
+    {
+        if(newState == CharacterStealthState.SNEAKING)
+        {
+            anim.SetBool("Sneaking", true);
+        }
+        else
+        {
+            anim.SetBool("Sneaking", false);
+        }
+    }
+
     private void OnEnable() 
     {
         if(characterEventManager != null)
         {
             characterEventManager.OnCharacterChangeState += HandleStateChange;
+            characterEventManager.OnCharacterChangeStealthState += HandleStealthStateChange;
         }
         
     }
@@ -103,6 +116,7 @@ public class AgentLocomotion : MonoBehaviour {
         if(characterEventManager != null)
         {
             characterEventManager.OnCharacterChangeState -= HandleStateChange;
+            characterEventManager.OnCharacterChangeStealthState -= HandleStealthStateChange;
         }
     }
 }

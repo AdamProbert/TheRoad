@@ -37,7 +37,7 @@ public class InputController : MonoBehaviour
     int screenHeight;
 
 
-    KeyCode[] actionKeys = {
+    KeyCode[] itemKeys = {
         KeyCode.Alpha1,
         KeyCode.Alpha2,
         KeyCode.Alpha3,
@@ -63,6 +63,7 @@ public class InputController : MonoBehaviour
         CheckRightMouseButton();
         CheckCameraMovements();
         CheckActions();
+        CheckItems();
         CheckDrag();
         CheckCharacterSwitch();
     }
@@ -193,7 +194,6 @@ public class InputController : MonoBehaviour
         hoverRay = cam.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(hoverRay, out hoverHit, 200f, hoverable))
         {
-            Debug.Log("Hovering over: " + hoverHit.transform.name);
             if(currentHoveredObject == null || hoverHit.transform != currentHoveredObject)
             {
                 if(currentHoveredObject)
@@ -217,11 +217,24 @@ public class InputController : MonoBehaviour
     
     void CheckActions()
     {
-        for (int i = 0; i < actionKeys.Length; i++)
+        if(Input.GetKeyDown(KeyCode.R))
         {
-            if(Input.GetKeyDown(actionKeys[i]))
+            playerInputManager.HandleClickOverwatch();
+        }
+
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            playerInputManager.HandleClickSneak();
+        }
+    }
+
+    void CheckItems()
+    {
+        for (int i = 0; i < itemKeys.Length; i++)
+        {
+            if(Input.GetKeyDown(itemKeys[i]))
             {
-                PlayerEventManager.Instance.OnPlayerClickedAction(i);
+                playerInputManager.HandleSelectItem(i);
             }
         }
     }
@@ -351,20 +364,6 @@ public class InputController : MonoBehaviour
         }
     }
 
-    Transform GetClickedObject()
-    {
-        var ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit = new RaycastHit();
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            return hit.transform;
-        }
-        else
-        {
-            return null;
-        }
-    }
     Transform GetClickedObject(LayerMask layermask)
     {
         var ray = cam.ScreenPointToRay(Input.mousePosition);

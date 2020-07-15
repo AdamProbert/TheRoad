@@ -23,7 +23,6 @@ public class Tooltip : MonoBehaviour
     {
         if(active)
         {
-            Debug.Log("Update being called");
             Vector2 localPoint;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.parent.GetComponent<RectTransform>(), Input.mousePosition, cam, out localPoint);    
             transform.localPosition = localPoint;

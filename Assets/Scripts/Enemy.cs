@@ -12,8 +12,10 @@ using NodeCanvas.StateMachines;
 [RequireComponent(typeof(Collider))]
 [RequireComponent(typeof(RagdollController))]
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(LineRenderer))]
 public class Enemy : Entity
 {
+    [SerializeField] LayerMask lightBlockingLayers;
     ZombieData data;
     Animator anim;
     NavMeshAgent agent;
@@ -22,6 +24,7 @@ public class Enemy : Entity
     Collider coll;
     RagdollController ragdoll;
     AudioSource audioSource;
+    LineRenderer sightLine;
 
     private void Awake() 
     {
@@ -33,18 +36,69 @@ public class Enemy : Entity
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         data = GetComponent<ZombieData>();
+        sightLine = GetComponent<LineRenderer>();
         base.alegiance = Alegiance.ENEMY;    
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        StopSightLine();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StopSightLine()
     {
+        sightLine.enabled = false;
+    }
+
+    public void DrawSightLineToTarget(Character target, float visibility)
+    {
+        if(target.GetCurrentStealthState() == CharacterStealthState.SNEAKING)
+        {
+            sightLine.enabled = true;
+            Color c = new Color(255,255,255, visibility);
+            sightLine.startColor = c;
+            sightLine.endColor = c;
+            sightLine.positionCount = 2;
+            sightLine.SetPosition(0, base.GetAimPointPosition());
+            sightLine.SetPosition(1, target.GetAimPointPosition());
+        }
+        else
+        {
+            StopSightLine();
+        }
+    }
+
+    public float CalculateChanceToSeeTarget(Character target)
+    {
+        float visibility = target.GetCurrentVisibilty();
+        RaycastHit hit;
         
+        // Factor in visible to enemy
+        if(Physics.Linecast(target.GetAimPointPosition(), GetAimPointPosition(), out hit, lightBlockingLayers))
+        {
+            if(hit.transform.root == this.transform.root)
+            {
+                visibility += 10f;
+            }
+            else
+            {
+                visibility -= 10f;
+            }
+        } 
+
+        // Factor in distance
+        float distance = Vector3.Distance(transform.position, target.transform.position);
+        if(distance < 5f)
+        {
+            visibility += 10f;
+        }
+        else if(distance < 10f)
+        {
+            visibility += 5f;
+        }
+        else
+        {
+            visibility -= 10f;
+        }
+
+        return visibility;
+
     }
 
     public override void TakeHit(Vector3 direction, float damage)

@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(CharacterEventManager))]
+[RequireComponent(typeof(CharacterData))]
 public class MovementController : MonoBehaviour
 {
     [SerializeField] LayerMask walkableLayersForMousePosition;
@@ -14,6 +14,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] float movementLineYPosOffset;
     Camera cam;
     CharacterEventManager characterEventManager;
+    CharacterData characterData;
     NavMeshAgent agent;
     NavMeshPath path;
     LineRenderer lineRenderer;
@@ -29,6 +30,7 @@ public class MovementController : MonoBehaviour
     {
         cam = Camera.main;
         characterEventManager = GetComponent<CharacterEventManager>();
+        characterData = GetComponent<CharacterData>();
         lineRenderer = GetComponent<LineRenderer>();
         agent = GetComponent<NavMeshAgent>();
     }
@@ -131,6 +133,18 @@ public class MovementController : MonoBehaviour
         transform.rotation = rotation;
     }
 
+    private void SneakMode(bool shouldSneak)
+    {
+        if(shouldSneak)
+        {
+            agent.speed = characterData.getSneakSpeed;
+        }
+        else
+        {
+            agent.speed = characterData.getMoveSpeed;
+        }
+    }
+
     private Vector3 GetMousePositionWithCover()
     {
         hoverRay = cam.ScreenPointToRay(Input.mousePosition);
@@ -199,6 +213,18 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private void HandleStealthStateChange(CharacterStealthState newState)
+    {
+        if(newState == CharacterStealthState.SNEAKING)
+        {
+            SneakMode(true);
+        }
+        else
+        {
+            SneakMode(false);
+        }
+    }
+
     private void HandleCharacterSelected(bool isSelected)
     {
         if(!isSelected)
@@ -209,6 +235,7 @@ public class MovementController : MonoBehaviour
     private void OnEnable() 
     {
         characterEventManager.OnCharacterChangeState += HandleStateChange;
+        characterEventManager.OnCharacterChangeStealthState += HandleStealthStateChange;
         characterEventManager.OnCharacterReceiveNewMovementTarget += SetMoveTarget;
         characterEventManager.OnCharacterMoveRequested += MoveToMousePosition;
         characterEventManager.OnCharacterRequestShowMove += ShowMove;
@@ -218,6 +245,7 @@ public class MovementController : MonoBehaviour
     private void OnDisable() 
     {
         characterEventManager.OnCharacterChangeState -= HandleStateChange;
+        characterEventManager.OnCharacterChangeStealthState -= HandleStealthStateChange;
         characterEventManager.OnCharacterReceiveNewMovementTarget -= SetMoveTarget;
         characterEventManager.OnCharacterMoveRequested -= MoveToMousePosition;
         characterEventManager.OnCharacterRequestShowMove -= ShowMove;

@@ -12,10 +12,16 @@ public class CharacterData : MonoBehaviour
     [Tooltip("Smaller the better")] [SerializeField] private float baseAccuracy;
     [Tooltip("Used for determining trajectory of bullet")][SerializeField] private bool canLeadShots;
     
+    [Header("Movement")]
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float sneakSpeed;
+
     [Header("Overwatch")]
     [SerializeField] private float viewRadius;
     [SerializeField] private float viewAngle;
-    private float m_currentHealth;
+
+    [Header("Sneaking")]
+    // Awareness something or other?
 
     [Header("UI")]
     [SerializeField] Sprite portraitImage;
@@ -27,6 +33,7 @@ public class CharacterData : MonoBehaviour
     [SerializeField] List<AudioClip> confirmActionSounds;
     [SerializeField] List<AudioClip> confirmMovementSounds;
 
+    private float m_currentHealth;
 
     private void Awake() {
         FieldOfView fov = GetComponentInChildren<FieldOfView>(true);
@@ -91,6 +98,16 @@ public class CharacterData : MonoBehaviour
     }
     public AudioClip getDeathSound{
         get {return deathSound;}
+        set {}
+    }
+
+    public float getMoveSpeed{
+        get {return moveSpeed;}
+        set {}
+    }
+    
+    public float getSneakSpeed{
+        get {return sneakSpeed;}
         set {}
     }
 }

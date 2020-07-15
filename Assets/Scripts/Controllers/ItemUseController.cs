@@ -8,6 +8,7 @@ public class ItemUseController : MonoBehaviour
 {
     [SerializeField] LayerMask throwableLayers;
     [SerializeField] Transform effectRadiusIcon;
+    [SerializeField] List<ItemSlot> itemSlots;
     CharacterEventManager characterEventManager;
     LaunchArcRenderer launchArcRenderer;
     Camera cam;
@@ -67,6 +68,36 @@ public class ItemUseController : MonoBehaviour
         {
             Debug.LogWarning("HandleUseItem: Unknown item type. " + item.itemType);
         }
+    }
+    
+    public void HandleUseItem(int itemIndex)
+    {
+        ItemSlot prevSlot = null;
+
+        if(usingItem && throwingItem)
+        {
+            return;
+        }
+
+        //Cancel item use first
+        if(usingItem && !throwingItem)
+        {
+            prevSlot = currentItem.previousSlot;
+            CancelItemUse();
+        }
+
+        // Then enable new item if we selected a different slot.
+        if(itemSlots[itemIndex].HasItem() && (prevSlot == null || itemSlots[itemIndex] != prevSlot))
+        {
+            Item item = itemSlots[itemIndex].RemoveItem();
+            HandleUseItem(item);
+        } 
+
+        // Finally check our state and report back to Character
+        if(!usingItem)
+        {
+            characterEventManager.OnCharacterRequestChangeState(CharacterState.WAITING);  
+        }          
     }
 
     private void EnableEffectRadiusIcon()
@@ -183,6 +214,7 @@ public class ItemUseController : MonoBehaviour
     private void OnEnable() 
     {
         characterEventManager.OnCharacterUseItem += HandleUseItem;
+        characterEventManager.OnCharacterUseItemByIndex += HandleUseItem;
         characterEventManager.OnCharacterChangeState += HandleStateChange;
         characterEventManager.OnCharacterRequestPosition += ThrowItemToPosition;
         characterEventManager.OnCharacterCancelAction += CancelItemUse;
@@ -192,6 +224,7 @@ public class ItemUseController : MonoBehaviour
     private void OnDisable() 
     {
         characterEventManager.OnCharacterUseItem -= HandleUseItem;
+        characterEventManager.OnCharacterUseItemByIndex -= HandleUseItem;
         characterEventManager.OnCharacterChangeState -= HandleStateChange;
         characterEventManager.OnCharacterRequestPosition -= ThrowItemToPosition;
         characterEventManager.OnCharacterCancelAction -= CancelItemUse;

@@ -21,10 +21,20 @@ public class PlayerInputManager : MonoBehaviour
     Ray hoverRay;
     RaycastHit hoverHit;
 
-    
+    private void Start() 
+    {
+        currentlySelectedCharacter = availableCharacters[0];    
+    }
 
     public void HandleClickEntity(Entity entity)
     {
+        // If we're setting up, convert clicked entity to position and treat it as an empty space
+        if(currentlySelectedCharacter.SettingUpAction())
+        {
+            HandleLeftClickPositon(entity.transform.position);
+            return;
+        }
+
         if(entity.alegiance == Alegiance.FRIENDLY && entity.isAlive())
         {
             currentlySelectedCharacter = entity as Character;
@@ -66,6 +76,13 @@ public class PlayerInputManager : MonoBehaviour
 
     public void HandleClickInteractable(Lootbox box)
     {
+         // If we're setting up, convert clicked box to position and treat it as an empty space
+        if(currentlySelectedCharacter.SettingUpAction())
+        {
+            HandleLeftClickPositon(box.transform.position);
+            return;
+        }
+
         if(currentlySelectedCharacter)
         {
             currentlySelectedCharacter.HandleSelectInteractable(box);
@@ -107,12 +124,28 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandleActionClicked(int actionNumber)
+
+    public void HandleClickOverwatch()
     {
-        Debug.Log("Player input manager told to handle action index: " + actionNumber);
+        if(currentlySelectedCharacter !=  null)
+        {
+            currentlySelectedCharacter.HandleClickOverwatch();
+        }
+    }
+
+    public void HandleClickSneak()
+    {
         if(currentlySelectedCharacter != null)
         {
-            currentlySelectedCharacter.HandleActionSelect(actionNumber);
+            currentlySelectedCharacter.HandleClickSneak();
+        }
+    }
+
+    public void HandleSelectItem(int itemPos)
+    {
+        if(currentlySelectedCharacter != null)
+        {
+            currentlySelectedCharacter.HandleSelectItem(itemPos);
         }
     }
 
@@ -122,10 +155,6 @@ public class PlayerInputManager : MonoBehaviour
         {
             currentlySelectedCharacter.HandleLeftClickEmptyPositon(position);
         }
-        // else
-        // {
-        //     PlayerEventManager.Instance.OnPlayerSelectCharacter(currentlySelectedCharacter);
-        // }
     }
 
     public void HandleCameraMovement(float horizontal, float vertical, float rotate)
@@ -167,7 +196,6 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnEnable() 
     {
-        PlayerEventManager.Instance.OnPlayerClickedAction += HandleActionClicked;
         PlayerEventManager.Instance.OnCharacterDied += RemoveCharacter;
     }
 
@@ -175,7 +203,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         if(PlayerEventManager.Instance != null)
         {
-            PlayerEventManager.Instance.OnPlayerClickedAction -= HandleActionClicked;
             PlayerEventManager.Instance.OnCharacterDied -= RemoveCharacter;
         }
     }
