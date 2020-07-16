@@ -16,7 +16,7 @@ MonoBehaviour:
   wanderSpeed: 0.6
   searchSpeed: 2
   chaseSpeed: 4
-  maxViewDistance: 25
+  maxViewDistance: 20
   visibleLayers:
     serializedVersion: 2
     m_Bits: 4195841

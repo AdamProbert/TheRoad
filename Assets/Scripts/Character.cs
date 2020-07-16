@@ -30,11 +30,6 @@ public class Character : Entity
     AudioSource audioSource;
     Animator anim;
 
-    [Header("Icons")]
-    [SerializeField] GameObject selectionRing;
-    [SerializeField] GameObject StealthIcon;
-    [SerializeField] GameObject StealthIndicator;
-
     CharacterEventManager characterEventManager;
 
     private bool characterSelected;
@@ -43,12 +38,6 @@ public class Character : Entity
 
     [Header("UI")]
     CharacterPortrait portrait;
-
-    [Header("Visibility")]
-    [SerializeField] LayerMask lightBlockingLayers;
-    [SerializeField] Light sunlight;
-    Light[] lightSources; // Used to determine if in shadow
-    float currentVisibility = 0;
 
     private void Awake() 
     {
@@ -59,21 +48,11 @@ public class Character : Entity
         anim = GetComponent<Animator>();
         characterData = GetComponent<CharacterData>();
         base.alegiance = Alegiance.FRIENDLY;
-        lightSources = GameObject.FindObjectsOfType<Light>();
     }
 
     private void Start() 
     {
         UIManager.Instance.Register(this, characterData.getPortrait);    
-    }
-
-    private void Update() 
-    {
-        CalculateCurrentVisibility();
-        if(currentStealthState == CharacterStealthState.SNEAKING)
-        {
-            UpdateStealthIcon();
-        }    
     }
 
     public bool SettingUpAction()
@@ -107,23 +86,11 @@ public class Character : Entity
             characterSelected = true;
             characterEventManager.OnCharacterSelected(true);
             CharacterAudioManager.Instance.PlayRandoSound(characterData.getSelectionSounds, this, CharacterAudioCategory.SELECTION);
-            if(currentStealthState == CharacterStealthState.SNEAKING)
-            {
-                StealthIcon.SetActive(true);
-                selectionRing.SetActive(false);
-            }
-            else if(currentStealthState == CharacterStealthState.NORMAL)
-            {
-                selectionRing.SetActive(true);
-                StealthIcon.SetActive(false);
-            }
             return;
         }
 
         if(character != this && characterSelected)
         {
-            selectionRing.SetActive(false);
-            StealthIcon.SetActive(false);
             characterSelected = false;
             characterEventManager.OnCharacterSelected(false);
             if(currentState == CharacterState.OVERWATCHSETUP || currentState == CharacterState.USINGITEM)
@@ -234,7 +201,6 @@ public class Character : Entity
     {
         CharacterAudioManager.Instance.PlaySound(characterData.getDeathSound, this, CharacterAudioCategory.DEATH);
         anim.SetTrigger("die");
-        selectionRing.SetActive(false);
         alive = false;
         ChangeState(CharacterState.DEAD);
         PlayerEventManager.Instance.OnCharacterDied(this);
@@ -259,15 +225,11 @@ public class Character : Entity
         {
             currentStealthState = CharacterStealthState.NORMAL;
             characterEventManager.OnCharacterChangeStealthState(CharacterStealthState.NORMAL);
-            StealthIcon.SetActive(false);
-            selectionRing.SetActive(true);
         }
         else if(currentStealthState == CharacterStealthState.NORMAL)
         {
             currentStealthState = CharacterStealthState.SNEAKING;
             characterEventManager.OnCharacterChangeStealthState(CharacterStealthState.SNEAKING);
-            StealthIcon.SetActive(true);
-            selectionRing.SetActive(false);
         }
     }
 
@@ -325,85 +287,6 @@ public class Character : Entity
     public CharacterState GetCurrentState()
     {
         return currentState;
-    }
-
-    private void UpdateStealthIcon()
-    {
-        // Current visibility ranges from 0 - 30
-        // Need to convert this to a variable between 0 & 1 - percentage right?
-        float percentVisible = currentVisibility / 30;
-        StealthIndicator.transform.localScale = new Vector3(1 + percentVisible, 1 + percentVisible, 1 + percentVisible);
-    }
-
-    public void CalculateCurrentVisibility()
-    {
-
-        RaycastHit hit;
-        float visibility = 20f;
-
-        if(currentStealthState == CharacterStealthState.SNEAKING)
-        {
-            visibility -= 10f;
-        }
-        
-        // Factor in shadow
-        // First sun light
-        if(Physics.Linecast(transform.position, sunlight.transform.position, out hit, lightBlockingLayers))
-        {
-            if(hit.collider.GetComponent<Light>())
-            {
-                Debug.DrawLine(transform.position, hit.point, Color.white, .1f);
-                visibility += 10f;
-            }
-            else
-            {
-                visibility -= 10f;
-                Debug.DrawLine(transform.position, hit.point, Color.red, .1f);
-            }
-        }
-        else
-        {
-            Debug.DrawLine(transform.position, sunlight.transform.position, Color.green, .1f);
-        }
-
-        currentVisibility = visibility;
-
-        // // Then any other light sources
-        // foreach (Light light in lightSources)
-        // {
-        //     if(Physics.Linecast(transform.position, light.transform.position, out hit, lightBlockingLayers))
-        //     {
-        //         if(hit.collider.GetComponent<Light>())
-        //         {
-        //             // Check range to light
-        //             if(Vector3.Distance(transform.position, light.transform.position) < light.range)
-        //             {
-        //                 // Check light pointing in this direction
-        //                 if(light.type == LightType.Spot)
-        //                 {
-        //                     Vector3 dirFromAtoB = (transform.position - light.transform.position).normalized;
-        //                     float dotProd = Vector3.Dot(dirFromAtoB, light.transform.forward);
-        //                     if(dotProd > 0.9) 
-        //                     {
-        //                         visibility += 0.2f;
-        //                     }
-        //                 }
-        //                 else
-        //                 {
-        //                     visibility += 0.2f;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //}
-        // return visibility;
-    //}
-    
-    }
-
-    public float GetCurrentVisibilty()
-    {
-        return currentVisibility;
     }
 
     public CharacterStealthState GetCurrentStealthState()

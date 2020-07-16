@@ -22,4 +22,5 @@ public class CharacterEventManager : MonoBehaviour
     public Action<Lootbox> OnCharacterSelectedLootbox = delegate{};
     public Action<float> OnCharacterHeal = delegate{};
     public Action<CharacterStealthState> OnCharacterChangeStealthState = delegate{};
+    public Action<float> OnCharacterVisibilityChange = delegate{};
 }
