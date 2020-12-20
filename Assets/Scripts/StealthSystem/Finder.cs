@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using NodeCanvas.Framework;
+using NodeCanvas.Framework.Internal;
 
 [RequireComponent(typeof(LineRenderer))]
 [RequireComponent(typeof(ZombieData))]
@@ -15,6 +17,9 @@ public class Finder : MonoBehaviour
 
     [Header("Sight Line attributes")]
     [SerializeField][Tooltip("At what vlaue should the sight line start rendering")] float minSightLineValue;
+
+    [Header("Node canvas")]
+    [SerializeField] SignalDefinition signal;
 
     public Action<Hider> OnCharacterSpotted = delegate{};
     private Hider _visibleHider;
@@ -47,18 +52,26 @@ public class Finder : MonoBehaviour
 
     private void Update() 
     {
+        if(possibleTargets.Count <= 0)
+        {
+            return;
+        }
+
         if(Time.time > nextUpdateTime)
         {
             CalculateChanceToSeeAllTargets();
             nextUpdateTime = Time.time + findUpdateDelay;
         }
+        DrawSightLines();   
+    }
 
-        DrawSightLines();
-        
+    public void ReceiveAlert(Vector3 position)
+    {
+        signal.Invoke(null, transform, false, position);
     }
 
     private void DrawSightLines()
-    {
+    {        
         // Source: https://stackoverflow.com/questions/10290838/how-to-get-max-value-from-dictionary/10290858
         Hider hiderWithMaxValue = possibleTargets.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
         float value = possibleTargets[hiderWithMaxValue];
@@ -67,7 +80,6 @@ public class Finder : MonoBehaviour
         {
             float lineThickness = (value/visibileTrigger) /2; // Should set the thickness between 0 and 0.5
             // Color newColor = new Color(255, 255, 255, alphaCalc);
-            sightLine.enabled = true;
             sightLine.positionCount = 2;
             sightLine.SetPosition(0, entity.GetAimPointPosition());
             sightLine.SetPosition(1, hiderWithMaxValue.GetVisiblePoint());
@@ -76,7 +88,7 @@ public class Finder : MonoBehaviour
         }
         else
         {
-            sightLine.enabled = false;
+            sightLine.positionCount = 0;
         }
         
     }
@@ -137,17 +149,17 @@ public class Finder : MonoBehaviour
         float visibility = target.currentVisibility;
 
         // Factor in distance
-        if(distance < 5f)
+        if(distance < 10f)
         {
-            visibility += 3f;
+            visibility += 10f;
         }
-        else if(distance < 10f)
+        else if(distance < 15f)
         {
-            visibility += 0.5f;
+            visibility += 2f;
         }
         else
         {
-            visibility += 0.2f;
+            visibility += 0.5f;
         }
 
         return visibility;
@@ -155,12 +167,17 @@ public class Finder : MonoBehaviour
 
     private void HandleCharacterDeath(Character deadboi)
     {
+        Debug.Log("Finder received character death event");
         if(deadboi.GetComponent<Hider>())
         {
             Hider h = deadboi.GetComponent<Hider>();
             if(possibleTargets.ContainsKey(h))
             {
                 possibleTargets.Remove(h);
+            }
+            if(visibleHider == h)
+            {
+                _visibleHider = null;
             }
         }
     }
@@ -176,5 +193,7 @@ public class Finder : MonoBehaviour
         {
             PlayerEventManager.Instance.OnCharacterDied -= HandleCharacterDeath;    
         }
+        sightLine.positionCount = 0;
+        sightLine.enabled = false;
     }
 }

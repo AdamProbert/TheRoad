@@ -29,7 +29,6 @@ namespace FoW
                 Debug.LogWarning("There is no Fog Of War team for team #" + team.ToString());
                 return;
             }
-            Debug.Log("Found renderer: " + _renderer);
         }
 
         void Update()

@@ -75,6 +75,10 @@ public class Hider : MonoBehaviour
         {
             visibility -= 1f;
         }
+        else
+        {
+            visibility += 1;
+        }
         
         // Factor in shadow
         // First sun light

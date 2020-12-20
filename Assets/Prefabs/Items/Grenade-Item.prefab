@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 1841014636264811377}
   - component: {fileID: 1841014636264811382}
   - component: {fileID: 454778924158299283}
+  - component: {fileID: 4492138322737326351}
   m_Layer: 20
   m_Name: Grenade-Item
   m_TagString: Untagged
@@ -62,7 +63,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showTooltip: 1
   tooltipText: Grenade
-  yOffset: 1
 --- !u!114 &454778924158299283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +80,24 @@ MonoBehaviour:
   previousSlot: {fileID: 0}
   blocking:
     serializedVersion: 2
-    m_Bits: 4195841
+    m_Bits: 4194305
+--- !u!114 &4492138322737326351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841014636264811383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5bf567f719456b408477600c249449e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertOnCreate: 0
+  radius: 50
+  finders:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &1618220420183259518
 PrefabInstance:
   m_ObjectHideFlags: 0

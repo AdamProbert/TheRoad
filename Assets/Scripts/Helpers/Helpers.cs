@@ -22,4 +22,20 @@ public static class Helpers
             list[n] = value;
         }
     }
+
+    public static Transform GetClosestTransform(Vector3 origin, List<Transform> transforms)
+    {
+        Transform tMin = null;
+        float minDist = Mathf.Infinity;
+        foreach (Transform t in transforms)
+        {
+            float dist = Vector3.Distance(t.position, origin);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+        return tMin;
+    }
 }

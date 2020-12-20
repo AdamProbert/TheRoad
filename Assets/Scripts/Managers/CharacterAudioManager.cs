@@ -19,14 +19,13 @@ public class CharacterAudioManager : Singleton<CharacterAudioManager>
 	List<CharacterAudioCategory> categoryList;
 	[SerializeField] List<int> maxSoundsPerCategory;
 
+	[SerializeField] AudioSource characterAudioSource;
+
 	Dictionary<CharacterAudioCategory, int> maxsoundsMap = new Dictionary<CharacterAudioCategory, int>();
 	Dictionary<CharacterAudioCategory, int> soundsMap = new Dictionary<CharacterAudioCategory, int>();
 	Dictionary<Character, int> individaulSoundMap = new Dictionary<Character, int>();
-
-    AudioSource audioSource;
     private void Awake() 
     {
-        audioSource = GetComponent<AudioSource>();
 		for (int i = 0; i < categoryList.Count; i++)
 		{
 			maxsoundsMap.Add(categoryList[i], maxSoundsPerCategory[i]);
@@ -57,7 +56,7 @@ public class CharacterAudioManager : Singleton<CharacterAudioManager>
 		int randomIndex = Random.Range(0, clips.Count);
 		if(mustPlay)
 		{
-			audioSource.PlayOneShot(clips[randomIndex]);
+			characterAudioSource.PlayOneShot(clips[randomIndex]);
 			return;
 		}
 
@@ -71,7 +70,7 @@ public class CharacterAudioManager : Singleton<CharacterAudioManager>
 	{
 		if(mustPlay)
 		{
-			audioSource.PlayOneShot(clip);
+			characterAudioSource.PlayOneShot(clip);
 		}
 		if(checkSoundMaps(character, category))
 		{
@@ -81,7 +80,7 @@ public class CharacterAudioManager : Singleton<CharacterAudioManager>
 
 	IEnumerator playCharacterSound(AudioClip clip, Character character, CharacterAudioCategory category)
 	{
-		audioSource.PlayOneShot(clip);
+		characterAudioSource.PlayOneShot(clip);
 		yield return new WaitForSeconds(clip.length);
 		soundsMap[category] -= 1;
 		individaulSoundMap[character] -= 1;

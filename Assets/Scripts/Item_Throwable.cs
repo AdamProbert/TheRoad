@@ -27,14 +27,19 @@ public class Item_Throwable : Item
                 RaycastHit hit;
                 if(Physics.Linecast(transform.position, entity.GetAimPointPosition(), out hit, blocking)) 
                 {
-                    if(hit.collider == hitCollider)
-                    {
-                        Debug.DrawLine(transform.position, entity.GetAimPointPosition(), Color.red, 5f);
-                        Vector3 dir = (entity.GetAimPointPosition() - transform.position).normalized;
-                        entity.TakeHit(dir, effectValue);
-                    }
-                }                
+                    return;
+                }          
+                else
+                {
+                    Debug.DrawLine(transform.position, entity.GetAimPointPosition(), Color.red, 5f);
+                    Vector3 dir = (entity.GetAimPointPosition() - transform.position).normalized;
+                    entity.TakeHit(dir, effectValue);
+                }      
             }
+        }
+        if(GetComponent<FinderAlert>())
+        {
+            GetComponent<FinderAlert>().TriggerAlert();
         }
     }
 
